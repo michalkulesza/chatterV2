@@ -1,11 +1,12 @@
 import React from 'react';
-import './App.scss';
+import { Route } from 'react-router-dom';
+import { Login } from './views/pages';
 
 const App: React.FC = () => {
   return (
-    <div className="App">
-      <h1>hello</h1>
-    </div>
+    <Route path="/">
+      <Login />
+    </Route>
   );
 };
 
