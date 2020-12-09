@@ -1,14 +1,10 @@
-.Container {
+.Login {
   height: 100vh;
   width: 100%;
-  background: linear-gradient(to right, #4856e1, transparent),
-    linear-gradient(to left, #7524ff, transparent),
-    //   linear-gradient(to bottom right, #d38d0b, transparent),
-    //  linear-gradient(to bottom left, #6010bb, transparent),
-    //  linear-gradient(to top left, #019dbd, transparent),
-    linear-gradient(to top right, #0782e7, transparent),
-    //  radial-gradient(#ffffff, transparent);
-;
-  background-color: black;
-  background-blend-mode: screen;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(to bottom left, #7c6efb, transparent),
+    linear-gradient(to bottom right, #899cff, transparent);
+  background-color: #858efe;
 }
