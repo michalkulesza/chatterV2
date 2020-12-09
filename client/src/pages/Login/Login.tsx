@@ -1,7 +1,7 @@
 import React from 'react';
 import './Login.scss';
 
-import { LoginForm } from '../../';
+import { LoginForm } from '../../containers';
 
 interface Props {}
 

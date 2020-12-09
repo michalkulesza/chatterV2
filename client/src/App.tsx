@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
-import { Login } from './views/pages';
+import { Login } from './pages';
 
 const App: React.FC = () => {
   return (
