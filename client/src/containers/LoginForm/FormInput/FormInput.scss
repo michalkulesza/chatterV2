@@ -1,0 +1,44 @@
+@use '../../../styles/global';
+
+.FormInput {
+	position: relative;
+
+	input {
+		width: 100%;
+		background-color: global.$white;
+		border: 1px solid global.$lightGray;
+		box-shadow: global.$shadow;
+		padding: 1rem 1.5rem;
+		border-radius: 5px;
+		font-size: 0.95rem;
+	}
+
+	label {
+		color: global.$gray;
+		position: absolute;
+		top: 50%;
+		left: 1.5rem;
+		transform: translateY(-50%);
+		transition: all 0.15s cubic-bezier(0.165, 0.84, 0.44, 1);
+		cursor: text;
+
+		&.onTop {
+			top: 0;
+			left: 0.5rem;
+			transform: translateY(-100%);
+			font-size: 0.8rem;
+			color: global.$gray;
+		}
+	}
+
+	&.horizontal {
+		input {
+			width: auto;
+			margin-right: 0.5rem;
+		}
+
+		label {
+			position: initial;
+		}
+	}
+}
