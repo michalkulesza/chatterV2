@@ -1,0 +1,10 @@
+{
+	"overrides": [
+		{
+			"files": ["*.test.tsx"],
+			"rules": {
+				"jest/valid-expect": 0
+			}
+		}
+	]
+}
