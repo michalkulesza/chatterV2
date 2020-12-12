@@ -6,11 +6,12 @@ interface Props {
 	setState: React.Dispatch<React.SetStateAction<any>>;
 	state: any;
 	label: string;
+	disabled?: boolean;
 	type?: "text" | "password" | "checkbox";
 	required?: boolean;
 }
 
-const FormInput: React.FC<Props> = ({ setState, state, label, type = "text", required = false }) => {
+const FormInput: React.FC<Props> = ({ setState, state, label, disabled, type = "text", required = false }) => {
 	const ID = uuid();
 	const [active, setActive] = useState(false);
 	const [labelOnTop, setLabelOnTop] = useState(false);
@@ -35,6 +36,7 @@ const FormInput: React.FC<Props> = ({ setState, state, label, type = "text", req
 				onFocus={handleOnFocus}
 				onBlur={handleOnBlur}
 				required={required}
+				disabled={disabled}
 			/>
 			<label htmlFor={ID} className={labelOnTop && type !== "checkbox" ? "onTop" : ""}>
 				{label}

@@ -1,5 +1,15 @@
 @use '../../../styles/global';
 
+@keyframes spinning {
+	from {
+		transform: rotate(0deg) scale(1.4);
+	}
+
+	to {
+		transform: rotate(360deg) scale(1.4);
+	}
+}
+
 .FormButton {
 	background-color: #5f65f6;
 	border: none;
@@ -10,5 +20,15 @@
 
 	&:hover {
 		background-color: #4e54ec;
+	}
+
+	&:disabled {
+		cursor: wait;
+	}
+
+	span {
+		svg {
+			animation: spinning 0.8s infinite;
+		}
 	}
 }

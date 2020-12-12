@@ -1,15 +1,18 @@
-import { authState, SET_USER } from "../types/auth";
+import { authState, SET_LOADING, SET_USER } from "../types/auth";
 import { authTypes } from "../types/auth";
 
 const initState: authState = {
 	username: null,
 	registered: null,
+	loading: true,
 };
 
 const auth = (state = initState, action: authTypes) => {
 	switch (action.type) {
 		case SET_USER:
-			return action.payload;
+			return { ...state, ...action.payload };
+		case SET_LOADING:
+			return { ...state, loading: action.payload };
 		default:
 			return state;
 	}

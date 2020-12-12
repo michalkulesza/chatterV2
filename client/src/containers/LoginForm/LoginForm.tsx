@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { loginWithoutPassword, registerUser } from "../../redux/actions/auth";
+import { loginWithoutPassword, loginWithPassword, registerUser } from "../../redux/actions/auth";
 import { addAuthError } from "../../redux/actions/error";
 import { RootState } from "../../redux/reducers/rootReducer";
 import "./LoginForm.scss";
@@ -13,6 +13,7 @@ interface Props {}
 const LoginForm: React.FC<Props> = () => {
 	const dispatch = useDispatch();
 	const error = useSelector((state: RootState) => state.error.auth);
+	const authLoading = useSelector((state: RootState) => state.auth.loading);
 	const [user, setUser] = useState("");
 	const [password, setPassword] = useState("");
 	const [register, setRegister] = useState(false);
@@ -33,7 +34,7 @@ const LoginForm: React.FC<Props> = () => {
 			return dispatch(addAuthError("Password must be at least 4 characters long."));
 
 		if (passwordEntered && register) return dispatch(registerUser(user, password));
-		if (passwordEntered) return console.log("LOGIN WITHOUT PASSWORD");
+		if (passwordEntered) return dispatch(loginWithPassword(user, password));
 		dispatch(loginWithoutPassword(user));
 	};
 
@@ -43,17 +44,24 @@ const LoginForm: React.FC<Props> = () => {
 				<div className="Logo">Chatter</div>
 				<div className="Title">Join In</div>
 				<form onSubmit={e => handleSubmit(e)}>
-					<FormInput type="text" setState={setUser} state={user} label="Username" required />
+					<FormInput type="text" setState={setUser} state={user} label="Username" disabled={authLoading} required />
 					<FormInput
 						type="password"
 						setState={setPassword}
 						state={password}
 						label="Password (optional)"
 						required={register}
+						disabled={authLoading}
 					/>
-					<FormInput type="checkbox" setState={setRegister} state={register} label="I want to register Username" />
+					<FormInput
+						type="checkbox"
+						setState={setRegister}
+						state={register}
+						label="I want to register Username"
+						disabled={authLoading}
+					/>
 					{error && <div className="error">{error}</div>}
-					<FormButton>Join</FormButton>
+					<FormButton loading={authLoading}>Join</FormButton>
 				</form>
 			</div>
 		</div>
