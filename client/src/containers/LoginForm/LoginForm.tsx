@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { loginWithoutPassword } from "../../redux/actions/auth";
+import { addAuthError } from "../../redux/actions/error";
+import { RootState } from "../../redux/reducers/rootReducer";
 import "./LoginForm.scss";
 
 import FormInput from "./FormInput/FormInput";
@@ -8,20 +10,12 @@ import FormButton from "./FormButton/FormButton";
 
 interface Props {}
 
-let timer: NodeJS.Timeout;
-
 const LoginForm: React.FC<Props> = () => {
 	const dispatch = useDispatch();
+	const error = useSelector((state: RootState) => state.error.auth);
 	const [user, setUser] = useState("");
 	const [password, setPassword] = useState("");
 	const [register, setRegister] = useState(false);
-	const [error, setError] = useState("");
-
-	useEffect(() => {
-		timer = setTimeout(() => setError(""), 2000);
-
-		return () => clearTimeout(timer);
-	}, [error]);
 
 	const hasLength = (string: string, length: number) => string.length >= length;
 
@@ -31,12 +25,12 @@ const LoginForm: React.FC<Props> = () => {
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-
 		const passwordEntered = password.length > 0;
 
-		if (!validName(user)) return setError("Username must be at least 3 characters long.");
+		if (!validName(user)) return dispatch(addAuthError("Username must be at least 3 characters long."));
+
 		if (!validPassword(password) && (register || passwordEntered))
-			return setError("Password must be at least 4 characters long.");
+			return dispatch(addAuthError("Password must be at least 4 characters long."));
 
 		if (passwordEntered && register) return console.log("REGISTER");
 		if (passwordEntered) return console.log("LOGIN WITHOUT PASSWORD");
@@ -58,7 +52,7 @@ const LoginForm: React.FC<Props> = () => {
 						required={register}
 					/>
 					<FormInput type="checkbox" setState={setRegister} state={register} label="I want to register Username" />
-					<div className="error">{error}</div>
+					{error && <div className="error">{error}</div>}
 					<FormButton>Join</FormButton>
 				</form>
 			</div>
