@@ -21,15 +21,10 @@ export const registerUser = (username: string, password: string) => {
 						payload: { username, registered: true },
 					});
 				}
-				if (res.status === 400) {
-					dispatch(addAuthError("User already exists."));
-				}
 			})
 			.catch(err => {
-				if (err?.message) {
-					dispatch(addAuthError("Whoops! Something went wrong."));
-					console.error(err.message);
-				}
+				dispatch(addAuthError("Username is already taken."));
+				console.error(err.message);
 			});
 	};
 };
