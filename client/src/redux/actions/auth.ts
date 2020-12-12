@@ -1,4 +1,5 @@
 import { LOGIN_WITHOUT_PASSWORD } from "../types/auth";
+import axios from "axios";
 
 export const loginWithoutPassword = (username: string) => {
 	return {

@@ -1,0 +1,22 @@
+{
+	"name": "server",
+	"version": "1.0.0",
+	"description": "Server for Chatter application",
+	"main": "server.js",
+	"author": "Michal Kulesza",
+	"license": "MIT",
+	"scripts": {
+		"start": "node server.js",
+		"dev": "nodemon server.js"
+	},
+	"dependencies": {
+		"cors": "^2.8.5",
+		"dotenv": "^8.2.0",
+		"express": "^4.17.1",
+		"http": "^0.0.1-security",
+		"socket.io": "^3.0.4"
+	},
+	"devDependencies": {
+		"nodemon": "^2.0.6"
+	}
+}
