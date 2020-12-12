@@ -1,5 +1,5 @@
 import React from "react";
-import "./FormButton.scss";
+import "./Button.scss";
 
 import { CgSpinner } from "react-icons/cg";
 
@@ -8,9 +8,9 @@ interface Props {
 	children: any;
 }
 
-const FormButton: React.FC<Props> = ({ loading, children }) => {
+const Button: React.FC<Props> = ({ loading, children }) => {
 	return (
-		<button className="FormButton" disabled={loading}>
+		<button className="Button" disabled={loading}>
 			{loading === true ? (
 				<span>
 					<CgSpinner />
@@ -22,4 +22,4 @@ const FormButton: React.FC<Props> = ({ loading, children }) => {
 	);
 };
 
-export default FormButton;
+export default Button;

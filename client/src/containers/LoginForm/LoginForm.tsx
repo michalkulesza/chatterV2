@@ -6,7 +6,7 @@ import { RootState } from "../../redux/reducers/rootReducer";
 import "./LoginForm.scss";
 
 import FormInput from "./FormInput/FormInput";
-import FormButton from "./FormButton/FormButton";
+import { Button } from "../../components";
 
 interface Props {}
 
@@ -61,7 +61,7 @@ const LoginForm: React.FC<Props> = () => {
 						disabled={authLoading}
 					/>
 					{error && <div className="error">{error}</div>}
-					<FormButton loading={authLoading}>Join</FormButton>
+					<Button loading={authLoading}>Join</Button>
 				</form>
 			</div>
 		</div>

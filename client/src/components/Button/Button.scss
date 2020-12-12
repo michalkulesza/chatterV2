@@ -1,4 +1,4 @@
-@use '../../../styles/global';
+@use '../../styles/global';
 
 @keyframes spinning {
 	from {
@@ -10,7 +10,7 @@
 	}
 }
 
-.FormButton {
+.Button {
 	background-color: #5f65f6;
 	border: none;
 	padding: 0.7rem 2rem;

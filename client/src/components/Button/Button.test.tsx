@@ -2,13 +2,13 @@ import React from "react";
 import { expect } from "chai";
 import { shallow } from "enzyme";
 
-import FormButton from "./FormButton";
+import Button from "./Button";
 
-describe("FormButton", () => {
+describe("Button", () => {
 	it("Renders children", () => {
 		const element = <span>Test</span>;
 
-		const wrapper = shallow(<FormButton>{element}</FormButton>);
+		const wrapper = shallow(<Button>{element}</Button>);
 
 		expect(wrapper.contains(element)).to.equal(true);
 	});

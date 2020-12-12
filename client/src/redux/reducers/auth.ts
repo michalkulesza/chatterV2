@@ -4,7 +4,7 @@ import { authTypes } from "../types/auth";
 const initState: authState = {
 	username: null,
 	registered: null,
-	loading: true,
+	loading: false,
 };
 
 const auth = (state = initState, action: authTypes) => {
