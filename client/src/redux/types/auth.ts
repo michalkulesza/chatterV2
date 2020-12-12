@@ -1,10 +1,18 @@
 export const LOGIN_WITHOUT_PASSWORD = "LOGIN_WITHOUT_PASSWORD";
 export const LOGIN_WITH_PASSWORD = "LOGIN_WITH_PASSWORD";
-export const REGISTER_USER = "REGISTER_USER";
+export const SET_USER = "SET_USER";
 
-export interface loginWithoutPasswordAction {
-	type: typeof LOGIN_WITHOUT_PASSWORD;
-	payload: string;
+export interface authState {
+	username: string | null;
+	registered: boolean | null;
 }
 
-export type authTypes = loginWithoutPasswordAction;
+export interface setUser {
+	type: typeof SET_USER;
+	payload: {
+		username: string;
+		registered: boolean;
+	};
+}
+
+export type authTypes = setUser;

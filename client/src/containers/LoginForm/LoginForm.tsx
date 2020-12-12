@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { loginWithoutPassword } from "../../redux/actions/auth";
+import { loginWithoutPassword, registerUser } from "../../redux/actions/auth";
 import { addAuthError } from "../../redux/actions/error";
 import { RootState } from "../../redux/reducers/rootReducer";
 import "./LoginForm.scss";
@@ -32,7 +32,7 @@ const LoginForm: React.FC<Props> = () => {
 		if (!validPassword(password) && (register || passwordEntered))
 			return dispatch(addAuthError("Password must be at least 4 characters long."));
 
-		if (passwordEntered && register) return console.log("REGISTER");
+		if (passwordEntered && register) return dispatch(registerUser(user, password));
 		if (passwordEntered) return console.log("LOGIN WITHOUT PASSWORD");
 		dispatch(loginWithoutPassword(user));
 	};
