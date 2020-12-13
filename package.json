@@ -1,0 +1,9 @@
+{
+	"name": "chatter",
+	"repository": "https://github.com/michalkulesza/chatterV2.git",
+	"author": "Michal <kulesza.michal@gmail.com>",
+	"license": "MIT",
+	"scripts": {
+		"dev": "concurrently \"cd client && yarn start\" \"cd server && yarn dev\""
+	}
+}
