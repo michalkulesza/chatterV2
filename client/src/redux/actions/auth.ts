@@ -10,7 +10,7 @@ export const loginWithoutPassword = (username: string) => {
 			payload: true,
 		});
 
-		axios
+		return axios
 			.post(`${PATH}/auth/join`, {
 				username,
 			})
@@ -42,7 +42,7 @@ export const loginWithPassword = (username: string, password: string) => {
 			payload: true,
 		});
 
-		axios
+		return axios
 			.post(`${PATH}/auth/login`, {
 				username,
 				password,
@@ -75,7 +75,7 @@ export const registerUser = (username: string, password: string) => {
 			payload: true,
 		});
 
-		axios
+		return axios
 			.post(`${PATH}/auth/register`, {
 				username,
 				password,
