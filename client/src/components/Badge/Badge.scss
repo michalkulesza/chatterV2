@@ -1,0 +1,18 @@
+@use '../../styles/global';
+
+.badge {
+	font-size: 0.7rem;
+	padding: 0.1rem 0.3rem;
+	border-radius: 4px;
+	margin-left: 0.3rem;
+
+	&.green {
+		background-color: global.$green1;
+		color: white;
+	}
+
+	&.gray {
+		background-color: global.$gray3;
+		color: global.$gray6;
+	}
+}
