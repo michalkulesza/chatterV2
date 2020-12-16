@@ -4,6 +4,7 @@
 	padding: 1rem 1.5rem;
 
 	.title {
+		display: flex;
 		margin: 0;
 		padding: 0;
 		font-size: 0.9rem;
@@ -11,5 +12,11 @@
 		padding: 0.3rem 0.5rem;
 		border-radius: 3px;
 		background-color: global.$gray3;
+
+		.icon {
+			display: flex;
+			align-items: center;
+			margin-right: 0.3rem;
+		}
 	}
 }
