@@ -19,9 +19,10 @@
 		color: global.$gray6;
 		padding: 0.3rem 0.5rem;
 		border-radius: 3px;
-		// background-color: global.$gray3;
 		z-index: 1;
 		margin-top: -1px;
+		cursor: pointer;
+		user-select: none;
 
 		.title {
 			display: flex;

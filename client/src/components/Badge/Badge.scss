@@ -5,6 +5,7 @@
 	padding: 0.1rem 0.3rem;
 	border-radius: 4px;
 	margin-left: 0.3rem;
+	user-select: none;
 
 	&.green {
 		background-color: global.$green1;

@@ -16,6 +16,10 @@
 		background-color: transparent;
 		border: none;
 
+		&::placeholder {
+			user-select: none;
+		}
+
 		&:focus {
 			outline: none;
 		}

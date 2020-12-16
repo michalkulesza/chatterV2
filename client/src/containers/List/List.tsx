@@ -18,7 +18,7 @@ const List: React.FC<Props> = ({ type, usersData, roomsData }) => {
 	const listRef = useRef<HTMLDivElement>(null);
 	const [collapsed, setCollapsed] = useState(false);
 
-	const handleCollapseButton = () => setCollapsed(!collapsed);
+	const handleCollapse = () => setCollapsed(!collapsed);
 
 	const style = {
 		transition: "all 0.4s cubic-bezier(0.23, 1, 0.32, 1)",
@@ -33,12 +33,12 @@ const List: React.FC<Props> = ({ type, usersData, roomsData }) => {
 
 	return (type === "users" && usersData) || (type === "rooms" && roomsData) ? (
 		<div className="list">
-			<header>
+			<header onMouseDown={handleCollapse}>
 				<h4 className="title">
 					<div className="icon">{type === "users" ? <FiUsers /> : <RiChat1Line />}</div>
 					{type === "users" ? "Users" : "Conversations"}
 				</h4>
-				<button className={`collapseButton ${collapsed && "active"}`} onMouseDown={handleCollapseButton}>
+				<button className={`collapseButton ${collapsed && "active"}`}>
 					<BiChevronDown />
 				</button>
 			</header>
