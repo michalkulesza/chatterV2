@@ -10,6 +10,9 @@ const App: React.FC = () => {
 	return (
 		<Switch>
 			<Route exact path="/">
+				<Chat />
+			</Route>
+			{/* <Route exact path="/">
 				{auth.username ? <Redirect to={CHAT} /> : <Login />}
 			</Route>
 			<Route exact path="/chat">
@@ -17,7 +20,7 @@ const App: React.FC = () => {
 			</Route>
 			<Route path="/">
 				<Redirect to={HOME} />
-			</Route>
+			</Route> */}
 		</Switch>
 	);
 };
