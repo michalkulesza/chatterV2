@@ -9,11 +9,19 @@ interface Props {
 	type?: "square" | "rectangle";
 	color?: "defaultColor" | "transparent";
 	svgSize?: "large";
+	onMouseDown?: () => void;
 }
 
-const Button: React.FC<Props> = ({ children, loading, type = "rectangle", color = "defaultColor", svgSize }) => {
+const Button: React.FC<Props> = ({
+	children,
+	loading,
+	type = "rectangle",
+	color = "defaultColor",
+	svgSize,
+	onMouseDown,
+}) => {
 	return (
-		<button className={`button ${type} ${color} ${svgSize}`} disabled={loading}>
+		<button className={`button ${type} ${color} ${svgSize}`} disabled={loading} onMouseDown={onMouseDown}>
 			{loading === true ? (
 				<span>
 					<CgSpinner />

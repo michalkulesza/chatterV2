@@ -8,6 +8,6 @@
 	transition: all 0.3s cubic-bezier(0.46, 0.03, 0.52, 0.96);
 
 	&.collapsed {
-		margin-left: -100%;
+		margin-left: -300px;
 	}
 }

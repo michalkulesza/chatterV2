@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
+import { useSelector } from "react-redux";
 import "./Sidebar.scss";
 
 import { SearchBar, List } from "../../containers";
 import { UserI, RoomI } from "../../types";
+import { RootState } from "../../redux/reducers/rootReducer";
 
 interface Props {}
 
@@ -41,10 +43,10 @@ const mockRooms: RoomI[] = [
 ];
 
 const Sidebar: React.FC<Props> = () => {
-	const [collapsed, setCollapsed] = useState(false);
+	const visible = useSelector((state: RootState) => state.ui.sidebarVisible);
 
 	return (
-		<div className={`sidebar ${collapsed ? "collapsed" : ""}`}>
+		<div className={`sidebar ${!visible && "collapsed"}`}>
 			<SearchBar />
 			<List type="users" usersData={mockUsers} />
 			<List type="rooms" roomsData={mockRooms} />
