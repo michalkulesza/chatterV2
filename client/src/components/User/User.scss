@@ -1,0 +1,17 @@
+@use '../../styles/global';
+
+.user {
+	padding: 0.3rem 0.5rem;
+	font-size: 0.9rem;
+	cursor: pointer;
+	display: flex;
+	justify-content: space-between;
+
+	&:first-of-type {
+		margin-top: 0.5rem;
+	}
+
+	&:hover {
+		background-color: global.$gray3;
+	}
+}
