@@ -1,8 +1,10 @@
+@use '../../styles/global';
+
 .sidebar {
 	height: 100%;
 	width: 300px;
 	margin-left: 0%;
-	background-color: aquamarine;
+	background-color: global.$main_primary;
 	transition: all 0.3s cubic-bezier(0.46, 0.03, 0.52, 0.96);
 
 	&.collapsed {
