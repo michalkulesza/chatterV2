@@ -10,25 +10,63 @@
 	}
 }
 
-.Button {
-	background-color: #5f65f6;
+.button {
 	border: none;
-	padding: 0.7rem 2rem;
 	border-radius: 3px;
 	cursor: pointer;
-	color: global.$white;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 
-	&:hover {
-		background-color: #4e54ec;
+	span {
+		svg {
+			animation: spinning 0.8s infinite;
+		}
 	}
 
 	&:disabled {
 		cursor: wait;
 	}
 
-	span {
+	&:focus {
+		outline: none;
+	}
+
+	&.defaultColor {
+		background-color: #5f65f6;
+		color: global.$white;
+
+		&:hover {
+			background-color: #4e54ec;
+		}
+	}
+
+	&.transparent {
+		background-color: transparent;
+		color: global.$gray6;
+
+		span {
+			svg {
+				fill: global.$gray6;
+			}
+		}
+
+		&:hover {
+			background-color: global.$gray3;
+		}
+	}
+
+	&.rectangle {
+		padding: 0.7rem 2rem;
+	}
+
+	&.square {
+		padding: 0.7rem;
+	}
+
+	&.large {
 		svg {
-			animation: spinning 0.8s infinite;
+			transform: scale(1.7);
 		}
 	}
 }
