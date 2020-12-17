@@ -1,0 +1,38 @@
+.overlay {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	background-color: rgba(0, 0, 0, 0.4);
+	z-index: 999;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	user-select: none;
+
+	svg {
+		transform: scale(2.5);
+		margin-bottom: 1.5rem;
+		animation: spinning 0.7s infinite;
+
+		path {
+			fill: white;
+		}
+	}
+
+	span {
+		color: white;
+	}
+}
+
+@keyframes spinning {
+	from {
+		transform: rotate(0deg) scale(2.8);
+	}
+
+	to {
+		transform: rotate(360deg) scale(2.8);
+	}
+}
