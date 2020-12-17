@@ -2,14 +2,14 @@ import { JOIN_ROOM, SET_JOINING, SET_ROOM_DATA } from "../types/room";
 import { roomTypes, roomState } from "../types/room";
 import socket from "../../config/socketio";
 
-export const initialize = () => {
+export const initialize = (username: string) => {
 	return async (dispatch: any) => {
 		dispatch({
 			type: SET_JOINING,
 			payload: true,
 		});
 
-		socket.emit("initialize");
+		socket.emit("initialize", { username });
 	};
 };
 
