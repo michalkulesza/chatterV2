@@ -1,6 +1,6 @@
 import axios from "axios";
 import { PATH } from "../../constants/path";
-import { SET_LOADING, SET_USER } from "../types/auth";
+import { SET_LOADING, SET_USER, SET_USER_ROOMS } from "../types/auth";
 import { addAuthError } from "./error";
 
 export const loginWithoutPassword = (username: string) => {
@@ -98,5 +98,12 @@ export const registerUser = (username: string, password: string) => {
 					payload: false,
 				});
 			});
+	};
+};
+
+export const setUserRooms = (rooms: string[]) => {
+	return {
+		type: SET_USER_ROOMS,
+		payload: rooms,
 	};
 };
