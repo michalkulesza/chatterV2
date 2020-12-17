@@ -1,0 +1,18 @@
+.input {
+	width: 100%;
+	padding: 1rem 1.5rem;
+	display: flex;
+
+	input {
+		width: 100%;
+		padding: 0.5rem 1rem;
+		font-size: 0.9rem;
+		background-color: white;
+		border: none;
+		margin-right: 0.5rem;
+
+		&:focus {
+			outline: none;
+		}
+	}
+}

@@ -25,7 +25,7 @@ const List: React.FC<Props> = ({ type, usersData, roomsData }) => {
 	};
 
 	const collapsedStyle = {
-		transition: "all 0.4s cubic-bezier(0.23, 1, 0.32, 1);",
+		transition: "all 0.4s cubic-bezier(0.23, 1, 0.32, 1)",
 		marginTop: `-${listRef?.current?.clientHeight}px`,
 		pointerEvents: "none",
 		opacity: "0",
