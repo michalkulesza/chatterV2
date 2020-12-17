@@ -10,15 +10,15 @@ const handleSocket = io => {
 
 		console.log(`Socket ${socket.id} connected`);
 
-		socket.on("initialize", username => {
+		socket.on("initialize", ({ username }) => {
 			socket.join(INIT_ROOM);
 			currentRoom = INIT_ROOM;
 			user = username;
-			addGlobalUser(user);
+			addGlobalUser({ id: socket.id, name: user });
 			console.log(`Joined ${INIT_ROOM}`);
 
 			socket.emit("initialData", { _id: currentRoom, type: "room", messages: getRoomMessages(currentRoom) });
-			socket.emit("userList", { users: getGlobalUsers });
+			socket.emit("userList", getGlobalUsers());
 		});
 
 		socket.on("disconnect", () => {

@@ -3,7 +3,7 @@ export const SET_USER_LIST = "SET_USER_LIST";
 import { UserI } from "../../types/index";
 
 export interface miscState {
-	userList: UserI[];
+	userList: UserI[] | [];
 }
 
 export interface setUserListAction {
