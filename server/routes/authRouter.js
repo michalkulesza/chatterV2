@@ -2,19 +2,21 @@ const express = require("express");
 const bcrypt = require("bcrypt");
 const router = express.Router();
 
-const { UserModel } = require("../models/userModel");
+const { UserModel, userExists } = require("../models/userModel");
 
 router.post("/register", async (req, res) => {
 	try {
 		const { username, password } = req.body;
-		const userExists = await UserModel.exists({ username });
 
-		if (userExists) return res.status(400).send("User already exists");
+		const userFound = await userExists(username);
+		if (userFound) return res.status(400).send("User already exists");
 
 		const hashedPassword = await bcrypt.hash(password, 15);
+
 		const user = new UserModel({
-			username,
+			name: username,
 			password: hashedPassword,
+			rooms: ["Main"],
 		});
 
 		user
@@ -35,10 +37,11 @@ router.post("/register", async (req, res) => {
 router.post("/login", async (req, res) => {
 	try {
 		const { username, password } = req.body;
-		const userExists = await UserModel.exists({ username });
 
-		if (userExists) {
-			const user = await UserModel.findOne({ username });
+		const userFound = await userExists(username);
+
+		if (userFound) {
+			const user = await UserModel.findOne({ name: username });
 			const passwordCorrect = await bcrypt.compare(password, user.password);
 
 			if (passwordCorrect) {
@@ -58,9 +61,9 @@ router.post("/login", async (req, res) => {
 router.post("/join", async (req, res) => {
 	try {
 		const { username } = req.body;
-		const userExists = await UserModel.exists({ username });
+		const userFound = await userExists(username);
 
-		if (userExists) return res.status(401).send("Username is taken. Please Login.");
+		if (userFound) return res.status(401).send("Username is taken. Please Login.");
 
 		res.sendStatus(200);
 	} catch (error) {
