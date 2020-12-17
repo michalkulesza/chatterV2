@@ -8,16 +8,15 @@ export const SET_JOINING = "SET_JOINING";
 import { MessageI } from "../../types/index";
 
 export interface roomState {
-	joining: boolean;
+	joining?: boolean;
 	_id?: string;
 	type?: "room" | "private";
 	messages?: MessageI[];
 	directUsers?: string[];
 }
 
-export interface joinRoomAction {
+export interface initializeAction {
 	type: typeof JOIN_ROOM;
-	payload: string;
 }
 
 export interface setJoiningAction {
@@ -25,4 +24,9 @@ export interface setJoiningAction {
 	payload: boolean;
 }
 
-export type roomTypes = joinRoomAction | setJoiningAction;
+export interface setRoomData {
+	type: typeof SET_ROOM_DATA;
+	payload: roomState;
+}
+
+export type roomTypes = initializeAction | setJoiningAction | setRoomData;

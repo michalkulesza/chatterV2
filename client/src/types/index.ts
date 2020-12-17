@@ -3,7 +3,7 @@ export interface MessageI {
 	author: string;
 	content: string;
 	created: string;
-	seenBy: UserI[];
+	seenBy?: UserI[];
 }
 
 export interface UserI {
