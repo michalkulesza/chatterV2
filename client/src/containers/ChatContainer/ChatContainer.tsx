@@ -2,13 +2,14 @@ import React, { useEffect } from "react";
 import socket from "../../config/socketio";
 import { useDispatch, useSelector } from "react-redux";
 import { initialize, setRoomData } from "../../redux/actions/room";
-import { MessageI, UserI } from "../../types";
+import { UserI } from "../../types";
 
 import { Mainbar, Chat, Input } from "../../containers";
 import "./ChatContainer.scss";
 import { roomState } from "../../redux/types/room";
 import { RootState } from "../../redux/reducers/rootReducer";
 import { setUserList } from "../../redux/actions/misc";
+import { setUserRooms } from "../../redux/actions/auth";
 
 interface Props {}
 
@@ -20,6 +21,8 @@ const ChatContainer: React.FC<Props> = () => {
 		username && dispatch(initialize(username));
 
 		socket.on("initialData", ({ _id, type, messages }: roomState) => dispatch(setRoomData({ _id, type, messages })));
+
+		socket.on("userRooms", (rooms: string[]) => dispatch(setUserRooms(rooms)));
 
 		socket.on("userList", (users: UserI[]) => dispatch(setUserList(users)));
 	}, []);

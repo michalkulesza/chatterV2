@@ -11,7 +11,7 @@ import { BiChevronDown } from "react-icons/bi";
 interface Props {
 	type: "users" | "rooms";
 	usersData?: UserI[];
-	roomsData?: RoomI[];
+	roomsData?: string[];
 }
 
 const List: React.FC<Props> = ({ type, usersData, roomsData }) => {
@@ -44,7 +44,7 @@ const List: React.FC<Props> = ({ type, usersData, roomsData }) => {
 			</header>
 			<div className="main" style={collapsed ? collapsedStyle : style} ref={listRef}>
 				{type === "users" && usersData && usersData?.map((user: UserI) => <User key={user._id} name={user.name} />)}
-				{type === "rooms" && roomsData && roomsData?.map((room: RoomI) => <Room key={room.name} name={room.name} />)}
+				{type === "rooms" && roomsData && roomsData?.map((room: string) => <Room key={room} name={room} />)}
 			</div>
 		</div>
 	) : null;
