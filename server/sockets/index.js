@@ -67,6 +67,14 @@ const handleSocket = io => {
 			removeGlobalUser(user);
 
 			io.in(currentRoom).emit("userList", getGlobalUsers());
+
+			socket.to(currentRoom).emit("message", {
+				_id: mongoose.Types.ObjectId(),
+				author: "admin",
+				created: new Date().toISOString(),
+				content: `${user} left`,
+			});
+
 			console.log(`Socket ${socket.id} disconnected`);
 		});
 	});

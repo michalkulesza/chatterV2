@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Moment from "react-moment";
 import "./Message.scss";
 
@@ -11,6 +11,7 @@ interface Props {
 }
 
 const Message: React.FC<Props> = ({ currentUser, message, prevMessage }) => {
+	let timer: NodeJS.Timeout;
 	const [collapsed, setCollapsed] = useState(true);
 
 	const fromMyself = currentUser === message.author;
@@ -21,6 +22,11 @@ const Message: React.FC<Props> = ({ currentUser, message, prevMessage }) => {
 	const fromTheSameUser = prevMessage && prevMessage.author === message.author;
 
 	const handleMessageClick = () => setCollapsed(!collapsed);
+
+	useEffect(() => {
+		if (!collapsed) timer = setTimeout(() => setCollapsed(true), 2500);
+		return () => clearTimeout(timer);
+	}, [collapsed]);
 
 	return (
 		<div className={`messageContainer ${authorClass}`}>
