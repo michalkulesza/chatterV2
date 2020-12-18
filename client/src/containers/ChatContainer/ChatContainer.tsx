@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { initialize, setRoomData } from "../../redux/actions/room";
 import { UserI } from "../../types";
 
-import { Mainbar, Chat, Input } from "../../containers";
+import { Mainbar, ChatWindow, Input } from "../../containers";
 import "./ChatContainer.scss";
 import { roomState } from "../../redux/types/room";
 import { RootState } from "../../redux/reducers/rootReducer";
@@ -30,7 +30,7 @@ const ChatContainer: React.FC<Props> = () => {
 	return (
 		<div className="chatContainer">
 			<Mainbar></Mainbar>
-			<Chat></Chat>
+			<ChatWindow></ChatWindow>
 			<Input></Input>
 		</div>
 	);
