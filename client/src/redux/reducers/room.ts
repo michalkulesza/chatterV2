@@ -1,4 +1,4 @@
-import { ADD_MESSGAE, SET_JOINING, SET_ROOM_DATA } from "../types/room";
+import { ADD_MESSGAE, CLEAR_ROOM, SET_JOINING, SET_ROOM_DATA } from "../types/room";
 import { roomTypes, roomState } from "../types/room";
 
 const initState: roomState = {
@@ -17,6 +17,8 @@ const room = (state = initState, action: roomTypes) => {
 			return { ...state, ...action.payload };
 		case ADD_MESSGAE:
 			return { ...state, messages: [...state.messages, action.payload] };
+		case CLEAR_ROOM:
+			return initState;
 		default:
 			return state;
 	}

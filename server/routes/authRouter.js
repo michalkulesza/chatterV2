@@ -69,9 +69,6 @@ router.post("/join", async (req, res) => {
 		const usernameRegistered = await userExists(username);
 		const usernameReserved = findGlobalUser(username);
 
-		console.log(usernameRegistered);
-		console.log(usernameReserved);
-
 		if (usernameRegistered || usernameReserved) return res.status(401).send("Username is taken. Please Login.");
 
 		res.sendStatus(200);

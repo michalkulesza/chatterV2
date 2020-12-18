@@ -1,4 +1,5 @@
 export const SET_USER_LIST = "SET_USER_LIST";
+export const CLEAR_MISC = "CLEAR_MISC";
 
 import { UserI } from "../../types/index";
 
@@ -11,4 +12,7 @@ export interface setUserListAction {
 	payload: UserI[];
 }
 
-export type miscTypes = setUserListAction;
+export interface clearMiscAction {
+	type: typeof CLEAR_MISC;
+}
+export type miscTypes = setUserListAction | clearMiscAction;

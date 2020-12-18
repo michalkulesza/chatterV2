@@ -14,7 +14,7 @@ const handleSocket = io => {
 
 		console.log(`Socket ${socket.id} connected`);
 
-		socket.on("initialize", async username => {
+		socket.on("initialize", async (username, registered) => {
 			socket.join(INIT_ROOM);
 
 			currentRoom = INIT_ROOM;
@@ -45,7 +45,7 @@ const handleSocket = io => {
 				content: `You have joined`,
 			});
 
-			socket.emit("userRooms", userRoomsData && userRoomsData.rooms);
+			if (registered && userRoomsData) socket.emit("userRooms", userRoomsData.rooms);
 			io.in(currentRoom).emit("userList", getGlobalUsers());
 		});
 

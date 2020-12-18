@@ -1,5 +1,5 @@
-import { ADD_MESSGAE, JOIN_ROOM, SET_JOINING, SET_ROOM_DATA } from "../types/room";
-import { roomTypes, roomState } from "../types/room";
+import { ADD_MESSGAE, CLEAR_ROOM, SET_JOINING, SET_ROOM_DATA } from "../types/room";
+import { roomState } from "../types/room";
 import socket from "../../config/socketio";
 import { MessageI } from "../../types";
 
@@ -45,5 +45,11 @@ export const sendMessage = (message: MessageI) => {
 		});
 
 		socket.emit("message", message);
+	};
+};
+
+export const clearRoom = () => {
+	return {
+		type: CLEAR_ROOM,
 	};
 };

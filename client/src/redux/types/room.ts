@@ -4,6 +4,7 @@ export const SEND_MESSAGE = "SEND_MESSAGE";
 export const ADD_MESSGAE = "ADD_MESSGAE";
 export const SET_ROOM_DATA = "SET_ROOM_DATA";
 export const SET_JOINING = "SET_JOINING";
+export const CLEAR_ROOM = "CLEAR_ROOM";
 
 import { MessageI } from "../../types/index";
 
@@ -34,4 +35,8 @@ export interface addMessageAction {
 	payload: MessageI;
 }
 
-export type roomTypes = initializeAction | setJoiningAction | setRoomData | addMessageAction;
+export interface clearRoomAction {
+	type: typeof CLEAR_ROOM;
+}
+
+export type roomTypes = initializeAction | setJoiningAction | setRoomData | addMessageAction | clearRoomAction;

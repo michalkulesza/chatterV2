@@ -2,11 +2,11 @@ import React, { useEffect } from "react";
 import socket from "../../config/socketio";
 import { useDispatch, useSelector } from "react-redux";
 
-import { addMessage, initialize, setRoomData } from "../../redux/actions/room";
+import { addMessage, clearRoom, initialize, setRoomData } from "../../redux/actions/room";
 import { roomState } from "../../redux/types/room";
 import { RootState } from "../../redux/reducers/rootReducer";
-import { setUserList } from "../../redux/actions/misc";
-import { setUserRooms } from "../../redux/actions/auth";
+import { clearMisc, setUserList } from "../../redux/actions/misc";
+import { clearUser, setUserRooms } from "../../redux/actions/auth";
 import { MessageI, UserI } from "../../types";
 
 import { Mainbar, ChatWindow, Input } from "../../containers";
@@ -28,6 +28,16 @@ const ChatContainer: React.FC<Props> = () => {
 		socket.on("userList", (users: UserI[]) => dispatch(setUserList(users)));
 
 		socket.on("message", (message: MessageI) => dispatch(addMessage(message)));
+
+		socket.on("disconnect", () => {
+			dispatch(clearUser());
+			dispatch(clearMisc());
+			dispatch(clearRoom());
+		});
+
+		return () => {
+			socket.removeAllListeners();
+		};
 	}, []);
 
 	return (

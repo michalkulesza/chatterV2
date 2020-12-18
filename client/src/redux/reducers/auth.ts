@@ -1,4 +1,4 @@
-import { authState, SET_LOADING, SET_USER, SET_USER_ROOMS } from "../types/auth";
+import { authState, CLEAR_USER, SET_LOADING, SET_USER, SET_USER_ROOMS } from "../types/auth";
 import { authTypes } from "../types/auth";
 
 const initState: authState = {
@@ -16,6 +16,8 @@ const auth = (state = initState, action: authTypes) => {
 			return { ...state, loading: action.payload };
 		case SET_USER_ROOMS:
 			return { ...state, userRooms: action.payload };
+		case CLEAR_USER:
+			return initState;
 		default:
 			return state;
 	}

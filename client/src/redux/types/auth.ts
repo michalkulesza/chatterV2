@@ -1,6 +1,7 @@
 export const SET_USER = "SET_USER";
 export const SET_LOADING = "SET_LOADING";
 export const SET_USER_ROOMS = "SET_USER_ROOMS";
+export const CLEAR_USER = "CLEAR_USER";
 
 export interface authState {
 	username: string | null;
@@ -27,4 +28,8 @@ export interface setUserRooms {
 	payload: string[];
 }
 
-export type authTypes = setUser | setLoading | setUserRooms;
+export interface clearUser {
+	type: typeof CLEAR_USER;
+}
+
+export type authTypes = setUser | setLoading | setUserRooms | clearUser;
