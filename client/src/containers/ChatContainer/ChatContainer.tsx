@@ -1,15 +1,16 @@
 import React, { useEffect } from "react";
 import socket from "../../config/socketio";
 import { useDispatch, useSelector } from "react-redux";
-import { addMessage, initialize, setRoomData } from "../../redux/actions/room";
-import { MessageI, UserI } from "../../types";
 
-import { Mainbar, ChatWindow, Input } from "../../containers";
-import "./ChatContainer.scss";
+import { addMessage, initialize, setRoomData } from "../../redux/actions/room";
 import { roomState } from "../../redux/types/room";
 import { RootState } from "../../redux/reducers/rootReducer";
 import { setUserList } from "../../redux/actions/misc";
 import { setUserRooms } from "../../redux/actions/auth";
+import { MessageI, UserI } from "../../types";
+
+import { Mainbar, ChatWindow, Input } from "../../containers";
+import "./ChatContainer.scss";
 
 interface Props {}
 

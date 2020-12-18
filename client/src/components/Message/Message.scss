@@ -1,0 +1,40 @@
+@use '../../styles/global';
+
+.messageContainer {
+	width: 100%;
+	display: flex;
+
+	&.fromMyself {
+		justify-content: flex-end;
+	}
+
+	&.fromPartner {
+		justify-content: flex-start;
+	}
+
+	&.fromAdmin {
+		justify-content: center;
+	}
+
+	.message {
+		padding: 0.5rem 1rem;
+		margin-bottom: 0.5rem;
+
+		&.fromMyself {
+			background-color: global.$white;
+			border-radius: 8px 8px 0px 8px;
+		}
+
+		&.fromPartner {
+			background-color: global.$purple;
+			border-radius: 8px 8px 8px 0px;
+			color: global.$white;
+		}
+
+		&.fromAdmin {
+			font-size: 0.9rem;
+			font-weight: 600;
+			opacity: 0.5;
+		}
+	}
+}

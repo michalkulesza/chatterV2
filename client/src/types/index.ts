@@ -1,5 +1,5 @@
 export interface MessageI {
-	_id?: string;
+	_id: string;
 	author: string;
 	content: string;
 	created: string;

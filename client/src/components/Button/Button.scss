@@ -33,11 +33,11 @@
 	}
 
 	&.defaultColor {
-		background-color: #5f65f6;
+		background-color: global.$purple;
 		color: global.$white;
 
 		&:hover {
-			background-color: #4e54ec;
+			background-color: darken($color: global.$purple, $amount: 5);
 		}
 	}
 

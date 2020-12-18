@@ -1,9 +1,21 @@
-.chatWindow {
-	background-color: aliceblue;
-	flex-grow: 1;
+.chatWindowContainer {
 	height: 100%;
 	width: 100%;
-	padding: 0 2rem 2rem 2rem;
-	display: flex;
-	align-items: flex-end;
+	overflow-y: scroll;
+	scrollbar-width: none;
+
+	&::-webkit-scrollbar {
+		display: none;
+	}
+
+	.chatWindow {
+		background-color: aliceblue;
+		flex-grow: 1;
+		min-height: 100%;
+		width: 100%;
+		padding: 0 2rem 2rem 2rem;
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-end;
+	}
 }

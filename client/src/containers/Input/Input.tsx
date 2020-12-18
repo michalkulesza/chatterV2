@@ -21,6 +21,7 @@ const Input: React.FC<Props> = () => {
 
 		if (username && room) {
 			const message = {
+				_id: new Date().toISOString(),
 				author: username,
 				created: new Date().toISOString(),
 				room,

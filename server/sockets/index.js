@@ -1,3 +1,4 @@
+const mongoose = require("mongoose");
 const { addGlobalUser, removeGlobalUser, getGlobalUsers } = require("../helpers/users");
 const { getRoomData } = require("../models/roomModel");
 const { getUserRooms } = require("../models/userModel");
@@ -28,20 +29,39 @@ const handleSocket = io => {
 				type: "room",
 				messages: roomData && roomData[0] && roomData[0].messages,
 			});
+
+			socket.to(currentRoom).emit("message", {
+				_id: mongoose.Types.ObjectId(),
+				author: "admin",
+				created: new Date().toISOString(),
+				content: `${user} joined!`,
+			});
+
+			socket.emit("message", {
+				_id: mongoose.Types.ObjectId(),
+				author: "admin",
+				created: new Date().toISOString(),
+				content: `Joined.`,
+			});
+
 			socket.emit("userRooms", userRoomsData && userRoomsData.rooms);
 			io.in(currentRoom).emit("userList", getGlobalUsers());
 		});
 
 		socket.on("message", async ({ author, created, content, room }) => {
+			const _id = mongoose.Types.ObjectId();
+
+			console.log(_id);
+
 			const message = new MessageModel({
+				_id,
 				author,
 				created,
 				content,
 			});
 
+			socket.to(room).emit("message", { ...message, _id });
 			await message.addMessage(room);
-
-			socket.to(room).emit("message", message);
 		});
 
 		socket.on("disconnect", () => {
