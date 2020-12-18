@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../redux/reducers/rootReducer";
 import "./ChatWindow.scss";
 
-import { Message } from "../../components";
+import { Message } from "../../containers";
 import { MessageI } from "../../types";
 
 interface Props {}

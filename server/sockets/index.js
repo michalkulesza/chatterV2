@@ -34,14 +34,14 @@ const handleSocket = io => {
 				_id: mongoose.Types.ObjectId(),
 				author: "admin",
 				created: new Date().toISOString(),
-				content: `${user} joined!`,
+				content: `${user} joined`,
 			});
 
 			socket.emit("message", {
 				_id: mongoose.Types.ObjectId(),
 				author: "admin",
 				created: new Date().toISOString(),
-				content: `Joined.`,
+				content: `Joined`,
 			});
 
 			socket.emit("userRooms", userRoomsData && userRoomsData.rooms);
