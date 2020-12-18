@@ -4,13 +4,14 @@ import "./User.scss";
 import { Badge } from "../../components";
 
 interface Props {
+	currentUser: string;
 	name: string;
 }
 
-const User: React.FC<Props> = ({ name }) => {
+const User: React.FC<Props> = ({ currentUser, name }) => {
 	return (
 		<div className="user">
-			{name}
+			{currentUser === name ? `${name} (You)` : name}
 			<Badge color="green">Online</Badge>
 		</div>
 	);

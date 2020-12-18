@@ -1,4 +1,5 @@
 import React, { useState, useRef } from "react";
+import { useSelector } from "react-redux";
 import "./List.scss";
 
 import { User, Room } from "../../components";
@@ -7,6 +8,7 @@ import { UserI, RoomI } from "../../types";
 import { FiUsers } from "react-icons/fi";
 import { RiChat1Line } from "react-icons/ri";
 import { BiChevronDown } from "react-icons/bi";
+import { RootState } from "../../redux/reducers/rootReducer";
 
 interface Props {
 	type: "users" | "rooms";
@@ -16,6 +18,7 @@ interface Props {
 
 const List: React.FC<Props> = ({ type, usersData, roomsData }) => {
 	const listRef = useRef<HTMLDivElement>(null);
+	const currentUser = useSelector((state: RootState) => state.auth.username);
 	const [collapsed, setCollapsed] = useState(false);
 
 	const handleCollapse = () => setCollapsed(!collapsed);
@@ -43,7 +46,10 @@ const List: React.FC<Props> = ({ type, usersData, roomsData }) => {
 				</button>
 			</header>
 			<div className="main" style={collapsed ? collapsedStyle : style} ref={listRef}>
-				{type === "users" && usersData && usersData?.map((user: UserI) => <User key={user.name} name={user.name} />)}
+				{type === "users" &&
+					currentUser &&
+					usersData &&
+					usersData?.map((user: UserI) => <User key={user.name} currentUser={currentUser} name={user.name} />)}
 				{type === "rooms" && roomsData && roomsData?.map((room: string) => <Room key={room} name={room} />)}
 			</div>
 		</div>
