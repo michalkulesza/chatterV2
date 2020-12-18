@@ -3,6 +3,7 @@
 .messageContainer {
 	width: 100%;
 	display: flex;
+	margin-bottom: 0.5rem;
 
 	&.fromMyself {
 		justify-content: flex-end;
@@ -16,25 +17,47 @@
 		justify-content: center;
 	}
 
-	.message {
-		padding: 0.5rem 1rem;
-		margin-bottom: 0.5rem;
+	.messageWrapper {
+		display: flex;
+		flex-direction: column;
+
+		span {
+			font-size: 0.7rem;
+			padding: 0.2rem;
+			color: global.$gray9;
+		}
 
 		&.fromMyself {
-			background-color: global.$white;
-			border-radius: 8px 8px 0px 8px;
+			align-items: flex-end;
+
+			.message {
+				background-color: global.$gray2;
+				border-radius: 8px 8px 0px 8px;
+			}
 		}
 
 		&.fromPartner {
-			background-color: global.$purple;
-			border-radius: 8px 8px 8px 0px;
-			color: global.$white;
+			align-items: flex-start;
+
+			.message {
+				background-color: global.$purple;
+				border-radius: 8px 8px 8px 0px;
+				color: global.$white;
+			}
 		}
 
 		&.fromAdmin {
-			font-size: 0.9rem;
-			font-weight: 600;
-			opacity: 0.5;
+			.message {
+				font-size: 0.9rem;
+				font-weight: 600;
+				opacity: 0.5;
+				box-shadow: none;
+			}
+		}
+
+		.message {
+			padding: 0.5rem 1rem;
+			box-shadow: global.$shadow;
 		}
 	}
 }

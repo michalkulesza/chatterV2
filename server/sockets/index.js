@@ -51,8 +51,6 @@ const handleSocket = io => {
 		socket.on("message", async ({ author, created, content, room }) => {
 			const _id = mongoose.Types.ObjectId();
 
-			console.log(_id);
-
 			const message = new MessageModel({
 				_id,
 				author,
@@ -60,7 +58,7 @@ const handleSocket = io => {
 				content,
 			});
 
-			socket.to(room).emit("message", { ...message, _id });
+			socket.to(room).emit("message", { ...message.toObject(), _id });
 			await message.addMessage(room);
 		});
 

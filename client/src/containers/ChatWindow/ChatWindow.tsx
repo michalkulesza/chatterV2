@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/reducers/rootReducer";
 import "./ChatWindow.scss";
 
 import { Message } from "../../components";
+import { MessageI } from "../../types";
 
 interface Props {}
 
@@ -15,7 +16,10 @@ const ChatWindow: React.FC<Props> = () => {
 		<div className="chatWindowContainer">
 			<div className="chatWindow">
 				{messages && currentUser && messages.length > 0 ? (
-					messages.map(message => <Message key={message._id} currentUser={currentUser} message={message} />)
+					messages.map((message, i) => {
+						const prevMessage = i > 0 ? messages[i - 1] : undefined;
+						return <Message key={message._id} currentUser={currentUser} message={message} prevMessage={prevMessage} />;
+					})
 				) : (
 					<h3>No messages</h3>
 				)}
