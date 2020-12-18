@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const { addGlobalUser, removeGlobalUser, getGlobalUsers } = require("../helpers/users");
+
 const { getRoomData } = require("../models/roomModel");
 const { getUserRooms } = require("../models/userModel");
 const { MessageModel } = require("../models/messageModel");
@@ -41,7 +42,7 @@ const handleSocket = io => {
 				_id: mongoose.Types.ObjectId(),
 				author: "admin",
 				created: new Date().toISOString(),
-				content: `Joined`,
+				content: `You have joined`,
 			});
 
 			socket.emit("userRooms", userRoomsData && userRoomsData.rooms);

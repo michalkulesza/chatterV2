@@ -6,4 +6,6 @@ const removeGlobalUser = user => globalUsers.splice(globalUsers.indexOf(user), 1
 
 const getGlobalUsers = () => globalUsers;
 
-module.exports = { addGlobalUser, removeGlobalUser, getGlobalUsers };
+const findGlobalUser = username => globalUsers.find(user => user.name === username);
+
+module.exports = { addGlobalUser, removeGlobalUser, getGlobalUsers, findGlobalUser };

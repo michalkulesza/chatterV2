@@ -3,13 +3,16 @@ const bcrypt = require("bcrypt");
 const router = express.Router();
 
 const { UserModel, userExists } = require("../models/userModel");
+const { findGlobalUser } = require("../helpers/users");
 
 router.post("/register", async (req, res) => {
 	try {
 		const { username, password } = req.body;
 
-		const userFound = await userExists(username);
-		if (userFound) return res.status(400).send("User already exists");
+		const usernameRegistered = await userExists(username);
+		const usernameReserved = findGlobalUser(username);
+
+		if (usernameRegistered || usernameReserved) return res.status(400).send("User already exists");
 
 		const hashedPassword = await bcrypt.hash(password, 15);
 
@@ -38,9 +41,10 @@ router.post("/login", async (req, res) => {
 	try {
 		const { username, password } = req.body;
 
-		const userFound = await userExists(username);
+		const usernameRegistered = await userExists(username);
+		const usernameReserved = findGlobalUser(username);
 
-		if (userFound) {
+		if (usernameRegistered || usernameReserved) {
 			const user = await UserModel.findOne({ name: username });
 			const passwordCorrect = await bcrypt.compare(password, user.password);
 
@@ -61,9 +65,14 @@ router.post("/login", async (req, res) => {
 router.post("/join", async (req, res) => {
 	try {
 		const { username } = req.body;
-		const userFound = await userExists(username);
 
-		if (userFound) return res.status(401).send("Username is taken. Please Login.");
+		const usernameRegistered = await userExists(username);
+		const usernameReserved = findGlobalUser(username);
+
+		console.log(usernameRegistered);
+		console.log(usernameReserved);
+
+		if (usernameRegistered || usernameReserved) return res.status(401).send("Username is taken. Please Login.");
 
 		res.sendStatus(200);
 	} catch (error) {
