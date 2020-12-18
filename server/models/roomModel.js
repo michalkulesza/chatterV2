@@ -25,9 +25,7 @@ roomSchema.methods.addPrivateRoom = async roomName => {
 };
 
 const getRoomData = async roomName => {
-	return RoomModel.find({ _id: roomName }, (err, res) => {
-		return res[0];
-	});
+	return RoomModel.find({ _id: roomName }).select({ _id: 0, messages: 1 });
 };
 
 const RoomModel = mongoose.model("room", roomSchema);

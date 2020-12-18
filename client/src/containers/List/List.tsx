@@ -43,7 +43,7 @@ const List: React.FC<Props> = ({ type, usersData, roomsData }) => {
 				</button>
 			</header>
 			<div className="main" style={collapsed ? collapsedStyle : style} ref={listRef}>
-				{type === "users" && usersData && usersData?.map((user: UserI) => <User key={user._id} name={user.name} />)}
+				{type === "users" && usersData && usersData?.map((user: UserI) => <User key={user.name} name={user.name} />)}
 				{type === "rooms" && roomsData && roomsData?.map((room: string) => <Room key={room} name={room} />)}
 			</div>
 		</div>

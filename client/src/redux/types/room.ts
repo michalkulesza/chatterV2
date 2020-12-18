@@ -11,7 +11,7 @@ export interface roomState {
 	joining?: boolean;
 	_id?: string;
 	type?: "room" | "private";
-	messages?: MessageI[];
+	messages: MessageI[];
 	directUsers?: string[];
 }
 
@@ -29,4 +29,9 @@ export interface setRoomData {
 	payload: roomState;
 }
 
-export type roomTypes = initializeAction | setJoiningAction | setRoomData;
+export interface addMessageAction {
+	type: typeof ADD_MESSGAE;
+	payload: MessageI;
+}
+
+export type roomTypes = initializeAction | setJoiningAction | setRoomData | addMessageAction;
