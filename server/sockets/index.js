@@ -13,22 +13,29 @@ const handleSocket = io => {
 
 		socket.on("initialize", async ({ username }) => {
 			socket.join(INIT_ROOM);
+
 			currentRoom = INIT_ROOM;
 			user = username;
+
 			addGlobalUser({ id: socket.id, name: user });
-			console.log(`Joined ${INIT_ROOM}`);
 
 			const userRoomsData = await getUserRooms(user);
 			const roomData = await getRoomData(currentRoom);
 
-			socket.emit("initialData", { _id: currentRoom, type: "room", messages: roomData });
+			socket.emit("initialData", {
+				_id: currentRoom,
+				type: "room",
+				messages: roomData && roomData[0] && roomData[0].messages,
+			});
 			socket.emit("userRooms", userRoomsData && userRoomsData.rooms);
-			socket.emit("userList", getGlobalUsers());
+			io.in(currentRoom).emit("userList", getGlobalUsers());
 		});
 
 		socket.on("disconnect", () => {
 			socket.leave(currentRoom);
 			removeGlobalUser(user);
+
+			io.in(currentRoom).emit("userList", getGlobalUsers());
 			console.log(`Socket ${socket.id} disconnected`);
 		});
 	});
