@@ -10,7 +10,7 @@ export const initialize = (username: string) => {
 			payload: true,
 		});
 
-		socket.emit("initialize", { username });
+		socket.emit("initialize", username);
 	};
 };
 
@@ -29,6 +29,15 @@ export const setRoomData = ({ _id, type, messages }: roomState) => {
 };
 
 export const addMessage = (message: MessageI) => {
+	return async (dispatch: any) => {
+		dispatch({
+			type: ADD_MESSGAE,
+			payload: message,
+		});
+	};
+};
+
+export const sendMessage = (message: MessageI) => {
 	return async (dispatch: any) => {
 		dispatch({
 			type: ADD_MESSGAE,

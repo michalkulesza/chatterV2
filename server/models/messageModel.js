@@ -8,19 +8,23 @@ const messageSchema = new Schema({
 	created: String,
 });
 
-messageSchema.methods.addMessage = async (roomName, message) => {
-	const addMessage = async () => {
+messageSchema.methods.addMessage = async function (roomName) {
+	try {
 		await RoomModel.updateOne(
 			{ _id: roomName },
 			{
 				$push: {
-					messages: message,
+					messages: {
+						author: this.author,
+						content: this.content,
+						created: this.created,
+					},
 				},
 			}
 		);
-	};
-
-	addMessage().catch(err => console.error(err));
+	} catch (error) {
+		console.error(error.message);
+	}
 };
 
 const MessageModel = mongoose.model("message", messageSchema);

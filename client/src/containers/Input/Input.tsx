@@ -4,7 +4,7 @@ import "./Input.scss";
 
 import { Button } from "../../components";
 import { RootState } from "../../redux/reducers/rootReducer";
-import { addMessage } from "../../redux/actions/room";
+import { sendMessage } from "../../redux/actions/room";
 
 interface Props {}
 
@@ -27,7 +27,7 @@ const Input: React.FC<Props> = () => {
 				content: input,
 			};
 
-			dispatch(addMessage(message));
+			dispatch(sendMessage(message));
 		}
 
 		setInput("");

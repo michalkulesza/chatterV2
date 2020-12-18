@@ -1,6 +1,7 @@
 const { addGlobalUser, removeGlobalUser, getGlobalUsers } = require("../helpers/users");
 const { getRoomData } = require("../models/roomModel");
 const { getUserRooms } = require("../models/userModel");
+const { MessageModel } = require("../models/messageModel");
 
 const INIT_ROOM = "Main";
 
@@ -11,7 +12,7 @@ const handleSocket = io => {
 
 		console.log(`Socket ${socket.id} connected`);
 
-		socket.on("initialize", async ({ username }) => {
+		socket.on("initialize", async username => {
 			socket.join(INIT_ROOM);
 
 			currentRoom = INIT_ROOM;
@@ -29,6 +30,18 @@ const handleSocket = io => {
 			});
 			socket.emit("userRooms", userRoomsData && userRoomsData.rooms);
 			io.in(currentRoom).emit("userList", getGlobalUsers());
+		});
+
+		socket.on("message", async ({ author, created, content, room }) => {
+			const message = new MessageModel({
+				author,
+				created,
+				content,
+			});
+
+			await message.addMessage(room);
+
+			socket.to(room).emit("message", message);
 		});
 
 		socket.on("disconnect", () => {
