@@ -100,11 +100,9 @@ const handleSocket = io => {
 			socket.emit("initialData", {
 				_id: roomName,
 				type: "private",
-				messages,
+				messages: messages[0].messages,
 				users: arrayOfNames,
 			});
-
-			//dodac do partenra?
 		});
 
 		socket.on("disconnect", () => {
