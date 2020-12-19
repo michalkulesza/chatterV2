@@ -4,7 +4,7 @@ import { roomTypes, roomState } from "../types/room";
 const initState: roomState = {
 	joining: false,
 	_id: undefined,
-	directUsers: undefined,
+	users: [],
 	messages: [{ _id: "1", author: "admin", content: "Connected", created: new Date().toISOString() }],
 	type: undefined,
 };

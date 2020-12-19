@@ -9,6 +9,7 @@ export interface MessageI {
 export interface UserI {
 	_id: string;
 	name: string;
+	registered: boolean;
 }
 
 export interface RoomI {

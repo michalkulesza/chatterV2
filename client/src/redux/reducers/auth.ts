@@ -3,7 +3,7 @@ import { authTypes } from "../types/auth";
 
 const initState: authState = {
 	username: null,
-	registered: null,
+	registered: false,
 	loading: false,
 	userRooms: ["Main"],
 };

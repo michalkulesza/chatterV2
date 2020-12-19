@@ -1,24 +1,24 @@
-import { ADD_MESSGAE, CLEAR_ROOM, SET_JOINING, SET_ROOM_DATA } from "../types/room";
+import { ADD_MESSGAE, CLEAR_ROOM, SET_JOINING, SET_ROOM_DATA, switchRoomAction } from "../types/room";
 import { roomState } from "../types/room";
 import socket from "../../config/socketio";
 import { MessageI } from "../../types";
 
-export const initialize = (username: string) => {
+export const initialize = (username: string, registered: boolean) => {
 	return async (dispatch: any) => {
 		dispatch({
 			type: SET_JOINING,
 			payload: true,
 		});
 
-		socket.emit("initialize", username);
+		socket.emit("initialize", username, registered);
 	};
 };
 
-export const setRoomData = ({ _id, type, messages }: roomState) => {
+export const setRoomData = ({ _id, type, messages, users }: roomState) => {
 	return async (dispatch: any) => {
 		dispatch({
 			type: SET_ROOM_DATA,
-			payload: { _id, type, messages },
+			payload: { _id, type, messages, users },
 		});
 
 		dispatch({
@@ -53,3 +53,27 @@ export const clearRoom = () => {
 		type: CLEAR_ROOM,
 	};
 };
+
+export const joinPrivate = (arr: string[]) => {
+	return async (dispatch: any) => {
+		dispatch({
+			type: SET_JOINING,
+			payload: true,
+		});
+
+		socket.emit("joinPrivate", arr);
+	};
+};
+
+// export const switchRooms = (arr: string[]) => {
+// 	return async (dispatch: any) => {
+// 		dispatch({
+// 			type: SET_JOINING,
+// 			payload: true,
+// 		});
+
+// 		const generateRoomName = (arr: string[]) => [...arr].sort().join("");
+
+// 		socket.emit("switchRooms", { roomName });
+// 	};
+// };

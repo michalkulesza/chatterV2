@@ -17,11 +17,14 @@ interface Props {}
 const ChatContainer: React.FC<Props> = () => {
 	const dispatch = useDispatch();
 	const username = useSelector((state: RootState) => state.auth.username);
+	const registered = useSelector((state: RootState) => state.auth.registered);
 
 	useEffect(() => {
-		username && dispatch(initialize(username));
+		username && dispatch(initialize(username, registered));
 
-		socket.on("initialData", ({ _id, type, messages }: roomState) => dispatch(setRoomData({ _id, type, messages })));
+		socket.on("initialData", ({ _id, type, messages, users = [] }: roomState) =>
+			dispatch(setRoomData({ _id, type, messages, users }))
+		);
 
 		socket.on("userRooms", (rooms: string[]) => dispatch(setUserRooms(rooms)));
 
