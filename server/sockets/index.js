@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
-const { addGlobalUser, removeGlobalUser, getGlobalUsers } = require("../helpers/users");
+const { addGlobalUser, removeGlobalUser, getGlobalUsers, findGlobalUser } = require("../helpers/users");
 
-const { getRoomData } = require("../models/roomModel");
-const { getUserRooms } = require("../models/userModel");
+const { getRoomData, roomExists, RoomModel } = require("../models/roomModel");
+const { getUserRooms, userExists, addRoomToUser } = require("../models/userModel");
 const { MessageModel } = require("../models/messageModel");
 
 const INIT_ROOM = "Main";
@@ -20,7 +20,8 @@ const handleSocket = io => {
 			currentRoom = INIT_ROOM;
 			user = username;
 
-			addGlobalUser({ id: socket.id, name: user });
+			removeGlobalUser(user);
+			addGlobalUser({ id: socket.id, name: user, registered });
 
 			const userRoomsData = await getUserRooms(user);
 			const roomData = await getRoomData(currentRoom);
@@ -63,8 +64,50 @@ const handleSocket = io => {
 			await message.addMessage(room);
 		});
 
+		socket.on("joinRoom", roomName => socket.join(roomName));
+
+		socket.on("joinPrivate", async arrayOfNames => {
+			const roomName = [...arrayOfNames].sort().join("");
+			const privateRoomExists = await roomExists(roomName);
+			let messages = [];
+			const bothUsersAreRegistered = (await userExists(arrayOfNames[0])) && (await userExists(arrayOfNames[1]));
+
+			if (!privateRoomExists) {
+				await new RoomModel({
+					_id: roomName,
+					type: "private",
+					users: arrayOfNames,
+					messages,
+				}).save();
+
+				socket.join(roomName);
+				const secondUser = findGlobalUser(arrayOfNames.filter(name => name !== user)[0]);
+				io.to(secondUser.id).emit("requestToJoinRoom", roomName);
+
+				socket.emit("addUserRoom", roomName);
+				io.to(secondUser.id).emit("addUserRoom", roomName);
+
+				if (bothUsersAreRegistered) {
+					addRoomToUser(user, roomName);
+					addRoomToUser(secondUser.name, roomName);
+				} else {
+				}
+			} else {
+				messages = await getRoomData(roomName);
+				socket.join(roomName);
+			}
+
+			socket.emit("initialData", {
+				_id: roomName,
+				type: "private",
+				messages,
+				users: arrayOfNames,
+			});
+
+			//dodac do partenra?
+		});
+
 		socket.on("disconnect", () => {
-			socket.leave(currentRoom);
 			removeGlobalUser(user);
 
 			io.in(currentRoom).emit("userList", getGlobalUsers());

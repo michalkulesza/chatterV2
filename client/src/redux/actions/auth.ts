@@ -1,6 +1,14 @@
 import axios from "axios";
 import { PATH } from "../../constants/path";
-import { CLEAR_USER, SET_LOADING, SET_USER, SET_USER_ROOMS } from "../types/auth";
+import {
+	addUserRoomAction,
+	ADD_USER_ROOM,
+	CLEAR_USER,
+	REMOVE_USER_ROOM,
+	SET_LOADING,
+	SET_USER,
+	SET_USER_ROOMS,
+} from "../types/auth";
 import { addAuthError } from "./error";
 
 export const loginWithoutPassword = (username: string) => {
@@ -105,6 +113,20 @@ export const setUserRooms = (rooms: string[]) => {
 	return {
 		type: SET_USER_ROOMS,
 		payload: rooms,
+	};
+};
+
+export const addUserRoom = (room: string) => {
+	return {
+		type: ADD_USER_ROOM,
+		payload: room,
+	};
+};
+
+export const removeUserRoom = (room: string) => {
+	return {
+		type: REMOVE_USER_ROOM,
+		payload: room,
 	};
 };
 

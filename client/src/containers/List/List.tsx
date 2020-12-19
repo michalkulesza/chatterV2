@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import "./List.scss";
 
 import { User, Room } from "../../components";
@@ -9,6 +9,7 @@ import { FiUsers } from "react-icons/fi";
 import { RiChat1Line } from "react-icons/ri";
 import { BiChevronDown } from "react-icons/bi";
 import { RootState } from "../../redux/reducers/rootReducer";
+import { joinPrivate } from "../../redux/actions/room";
 
 interface Props {
 	type: "users" | "rooms";
@@ -17,11 +18,13 @@ interface Props {
 }
 
 const List: React.FC<Props> = ({ type, usersData, roomsData }) => {
+	const dispatch = useDispatch();
 	const listRef = useRef<HTMLDivElement>(null);
 	const currentUser = useSelector((state: RootState) => state.auth.username);
 	const [collapsed, setCollapsed] = useState(false);
 
 	const handleCollapse = () => setCollapsed(!collapsed);
+	const handleUserClick = (usersName: string, partnersName: string) => dispatch(joinPrivate([usersName, partnersName]));
 
 	const style = {
 		transition: "all 0.4s cubic-bezier(0.23, 1, 0.32, 1)",
@@ -45,11 +48,20 @@ const List: React.FC<Props> = ({ type, usersData, roomsData }) => {
 					<BiChevronDown />
 				</button>
 			</header>
+
 			<div className="main" style={collapsed ? collapsedStyle : style} ref={listRef}>
 				{type === "users" &&
 					currentUser &&
 					usersData &&
-					usersData?.map((user: UserI) => <User key={user.name} currentUser={currentUser} name={user.name} />)}
+					usersData?.map((user: UserI) => (
+						<User
+							key={user.name}
+							currentUser={currentUser}
+							name={user.name}
+							handler={handleUserClick}
+							registered={user.registered}
+						/>
+					))}
 				{type === "rooms" && roomsData && roomsData?.map((room: string) => <Room key={room} name={room} />)}
 			</div>
 		</div>

@@ -12,7 +12,7 @@ interface Props {
 }
 
 const User: React.FC<Props> = ({ currentUser, name, handler, registered }) => {
-	const handleUserClick = () => currentUser !== name && registered && handler(currentUser, name);
+	const handleUserClick = () => currentUser !== name && handler(currentUser, name);
 
 	return (
 		<div className="user" onMouseDown={handleUserClick}>

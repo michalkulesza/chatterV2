@@ -5,6 +5,7 @@ export const ADD_MESSGAE = "ADD_MESSGAE";
 export const SET_ROOM_DATA = "SET_ROOM_DATA";
 export const SET_JOINING = "SET_JOINING";
 export const CLEAR_ROOM = "CLEAR_ROOM";
+export const SWITCH_ROOM = "SWITCH_ROOM";
 
 import { MessageI } from "../../types/index";
 
@@ -13,7 +14,7 @@ export interface roomState {
 	_id?: string;
 	type?: "room" | "private";
 	messages: MessageI[];
-	directUsers?: string[];
+	users: string[] | [];
 }
 
 export interface initializeAction {
@@ -39,4 +40,21 @@ export interface clearRoomAction {
 	type: typeof CLEAR_ROOM;
 }
 
-export type roomTypes = initializeAction | setJoiningAction | setRoomData | addMessageAction | clearRoomAction;
+export interface joinPrivateRoomAction {
+	type: typeof JOIN_PRIVATE;
+	payload: string[];
+}
+
+export interface switchRoomAction {
+	type: typeof CLEAR_ROOM;
+	// payload: string[];
+}
+
+export type roomTypes =
+	| initializeAction
+	| setJoiningAction
+	| setRoomData
+	| addMessageAction
+	| clearRoomAction
+	| joinPrivateRoomAction
+	| switchRoomAction;
