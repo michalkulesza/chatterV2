@@ -8,20 +8,8 @@ const roomSchema = new Schema({
 	messages: Array,
 });
 
-roomSchema.methods.addRoom = async roomName => {
-	const addRoom = async () => {
-		await RoomModel.create({ _id: roomName, type: "room", messages: [] });
-	};
-
-	addRoom().catch(err => console.error(err));
-};
-
-roomSchema.methods.addPrivateRoom = async roomName => {
-	const addPrivateRoom = async () => {
-		await RoomModel.create({ _id: roomName, type: "private", users: [], messages: [] });
-	};
-
-	addPrivateRoom().catch(err => console.error(err));
+const roomExists = async roomName => {
+	return RoomModel.exists({ _id: roomName });
 };
 
 const getRoomData = async roomName => {
@@ -30,4 +18,4 @@ const getRoomData = async roomName => {
 
 const RoomModel = mongoose.model("room", roomSchema);
 
-module.exports = { RoomModel, getRoomData };
+module.exports = { RoomModel, getRoomData, roomExists };
