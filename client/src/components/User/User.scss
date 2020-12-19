@@ -7,6 +7,55 @@
 	display: flex;
 	justify-content: space-between;
 
+	span {
+		display: flex;
+		align-items: center;
+
+		.icon {
+			position: relative;
+			display: flex;
+			align-items: center;
+
+			.label {
+				position: absolute;
+				top: 50%;
+				left: 0%;
+				padding: 0.1rem 0.3rem;
+				font-size: 0.7rem;
+				background-color: global.$purple;
+				color: global.$white;
+				border-radius: 3px;
+				box-shadow: global.$shadow;
+				transform: translate(-80%, -50%);
+				opacity: 0;
+				pointer-events: none;
+				transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+			}
+
+			&:hover {
+				.label {
+					opacity: 1;
+					transform: translate(-103%, -50%);
+				}
+
+				svg {
+					path {
+						fill: global.$purple;
+					}
+				}
+			}
+
+			svg {
+				margin-left: 0.2rem;
+				position: relative;
+
+				path {
+					fill: global.$gray9;
+				}
+			}
+		}
+	}
+
 	&:first-of-type {
 		margin-top: 0.5rem;
 	}
