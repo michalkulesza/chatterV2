@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const { addGlobalUser, removeGlobalUser, getGlobalUsers, findGlobalUser } = require("../helpers/users");
+const { addGlobalUser, removeGlobalUser, getGlobalUsers, findGlobalUser } = require("../functions/globalUsers");
 
 const { getRoomData, roomExists, RoomModel, getRoomUsers } = require("../models/roomModel");
 const { getUserRooms, userExists, addRoomToUser } = require("../models/userModel");
