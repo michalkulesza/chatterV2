@@ -1,10 +1,11 @@
 const mongoose = require("mongoose");
 const { addGlobalUser, removeGlobalUser, getGlobalUsers, findGlobalUser } = require("../functions/globalUsers");
 
-const { getRoomData, roomExists, RoomModel, getRoomUsers } = require("../models/roomModel");
+const { RoomModel } = require("../models/roomModel");
 const { MessageModel } = require("../models/messageModel");
 
 const { getUserRooms, userExists, addRoomToUser } = require("../functions/user");
+const { getRoomData, roomExists, getRoomUsers } = require("../functions/room");
 
 const INIT_ROOM = "Main";
 
