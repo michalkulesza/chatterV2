@@ -11,6 +11,7 @@ import { MessageI, UserI } from "../../types";
 
 import { Mainbar, ChatWindow, Input } from "../../containers";
 import "./ChatContainer.scss";
+import { userRoomI } from "../../redux/types/auth";
 
 interface Props {}
 
@@ -26,9 +27,9 @@ const ChatContainer: React.FC<Props> = () => {
 			dispatch(setRoomData({ _id, type, messages, users }))
 		);
 
-		socket.on("userRooms", (rooms: string[]) => dispatch(setUserRooms(rooms)));
+		socket.on("userRooms", (rooms: userRoomI[]) => dispatch(setUserRooms(rooms)));
 
-		socket.on("addUserRoom", (room: string) => dispatch(addUserRoom(room)));
+		socket.on("addUserRoom", (room: userRoomI) => dispatch(addUserRoom(room)));
 
 		// socket.on("removeUserRoom", (rooms: string[]) => dispatch(setUserRooms(rooms)));
 

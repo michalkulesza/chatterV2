@@ -10,10 +10,15 @@ import {
 import { authTypes } from "../types/auth";
 
 const initState: authState = {
-	username: null,
+	username: undefined,
 	registered: false,
 	loading: false,
-	userRooms: ["Main"],
+	userRooms: [
+		{
+			_id: "Main",
+			type: "room",
+		},
+	],
 };
 
 const auth = (state = initState, action: authTypes) => {
@@ -30,7 +35,7 @@ const auth = (state = initState, action: authTypes) => {
 			return {
 				...state,
 				userRooms: state.userRooms.splice(
-					state.userRooms.findIndex(room => room === action.payload),
+					state.userRooms.findIndex(room => room._id === action.payload),
 					1
 				),
 			};

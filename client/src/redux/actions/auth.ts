@@ -1,13 +1,13 @@
 import axios from "axios";
 import { PATH } from "../../constants/path";
 import {
-	addUserRoomAction,
 	ADD_USER_ROOM,
 	CLEAR_USER,
 	REMOVE_USER_ROOM,
 	SET_LOADING,
 	SET_USER,
 	SET_USER_ROOMS,
+	userRoomI,
 } from "../types/auth";
 import { addAuthError } from "./error";
 
@@ -109,14 +109,14 @@ export const registerUser = (username: string, password: string) => {
 	};
 };
 
-export const setUserRooms = (rooms: string[]) => {
+export const setUserRooms = (rooms: userRoomI[]) => {
 	return {
 		type: SET_USER_ROOMS,
 		payload: rooms,
 	};
 };
 
-export const addUserRoom = (room: string) => {
+export const addUserRoom = (room: userRoomI) => {
 	return {
 		type: ADD_USER_ROOM,
 		payload: room,

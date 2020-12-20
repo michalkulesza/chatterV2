@@ -6,10 +6,16 @@ export const ADD_USER_ROOM = "ADD_USER_ROOM";
 export const REMOVE_USER_ROOM = "REMOVE_USER_ROOM";
 
 export interface authState {
-	username: string | null;
+	username: string | undefined;
 	registered: boolean;
 	loading: boolean;
-	userRooms: string[];
+	userRooms: userRoomI[];
+}
+
+export interface userRoomI {
+	_id: string;
+	type: "room" | "private";
+	users?: string[];
 }
 
 export interface setUser {
@@ -27,12 +33,12 @@ export interface setLoading {
 
 export interface setUserRooms {
 	type: typeof SET_USER_ROOMS;
-	payload: string[];
+	payload: userRoomI[];
 }
 
 export interface addUserRoomAction {
 	type: typeof ADD_USER_ROOM;
-	payload: string;
+	payload: userRoomI;
 }
 
 export interface removeUserRoomAction {
@@ -44,4 +50,11 @@ export interface clearUser {
 	type: typeof CLEAR_USER;
 }
 
-export type authTypes = setUser | setLoading | setUserRooms | clearUser | addUserRoomAction | removeUserRoomAction;
+export type authTypes =
+	| setUser
+	| setLoading
+	| setUserRooms
+	| clearUser
+	| addUserRoomAction
+	| removeUserRoomAction
+	| userRoomI;
