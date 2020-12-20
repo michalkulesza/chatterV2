@@ -2,8 +2,8 @@ let globalUsers = [];
 
 const addGlobalUser = user => (globalUsers = [...globalUsers, user]);
 
-const removeGlobalUser = user => {
-	const index = globalUsers.indexOf(user);
+const removeGlobalUser = username => {
+	const index = globalUsers.findIndex(user => user.name === username);
 	index >= 0 && globalUsers.splice(index, 1);
 };
 

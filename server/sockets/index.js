@@ -177,7 +177,8 @@ const handleSocket = io => {
 
 		socket.on("disconnect", async () => {
 			removeGlobalUser(user);
-			io.in(currentRoom).emit("userList", getGlobalUsers());
+			io.emit("userList", getGlobalUsers());
+			console.log(user);
 
 			socket.to(currentRoom).emit("message", {
 				_id: mongoose.Types.ObjectId(),
