@@ -19,5 +19,29 @@
 		display: flex;
 		flex-direction: column;
 		justify-content: flex-end;
+
+		.notice {
+			width: 100%;
+			display: flex;
+			align-items: center;
+			flex-direction: column;
+
+			.icon {
+				margin-bottom: 0.7rem;
+				svg {
+					transform: scale(2.5);
+				}
+			}
+
+			.text {
+				text-align: center;
+				font-weight: 600;
+
+				&:nth-of-type(3) {
+					font-weight: 500;
+					color: global.$gray6;
+				}
+			}
+		}
 	}
 }
