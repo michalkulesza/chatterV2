@@ -18,112 +18,128 @@ const handleSocket = io => {
 		console.log(`Socket ${socket.id} connected`);
 
 		socket.on("initialize", async (username, registered) => {
-			socket.join(INIT_ROOM);
+			try {
+				socket.join(INIT_ROOM);
 
-			currentRoom = INIT_ROOM;
-			user = username;
+				currentRoom = INIT_ROOM;
+				user = username;
 
-			removeGlobalUser(user);
-			addGlobalUser({ id: socket.id, name: user, registered });
+				removeGlobalUser(user);
+				addGlobalUser({ id: socket.id, name: user, registered });
 
-			const userRoomsData = await getUserRooms(user);
-			roomMessages = await getRoomData(currentRoom);
+				const userRoomsData = await getUserRooms(user);
+				roomMessages = await getRoomData(currentRoom);
 
-			socket.emit("initialData", {
-				_id: currentRoom,
-				type: "room",
-				messages: roomMessages && roomMessages[0] && roomMessages[0].messages,
-			});
+				socket.emit("initialData", {
+					_id: currentRoom,
+					type: "room",
+					messages: roomMessages && roomMessages[0] && roomMessages[0].messages,
+				});
 
-			socket.to(currentRoom).emit("message", {
-				_id: mongoose.Types.ObjectId(),
-				author: "admin",
-				created: new Date().toISOString(),
-				content: `${user} joined`,
-			});
+				socket.to(currentRoom).emit("message", {
+					_id: mongoose.Types.ObjectId(),
+					author: "admin",
+					created: new Date().toISOString(),
+					content: `${user} joined`,
+				});
 
-			socket.emit("message", {
-				_id: mongoose.Types.ObjectId(),
-				author: "admin",
-				created: new Date().toISOString(),
-				content: `You have joined`,
-			});
+				socket.emit("message", {
+					_id: mongoose.Types.ObjectId(),
+					author: "admin",
+					created: new Date().toISOString(),
+					content: `You have joined`,
+				});
 
-			if (registered && userRoomsData) socket.emit("userRooms", userRoomsData.rooms);
-			io.in(currentRoom).emit("userList", getGlobalUsers());
+				if (registered && userRoomsData) socket.emit("userRooms", userRoomsData.rooms);
+				io.in(currentRoom).emit("userList", getGlobalUsers());
+			} catch (error) {
+				console.error(error);
+			}
 		});
 
 		socket.on("message", async ({ author, created, content, room }) => {
-			const _id = mongoose.Types.ObjectId();
+			try {
+				const _id = mongoose.Types.ObjectId();
 
-			const message = new MessageModel({
-				_id,
-				author,
-				created,
-				content,
-			});
+				const message = new MessageModel({
+					_id,
+					author,
+					created,
+					content,
+				});
 
-			socket.to(room).emit("message", { ...message.toObject(), _id });
-			await message.addMessage(room);
+				socket.to(room).emit("message", { ...message.toObject(), _id });
+				await message.addMessage(room);
+			} catch (error) {
+				console.error(error.message);
+			}
 		});
 
 		socket.on("joinRoom", roomName => socket.join(roomName));
 
 		socket.on("joinPrivate", async arrayOfNames => {
-			const roomName = [...arrayOfNames].sort().join("");
-			const privateRoomExists = await roomExists(roomName);
-			let messages = [];
-			const bothUsersAreRegistered = (await userExists(arrayOfNames[0])) && (await userExists(arrayOfNames[1]));
+			try {
+				const roomName = [...arrayOfNames].sort().join("");
+				const privateRoomExists = await roomExists(roomName);
+				let messages = [];
+				const bothUsersAreRegistered = (await userExists(arrayOfNames[0])) && (await userExists(arrayOfNames[1]));
 
-			if (!privateRoomExists) {
-				const room = await new RoomModel({
+				if (!privateRoomExists) {
+					const room = await new RoomModel({
+						_id: roomName,
+						type: "private",
+						users: arrayOfNames,
+						messages,
+					}).save();
+
+					socket.join(roomName);
+					const secondUser = findGlobalUser(arrayOfNames.filter(name => name !== user)[0]);
+
+					const roomCopy = room.toObject();
+					delete roomCopy["messages"];
+
+					if (bothUsersAreRegistered) {
+						addRoomToUser(user, roomCopy);
+						addRoomToUser(secondUser.name, roomCopy);
+
+						socket.emit("addUserRoom", roomCopy);
+						io.to(secondUser.id).emit("addUserRoom", roomCopy);
+					} else {
+					}
+				} else {
+					messages = await getRoomData(roomName);
+					socket.join(roomName);
+				}
+
+				socket.emit("initialData", {
 					_id: roomName,
 					type: "private",
+					messages: messages[0].messages,
 					users: arrayOfNames,
-					messages,
-				}).save();
-
-				socket.join(roomName);
-				const secondUser = findGlobalUser(arrayOfNames.filter(name => name !== user)[0]);
-
-				const roomCopy = room.toObject();
-				delete roomCopy["messages"];
-
-				if (bothUsersAreRegistered) {
-					addRoomToUser(user, roomCopy);
-					addRoomToUser(secondUser.name, roomCopy);
-
-					socket.emit("addUserRoom", roomCopy);
-					io.to(secondUser.id).emit("addUserRoom", roomCopy);
-				} else {
-				}
-			} else {
-				messages = await getRoomData(roomName);
-				socket.join(roomName);
+				});
+			} catch (error) {
+				console.error(error.message);
 			}
-
-			socket.emit("initialData", {
-				_id: roomName,
-				type: "private",
-				messages: messages[0].messages,
-				users: arrayOfNames,
-			});
 		});
 
 		socket.on("switchRooms", async room => {
-			socket.leave(currentRoom);
-			currentRoom = room;
-			roomMessages = await getRoomData(currentRoom);
-			const roomUsers = await getRoomUsers(currentRoom);
+			try {
+				socket.leave(currentRoom);
+				currentRoom = room;
+				roomMessages = await getRoomData(currentRoom);
+				const roomUsers = await getRoomUsers(currentRoom);
 
-			socket.emit("initialData", {
-				_id: currentRoom,
-				type: "private",
-				messages: roomMessages && roomMessages[0] && roomMessages[0].messages,
-				users: roomUsers[0].users,
-			});
+				socket.emit("initialData", {
+					_id: currentRoom,
+					type: "private",
+					messages: roomMessages && roomMessages[0] && roomMessages[0].messages,
+					users: roomUsers[0].users,
+				});
 
-			socket.join(currentRoom);
+				socket.join(currentRoom);
+			} catch (error) {
+				console.error(error.message);
+			}
 		});
 
 		socket.on("disconnect", () => {

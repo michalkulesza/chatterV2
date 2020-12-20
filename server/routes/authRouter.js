@@ -17,7 +17,6 @@ router.post("/register", async (req, res) => {
 		if (usernameRegistered || usernameReserved) return res.status(400).send("User already exists");
 
 		const hashedPassword = await bcrypt.hash(password, 15);
-
 		const user = new UserModel({
 			name: username,
 			password: hashedPassword,
@@ -57,7 +56,6 @@ router.post("/login", async (req, res) => {
 
 			if (passwordCorrect) {
 				res.sendStatus(200);
-				//USER JOINED
 			} else {
 				res.status(401).send("Incorrect password");
 			}
