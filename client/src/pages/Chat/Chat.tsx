@@ -1,9 +1,9 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import { roomState } from "../../redux/types/room";
 
 import { Overlay } from "../../components";
 import { ChatContainer, Sidebar } from "../../containers";
-import { roomState } from "../../redux/types/room";
 
 import "./Chat.scss";
 

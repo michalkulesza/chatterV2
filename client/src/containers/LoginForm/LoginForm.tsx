@@ -14,6 +14,7 @@ const LoginForm: React.FC<Props> = () => {
 	const dispatch = useDispatch();
 	const error = useSelector((state: RootState) => state.error.auth);
 	const authLoading = useSelector((state: RootState) => state.auth.loading);
+
 	const [user, setUser] = useState("");
 	const [password, setPassword] = useState("");
 	const [register, setRegister] = useState(false);

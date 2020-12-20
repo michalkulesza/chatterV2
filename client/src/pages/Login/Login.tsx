@@ -1,16 +1,16 @@
-import React from 'react';
-import './Login.scss';
+import React from "react";
+import { LoginForm } from "../../containers";
 
-import { LoginForm } from '../../containers';
+import "./Login.scss";
 
 interface Props {}
 
 const Login: React.FC<Props> = () => {
-  return (
-    <div className="Login">
-      <LoginForm></LoginForm>
-    </div>
-  );
+	return (
+		<div className="Login">
+			<LoginForm></LoginForm>
+		</div>
+	);
 };
 
 export default Login;

@@ -15,9 +15,9 @@ const Mainbar: React.FC<Props> = () => {
 	const dispatch = useDispatch();
 	const sidebarVisible = useSelector((state: RootState) => state.ui.sidebarVisible);
 	const currentUser = useSelector((state: RootState) => state.auth.username);
-	const roomType = useSelector((state: RootState) => state.room.type);
-	const usersInRoom = useSelector((state: RootState) => state.room.users);
-	const roomName = useSelector((state: RootState) => state.room._id);
+	const { type: roomType, users: usersInRoom, _id: roomName } = useSelector((state: RootState) => state.room);
+	const allUsers = useSelector((state: RootState) => state.misc.userList);
+
 	const partnersName = usersInRoom.filter(user => user !== currentUser);
 
 	const handleButtonClick = () => dispatch(toggleSidebar());

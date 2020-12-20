@@ -3,12 +3,12 @@ import socket from "../../config/socketio";
 import { useDispatch, useSelector } from "react-redux";
 
 import { addMessage, clearRoom, initialize, setRoomData, lockRoom } from "../../redux/actions/room";
-import { roomState } from "../../redux/types/room";
-import { RootState } from "../../redux/reducers/rootReducer";
-import { clearMisc, setUserList } from "../../redux/actions/misc";
 import { addUserRoom, clearUser, setUserRooms, updateLockRoomOnList } from "../../redux/actions/auth";
+import { clearMisc, setUserList } from "../../redux/actions/misc";
+import { roomState } from "../../redux/types/room";
 import { MessageI, UserI } from "../../types";
 import { userRoomI } from "../../redux/types/auth";
+import { RootState } from "../../redux/reducers/rootReducer";
 
 import { Mainbar, ChatWindow, Input } from "../../containers";
 import "./ChatContainer.scss";
@@ -17,8 +17,7 @@ interface Props {}
 
 const ChatContainer: React.FC<Props> = () => {
 	const dispatch = useDispatch();
-	const username = useSelector((state: RootState) => state.auth.username);
-	const registered = useSelector((state: RootState) => state.auth.registered);
+	const { username, registered } = useSelector((state: RootState) => state.auth);
 
 	useEffect(() => {
 		username && dispatch(initialize(username, registered));

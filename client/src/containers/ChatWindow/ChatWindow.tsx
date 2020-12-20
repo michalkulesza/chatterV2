@@ -11,9 +11,8 @@ import "./ChatWindow.scss";
 interface Props {}
 
 const ChatWindow: React.FC<Props> = () => {
-	const messages = useSelector((state: RootState) => state.room.messages);
+	const { messages, locked } = useSelector((state: RootState) => state.room);
 	const currentUser = useSelector((state: RootState) => state.auth.username);
-	const locked = useSelector((state: RootState) => state.room.locked);
 
 	return (
 		<div className="chatWindowContainer">

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Moment from "react-moment";
-import "./Message.scss";
-
 import { MessageI } from "../../types";
+
+import "./Message.scss";
 
 interface Props {
 	currentUser: string;

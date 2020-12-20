@@ -1,8 +1,8 @@
 import React, { useRef, useEffect } from "react";
 import { useOnClickOutside } from "../../hooks";
 
-import "./SearchBar.scss";
 import { FiSearch } from "react-icons/fi";
+import "./SearchBar.scss";
 
 interface Props {}
 

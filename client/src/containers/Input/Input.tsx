@@ -12,8 +12,7 @@ const Input: React.FC<Props> = () => {
 	const dispatch = useDispatch();
 	const [input, setInput] = useState("");
 	const username = useSelector((state: RootState) => state.auth.username);
-	const room = useSelector((state: RootState) => state.room._id);
-	const locked = useSelector((state: RootState) => state.room.locked);
+	const { _id: room, locked } = useSelector((state: RootState) => state.room);
 
 	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => setInput(e.target.value);
 
@@ -31,7 +30,6 @@ const Input: React.FC<Props> = () => {
 
 			dispatch(sendMessage(message));
 		}
-
 		setInput("");
 	};
 

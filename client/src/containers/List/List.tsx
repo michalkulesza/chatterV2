@@ -1,16 +1,16 @@
 import React, { useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import "./List.scss";
+import { joinPrivate, switchRooms } from "../../redux/actions/room";
+import { RootState } from "../../redux/reducers/rootReducer";
+import { userRoomI } from "../../redux/types/auth";
+import { UserI } from "../../types";
 
 import { User, Room } from "../../components";
-import { UserI, RoomI } from "../../types";
 
 import { FiUsers } from "react-icons/fi";
 import { RiChat1Line } from "react-icons/ri";
 import { BiChevronDown } from "react-icons/bi";
-import { RootState } from "../../redux/reducers/rootReducer";
-import { joinPrivate, switchRooms } from "../../redux/actions/room";
-import { userRoomI } from "../../redux/types/auth";
+import "./List.scss";
 
 interface Props {
 	type: "users" | "rooms";
