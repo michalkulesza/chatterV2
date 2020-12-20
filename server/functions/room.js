@@ -5,11 +5,11 @@ const roomExists = async roomName => {
 };
 
 const getRoomData = async roomName => {
-	return RoomModel.find({ _id: roomName }).select({ _id: 1, messages: 1 });
+	return RoomModel.findOne({ _id: roomName }).select({ _id: 1, messages: 1 });
 };
 
 const getRoomUsers = async roomName => {
-	return RoomModel.find({ _id: roomName }).select({ users: 1, _id: 0 });
+	return RoomModel.findOne({ _id: roomName }).select({ users: 1, _id: 0 });
 };
 
 const addTempUserToRoom = async (username, roomName) => {

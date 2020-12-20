@@ -7,7 +7,16 @@ const { TempRoomModel } = require("../models/tempRoomModel");
 
 const { getUserRooms, userExists, addRoomToUser } = require("../functions/user");
 const { getRoomData, roomExists, getRoomUsers } = require("../functions/room");
-const { getTempRoomsWithUser, removeUserFromTempRoom, deleteTempRoom } = require("../functions/tempRoom");
+const {
+	getTempRoomsWithUser,
+	removeUserFromTempRoom,
+	deleteTempRoom,
+	lockTempRoom,
+	isTempRoom,
+	getTempRoomMessages,
+	getTempRoomUsers,
+	isTempRoomLocked,
+} = require("../functions/tempRoom");
 
 const INIT_ROOM = "Main";
 
@@ -35,7 +44,7 @@ const handleSocket = io => {
 				socket.emit("initialData", {
 					_id: currentRoom,
 					type: "room",
-					messages: roomMessages && roomMessages[0] ? roomMessages[0].messages : [],
+					messages: roomMessages.messages,
 				});
 
 				socket.to(currentRoom).emit("message", {
@@ -71,7 +80,12 @@ const handleSocket = io => {
 				});
 
 				socket.to(room).emit("message", { ...message.toObject(), _id });
-				await message.addMessage(room);
+
+				if (await isTempRoom(room)) {
+					await message.addTempMessage(room);
+				} else {
+					await message.addMessage(room);
+				}
 			} catch (error) {
 				console.error(error.message);
 			}
@@ -92,7 +106,6 @@ const handleSocket = io => {
 						type: "private",
 						users: arrayOfNames,
 						messages,
-						locked: false,
 					}).save();
 
 					socket.join(roomName);
@@ -108,6 +121,7 @@ const handleSocket = io => {
 						await new TempRoomModel({
 							name: roomName,
 							users: arrayOfNames,
+							locked: false,
 						}).save();
 					}
 					socket.emit("addUserRoom", roomCopy);
@@ -133,14 +147,26 @@ const handleSocket = io => {
 			try {
 				socket.leave(currentRoom);
 				currentRoom = room;
-				roomMessages = await getRoomData(currentRoom);
-				const roomUsers = await getRoomUsers(currentRoom);
+				let roomUsers;
+				let locked = false;
+
+				if (await isTempRoom(room)) {
+					roomMessages = await getTempRoomMessages(currentRoom);
+					roomUsers = await getTempRoomUsers(currentRoom);
+					const lockedRes = await isTempRoomLocked(currentRoom);
+					locked = lockedRes.locked;
+				} else {
+					roomMessages = await getRoomData(currentRoom);
+					roomUsers = await getRoomUsers(currentRoom);
+					locked = false;
+				}
 
 				socket.emit("initialData", {
 					_id: currentRoom,
 					type: "private",
-					messages: roomMessages && roomMessages[0] && roomMessages[0].messages,
-					users: roomUsers[0].users,
+					messages: roomMessages && roomMessages.messages,
+					users: roomUsers.users,
+					locked,
 				});
 
 				socket.join(currentRoom);
@@ -164,31 +190,23 @@ const handleSocket = io => {
 			let roomsToLockAndLeave = [];
 			let roomsToDelete = [];
 
+			///////////////////
 			usersTempRooms.forEach(room => {
 				if (room.users.length === 2) roomsToLockAndLeave = [...roomsToLockAndLeave, room.name];
 				if (room.users.length < 2) roomsToDelete = [...roomsToDelete, room.name];
 			});
 
 			roomsToLockAndLeave.forEach(async room => {
+				lockTempRoom(room);
 				io.in(room).emit("lockRoom", room);
-				io.in(room).emit("message", {
-					_id: mongoose.Types.ObjectId(),
-					author: "admin",
-					created: new Date().toISOString(),
-					content: `Chat has been locked. You can no longer send messages.`,
-				});
-				io.in(room).emit("message", {
-					_id: mongoose.Types.ObjectId(),
-					author: "admin",
-					created: new Date().toISOString(),
-					content: `After this session messages will be permanently deleted.`,
-				});
+				io.in(room).emit("lockRoom", room);
 				await removeUserFromTempRoom(user, room);
 			});
 
 			roomsToDelete.forEach(async room => {
 				await deleteTempRoom(room);
 			});
+			///////////////////
 
 			console.log(`Socket ${socket.id} disconnected`);
 		});

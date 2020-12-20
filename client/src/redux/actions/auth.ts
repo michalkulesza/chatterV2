@@ -137,7 +137,7 @@ export const clearUser = () => {
 	};
 };
 
-export const lockRoom = (room: string) => {
+export const updateLockRoomOnList = (room: string) => {
 	return {
 		type: LOCK_ROOM,
 		payload: room,

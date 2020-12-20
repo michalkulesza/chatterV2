@@ -13,13 +13,14 @@ const Input: React.FC<Props> = () => {
 	const [input, setInput] = useState("");
 	const username = useSelector((state: RootState) => state.auth.username);
 	const room = useSelector((state: RootState) => state.room._id);
+	const locked = useSelector((state: RootState) => state.room.locked);
 
 	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => setInput(e.target.value);
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
-		if (username && room) {
+		if (username && room && !locked) {
 			const message = {
 				_id: new Date().toISOString(),
 				author: username,
@@ -36,7 +37,13 @@ const Input: React.FC<Props> = () => {
 
 	return (
 		<form className="input" onSubmit={e => handleSubmit(e)}>
-			<input type="text" placeholder="Type here..." value={input} onChange={e => handleInputChange(e)} />
+			<input
+				type="text"
+				placeholder={locked ? "Messages are disabled" : "Type here..."}
+				value={input}
+				disabled={locked}
+				onChange={e => handleInputChange(e)}
+			/>
 			<Button>Send</Button>
 		</form>
 	);

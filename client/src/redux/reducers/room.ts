@@ -1,4 +1,4 @@
-import { ADD_MESSGAE, CLEAR_ROOM, SET_JOINING, SET_ROOM_DATA } from "../types/room";
+import { ADD_MESSGAE, CLEAR_ROOM, SET_JOINING, SET_ROOM_DATA, LOCK_ROOM } from "../types/room";
 import { roomTypes, roomState } from "../types/room";
 
 const initState: roomState = {
@@ -7,6 +7,7 @@ const initState: roomState = {
 	users: [],
 	messages: [{ _id: "1", author: "admin", content: "Connected", created: new Date().toISOString() }],
 	type: undefined,
+	locked: false,
 };
 
 const room = (state = initState, action: roomTypes) => {
@@ -17,6 +18,11 @@ const room = (state = initState, action: roomTypes) => {
 			return { ...state, ...action.payload };
 		case ADD_MESSGAE:
 			return { ...state, messages: [...state.messages, action.payload] };
+		case LOCK_ROOM:
+			return {
+				...state,
+				locked: state._id === action.payload ? true : false,
+			};
 		case CLEAR_ROOM:
 			return initState;
 		default:

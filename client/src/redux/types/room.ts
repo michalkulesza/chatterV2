@@ -6,6 +6,7 @@ export const SET_ROOM_DATA = "SET_ROOM_DATA";
 export const SET_JOINING = "SET_JOINING";
 export const CLEAR_ROOM = "CLEAR_ROOM";
 export const SWITCH_ROOM = "SWITCH_ROOM";
+export const LOCK_ROOM = "LOCK_ROOM";
 
 import { MessageI } from "../../types/index";
 
@@ -15,6 +16,7 @@ export interface roomState {
 	type?: "room" | "private";
 	messages: MessageI[];
 	users: string[] | [];
+	locked: boolean;
 }
 
 export interface initializeAction {
@@ -50,6 +52,11 @@ export interface switchRoomAction {
 	// payload: string[];
 }
 
+export interface lockRoomAction {
+	type: typeof LOCK_ROOM;
+	payload: string;
+}
+
 export type roomTypes =
 	| initializeAction
 	| setJoiningAction
@@ -57,4 +64,5 @@ export type roomTypes =
 	| addMessageAction
 	| clearRoomAction
 	| joinPrivateRoomAction
-	| switchRoomAction;
+	| switchRoomAction
+	| lockRoomAction;

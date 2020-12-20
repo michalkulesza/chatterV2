@@ -6,7 +6,6 @@ const roomSchema = new Schema({
 	type: String,
 	users: Array,
 	messages: Array,
-	locked: Boolean,
 });
 
 const RoomModel = mongoose.model("room", roomSchema);

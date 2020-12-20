@@ -1,4 +1,4 @@
-import { ADD_MESSGAE, CLEAR_ROOM, SET_JOINING, SET_ROOM_DATA, switchRoomAction } from "../types/room";
+import { ADD_MESSGAE, CLEAR_ROOM, SET_JOINING, SET_ROOM_DATA, LOCK_ROOM } from "../types/room";
 import { roomState } from "../types/room";
 import socket from "../../config/socketio";
 import { MessageI } from "../../types";
@@ -14,11 +14,11 @@ export const initialize = (username: string, registered: boolean) => {
 	};
 };
 
-export const setRoomData = ({ _id, type, messages, users }: roomState) => {
+export const setRoomData = ({ _id, type, messages, users, locked }: roomState) => {
 	return async (dispatch: any) => {
 		dispatch({
 			type: SET_ROOM_DATA,
-			payload: { _id, type, messages, users },
+			payload: { _id, type, messages, users, locked },
 		});
 
 		dispatch({
@@ -73,5 +73,12 @@ export const switchRooms = (room: string) => {
 		});
 
 		socket.emit("switchRooms", room);
+	};
+};
+
+export const lockRoom = (room: string) => {
+	return {
+		type: LOCK_ROOM,
+		payload: room,
 	};
 };

@@ -2,16 +2,16 @@ import React, { useEffect } from "react";
 import socket from "../../config/socketio";
 import { useDispatch, useSelector } from "react-redux";
 
-import { addMessage, clearRoom, initialize, setRoomData } from "../../redux/actions/room";
+import { addMessage, clearRoom, initialize, setRoomData, lockRoom } from "../../redux/actions/room";
 import { roomState } from "../../redux/types/room";
 import { RootState } from "../../redux/reducers/rootReducer";
 import { clearMisc, setUserList } from "../../redux/actions/misc";
-import { addUserRoom, clearUser, lockRoom, setUserRooms } from "../../redux/actions/auth";
+import { addUserRoom, clearUser, setUserRooms, updateLockRoomOnList } from "../../redux/actions/auth";
 import { MessageI, UserI } from "../../types";
+import { userRoomI } from "../../redux/types/auth";
 
 import { Mainbar, ChatWindow, Input } from "../../containers";
 import "./ChatContainer.scss";
-import { userRoomI } from "../../redux/types/auth";
 
 interface Props {}
 
@@ -23,15 +23,13 @@ const ChatContainer: React.FC<Props> = () => {
 	useEffect(() => {
 		username && dispatch(initialize(username, registered));
 
-		socket.on("initialData", ({ _id, type, messages, users = [] }: roomState) =>
-			dispatch(setRoomData({ _id, type, messages, users }))
-		);
+		socket.on("initialData", ({ _id, type, messages, users = [], locked }: roomState) => {
+			dispatch(setRoomData({ _id, type, messages, users, locked }));
+		});
 
 		socket.on("userRooms", (rooms: userRoomI[]) => dispatch(setUserRooms(rooms)));
 
 		socket.on("addUserRoom", (room: userRoomI) => dispatch(addUserRoom(room)));
-
-		// socket.on("removeUserRoom", (rooms: string[]) => dispatch(setUserRooms(rooms)));
 
 		socket.on("userList", (users: UserI[]) => dispatch(setUserList(users)));
 
@@ -39,7 +37,10 @@ const ChatContainer: React.FC<Props> = () => {
 
 		socket.on("requestToJoinRoom", (roomName: string) => socket.emit("joinRoom", roomName));
 
-		socket.on("lockRoom", (roomName: string) => dispatch(lockRoom(roomName)));
+		socket.on("lockRoom", (roomName: string) => {
+			dispatch(lockRoom(roomName));
+			dispatch(updateLockRoomOnList(roomName));
+		});
 
 		socket.on("disconnect", () => {
 			dispatch(clearUser());
