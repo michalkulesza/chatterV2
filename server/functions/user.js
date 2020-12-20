@@ -19,4 +19,8 @@ const addRoomToUser = async (username, room) => {
 	);
 };
 
-module.exports = { getUserRooms, userExists, addRoomToUser };
+module.exports = {
+	getUserRooms,
+	userExists,
+	addRoomToUser,
+};

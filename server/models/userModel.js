@@ -12,6 +12,8 @@ const userRoomsSchema = new Schema({
 		required: true,
 	},
 	users: Array,
+	tempRooms: Array,
+	locked: Boolean,
 });
 
 const userSchema = new Schema({

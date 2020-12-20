@@ -12,4 +12,26 @@ const getRoomUsers = async roomName => {
 	return RoomModel.find({ _id: roomName }).select({ users: 1, _id: 0 });
 };
 
-module.exports = { getRoomData, roomExists, getRoomUsers };
+const addTempUserToRoom = async (username, roomName) => {
+	return RoomModel.findOneAndUpdate(
+		{ _id: roomName },
+		{
+			$push: {
+				tempUsers: username,
+			},
+		}
+	);
+};
+
+const removeTempUserToRoom = async (username, roomName) => {
+	return RoomModel.findOneAndUpdate(
+		{ _id: roomName },
+		{
+			$pull: {
+				tempUsers: username,
+			},
+		}
+	);
+};
+
+module.exports = { getRoomData, roomExists, getRoomUsers, addTempUserToRoom, removeTempUserToRoom };

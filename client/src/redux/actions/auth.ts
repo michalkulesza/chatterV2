@@ -3,6 +3,7 @@ import { PATH } from "../../constants/path";
 import {
 	ADD_USER_ROOM,
 	CLEAR_USER,
+	LOCK_ROOM,
 	REMOVE_USER_ROOM,
 	SET_LOADING,
 	SET_USER,
@@ -133,5 +134,12 @@ export const removeUserRoom = (room: string) => {
 export const clearUser = () => {
 	return {
 		type: CLEAR_USER,
+	};
+};
+
+export const lockRoom = (room: string) => {
+	return {
+		type: LOCK_ROOM,
+		payload: room,
 	};
 };

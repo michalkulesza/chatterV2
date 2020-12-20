@@ -2,6 +2,7 @@ import {
 	ADD_USER_ROOM,
 	authState,
 	CLEAR_USER,
+	LOCK_ROOM,
 	REMOVE_USER_ROOM,
 	SET_LOADING,
 	SET_USER,
@@ -17,6 +18,7 @@ const initState: authState = {
 		{
 			_id: "Main",
 			type: "room",
+			locked: false,
 		},
 	],
 };
@@ -38,6 +40,16 @@ const auth = (state = initState, action: authTypes) => {
 					state.userRooms.findIndex(room => room._id === action.payload),
 					1
 				),
+			};
+		case LOCK_ROOM:
+			const userRoomsCopy = [...state.userRooms];
+			userRoomsCopy.forEach(room => {
+				if (room._id === action.payload) room.locked = true;
+			});
+
+			return {
+				...state,
+				userRooms: userRoomsCopy,
 			};
 		case CLEAR_USER:
 			return initState;

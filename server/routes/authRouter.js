@@ -24,6 +24,7 @@ router.post("/register", async (req, res) => {
 				{
 					_id: "Main",
 					type: "room",
+					locked: false,
 				},
 			],
 		});

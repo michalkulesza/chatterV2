@@ -6,7 +6,7 @@ import { addMessage, clearRoom, initialize, setRoomData } from "../../redux/acti
 import { roomState } from "../../redux/types/room";
 import { RootState } from "../../redux/reducers/rootReducer";
 import { clearMisc, setUserList } from "../../redux/actions/misc";
-import { addUserRoom, clearUser, setUserRooms } from "../../redux/actions/auth";
+import { addUserRoom, clearUser, lockRoom, setUserRooms } from "../../redux/actions/auth";
 import { MessageI, UserI } from "../../types";
 
 import { Mainbar, ChatWindow, Input } from "../../containers";
@@ -38,6 +38,8 @@ const ChatContainer: React.FC<Props> = () => {
 		socket.on("message", (message: MessageI) => dispatch(addMessage(message)));
 
 		socket.on("requestToJoinRoom", (roomName: string) => socket.emit("joinRoom", roomName));
+
+		socket.on("lockRoom", (roomName: string) => dispatch(lockRoom(roomName)));
 
 		socket.on("disconnect", () => {
 			dispatch(clearUser());
