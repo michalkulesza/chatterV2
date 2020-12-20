@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const { addGlobalUser, removeGlobalUser, getGlobalUsers, findGlobalUser } = require("../helpers/users");
 
-const { getRoomData, roomExists, RoomModel } = require("../models/roomModel");
+const { getRoomData, roomExists, RoomModel, getRoomUsers } = require("../models/roomModel");
 const { getUserRooms, userExists, addRoomToUser } = require("../models/userModel");
 const { MessageModel } = require("../models/messageModel");
 
@@ -11,6 +11,7 @@ const handleSocket = io => {
 	io.on("connection", socket => {
 		let currentRoom;
 		let user;
+		let roomMessages;
 
 		console.log(`Socket ${socket.id} connected`);
 
@@ -24,12 +25,12 @@ const handleSocket = io => {
 			addGlobalUser({ id: socket.id, name: user, registered });
 
 			const userRoomsData = await getUserRooms(user);
-			const roomData = await getRoomData(currentRoom);
+			roomMessages = await getRoomData(currentRoom);
 
 			socket.emit("initialData", {
 				_id: currentRoom,
 				type: "room",
-				messages: roomData && roomData[0] && roomData[0].messages,
+				messages: roomMessages && roomMessages[0] && roomMessages[0].messages,
 			});
 
 			socket.to(currentRoom).emit("message", {
@@ -82,17 +83,16 @@ const handleSocket = io => {
 
 				socket.join(roomName);
 				const secondUser = findGlobalUser(arrayOfNames.filter(name => name !== user)[0]);
-				io.to(secondUser.id).emit("requestToJoinRoom", roomName);
 
-				socket.emit("addUserRoom", roomName);
-				io.to(secondUser.id).emit("addUserRoom", roomName);
+				const roomCopy = room.toObject();
+				delete roomCopy["messages"];
 
 				if (bothUsersAreRegistered) {
-					const roomCopy = room.toObject();
-					delete roomCopy["messages"];
-
 					addRoomToUser(user, roomCopy);
-					addRoomToUser(secondUser.name, roomName);
+					addRoomToUser(secondUser.name, roomCopy);
+
+					socket.emit("addUserRoom", roomCopy);
+					io.to(secondUser.id).emit("addUserRoom", roomCopy);
 				} else {
 				}
 			} else {
@@ -106,6 +106,22 @@ const handleSocket = io => {
 				messages: messages[0].messages,
 				users: arrayOfNames,
 			});
+		});
+
+		socket.on("switchRooms", async room => {
+			socket.leave(currentRoom);
+			currentRoom = room;
+			roomMessages = await getRoomData(currentRoom);
+			const roomUsers = getRoomUsers(currentRoom);
+
+			socket.emit("initialData", {
+				_id: currentRoom,
+				type: "private",
+				messages: roomMessages && roomMessages[0] && roomMessages[0].messages,
+				users: roomUsers,
+			});
+
+			socket.join(currentRoom);
 		});
 
 		socket.on("disconnect", () => {

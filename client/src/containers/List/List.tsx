@@ -9,7 +9,7 @@ import { FiUsers } from "react-icons/fi";
 import { RiChat1Line } from "react-icons/ri";
 import { BiChevronDown } from "react-icons/bi";
 import { RootState } from "../../redux/reducers/rootReducer";
-import { joinPrivate } from "../../redux/actions/room";
+import { joinPrivate, switchRooms } from "../../redux/actions/room";
 import { userRoomI } from "../../redux/types/auth";
 
 interface Props {
@@ -26,6 +26,7 @@ const List: React.FC<Props> = ({ type, usersData, roomsData }) => {
 
 	const handleCollapse = () => setCollapsed(!collapsed);
 	const handleUserClick = (usersName: string, partnersName: string) => dispatch(joinPrivate([usersName, partnersName]));
+	const handleRoomClick = (room: string) => dispatch(switchRooms(room));
 
 	const style = {
 		transition: "all 0.4s cubic-bezier(0.23, 1, 0.32, 1)",
@@ -65,7 +66,9 @@ const List: React.FC<Props> = ({ type, usersData, roomsData }) => {
 					))}
 				{type === "rooms" &&
 					roomsData &&
-					roomsData?.map((room: userRoomI) => <Room key={room._id} data={room} currentUser={currentUser} />)}
+					roomsData?.map((room: userRoomI) => (
+						<Room key={room._id} data={room} currentUser={currentUser} handler={handleRoomClick} />
+					))}
 			</div>
 		</div>
 	) : null;

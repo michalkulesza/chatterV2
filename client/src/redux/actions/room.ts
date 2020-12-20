@@ -65,15 +65,13 @@ export const joinPrivate = (arr: string[]) => {
 	};
 };
 
-// export const switchRooms = (arr: string[]) => {
-// 	return async (dispatch: any) => {
-// 		dispatch({
-// 			type: SET_JOINING,
-// 			payload: true,
-// 		});
+export const switchRooms = (room: string) => {
+	return async (dispatch: any) => {
+		dispatch({
+			type: SET_JOINING,
+			payload: true,
+		});
 
-// 		const generateRoomName = (arr: string[]) => [...arr].sort().join("");
-
-// 		socket.emit("switchRooms", { roomName });
-// 	};
-// };
+		socket.emit("switchRooms", room);
+	};
+};
