@@ -10,11 +10,12 @@ import { RiChat1Line } from "react-icons/ri";
 import { BiChevronDown } from "react-icons/bi";
 import { RootState } from "../../redux/reducers/rootReducer";
 import { joinPrivate } from "../../redux/actions/room";
+import { userRoomI } from "../../redux/types/auth";
 
 interface Props {
 	type: "users" | "rooms";
 	usersData?: UserI[];
-	roomsData?: string[];
+	roomsData?: userRoomI[];
 }
 
 const List: React.FC<Props> = ({ type, usersData, roomsData }) => {
@@ -62,7 +63,9 @@ const List: React.FC<Props> = ({ type, usersData, roomsData }) => {
 							registered={user.registered}
 						/>
 					))}
-				{type === "rooms" && roomsData && roomsData?.map((room: string) => <Room key={room} name={room} />)}
+				{type === "rooms" &&
+					roomsData &&
+					roomsData?.map((room: userRoomI) => <Room key={room._id} data={room} currentUser={currentUser} />)}
 			</div>
 		</div>
 	) : null;
