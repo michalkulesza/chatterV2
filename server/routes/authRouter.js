@@ -19,7 +19,12 @@ router.post("/register", async (req, res) => {
 		const user = new UserModel({
 			name: username,
 			password: hashedPassword,
-			rooms: ["Main"],
+			rooms: [
+				{
+					_id: "Main",
+					type: "room",
+				},
+			],
 		});
 
 		user

@@ -73,7 +73,7 @@ const handleSocket = io => {
 			const bothUsersAreRegistered = (await userExists(arrayOfNames[0])) && (await userExists(arrayOfNames[1]));
 
 			if (!privateRoomExists) {
-				await new RoomModel({
+				const room = await new RoomModel({
 					_id: roomName,
 					type: "private",
 					users: arrayOfNames,
@@ -88,7 +88,10 @@ const handleSocket = io => {
 				io.to(secondUser.id).emit("addUserRoom", roomName);
 
 				if (bothUsersAreRegistered) {
-					addRoomToUser(user, roomName);
+					const roomCopy = room.toObject();
+					delete roomCopy["messages"];
+
+					addRoomToUser(user, roomCopy);
 					addRoomToUser(secondUser.name, roomName);
 				} else {
 				}
