@@ -2,7 +2,9 @@ const express = require("express");
 const bcrypt = require("bcrypt");
 const router = express.Router();
 
-const { UserModel, userExists } = require("../models/userModel");
+const { UserModel } = require("../models/userModel");
+
+const { userExists } = require("../functions/user");
 const { findGlobalUser } = require("../functions/globalUsers");
 
 router.post("/register", async (req, res) => {
