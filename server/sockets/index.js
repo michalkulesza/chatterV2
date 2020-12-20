@@ -112,13 +112,13 @@ const handleSocket = io => {
 			socket.leave(currentRoom);
 			currentRoom = room;
 			roomMessages = await getRoomData(currentRoom);
-			const roomUsers = getRoomUsers(currentRoom);
+			const roomUsers = await getRoomUsers(currentRoom);
 
 			socket.emit("initialData", {
 				_id: currentRoom,
 				type: "private",
 				messages: roomMessages && roomMessages[0] && roomMessages[0].messages,
-				users: roomUsers,
+				users: roomUsers[0].users,
 			});
 
 			socket.join(currentRoom);

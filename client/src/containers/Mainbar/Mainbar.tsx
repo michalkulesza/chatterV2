@@ -14,6 +14,11 @@ interface Props {}
 const Mainbar: React.FC<Props> = () => {
 	const dispatch = useDispatch();
 	const sidebarVisible = useSelector((state: RootState) => state.ui.sidebarVisible);
+	const currentUser = useSelector((state: RootState) => state.auth.username);
+	const roomType = useSelector((state: RootState) => state.room.type);
+	const usersInRoom = useSelector((state: RootState) => state.room.users);
+	const roomName = useSelector((state: RootState) => state.room._id);
+	const partnersName = usersInRoom.filter(user => user !== currentUser);
 
 	const handleButtonClick = () => dispatch(toggleSidebar());
 
@@ -22,6 +27,20 @@ const Mainbar: React.FC<Props> = () => {
 			<Button color="transparent" type="square" svgSize="large" onMouseDown={handleButtonClick}>
 				{sidebarVisible ? <IoCloseOutline /> : <BiMenuAltLeft />}
 			</Button>
+			<div className="chatInfo">
+				<h2>
+					{roomName === "Main"
+						? "Main chat"
+						: roomType === "room"
+						? `${roomName} chat`
+						: roomType === "private"
+						? `Chatting with ${partnersName}`
+						: ""}
+				</h2>
+				<span>
+					{roomName === "Main" ? "Public" : roomType === "room" ? "Private" : roomType === "private" ? "Direct" : ""}
+				</span>
+			</div>
 		</header>
 	);
 };
