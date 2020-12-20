@@ -18,10 +18,12 @@ const User: React.FC<Props> = ({ currentUser, name, handler, registered }) => {
 		<div className="user" onMouseDown={handleUserClick}>
 			{currentUser === name ? `${name} (You)` : name}
 			<span>
-				<div className="icon">
-					<IoShieldCheckmarkSharp />
-					<div className="label">Registered</div>
-				</div>
+				{registered && (
+					<div className="icon">
+						<IoShieldCheckmarkSharp />
+						<div className="label">Registered</div>
+					</div>
+				)}
 				<Badge color="green">Online</Badge>
 			</span>
 		</div>
