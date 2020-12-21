@@ -1,4 +1,4 @@
-import { ADD_MESSGAE, CLEAR_ROOM, SET_JOINING, SET_ROOM_DATA, LOCK_ROOM } from "../types/room";
+import { ADD_MESSGAE, CLEAR_ROOM, SET_JOINING, SET_ROOM_DATA, LOCK_ROOM, SET_MESSAGE_DELETED } from "../types/room";
 import { roomTypes, roomState } from "../types/room";
 
 const initState: roomState = {
@@ -22,6 +22,15 @@ const room = (state = initState, action: roomTypes) => {
 			return {
 				...state,
 				locked: state._id === action.payload ? true : false,
+			};
+		case SET_MESSAGE_DELETED:
+			let messagesCopy = [...state.messages];
+			const index = messagesCopy.findIndex(message => message._id === action.payload);
+			messagesCopy[index].deleted = true;
+
+			return {
+				...state,
+				messages: messagesCopy,
 			};
 		case CLEAR_ROOM:
 			return initState;

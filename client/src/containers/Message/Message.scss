@@ -22,18 +22,61 @@
 		flex-direction: column;
 		width: 100%;
 
-		span {
+		.extrasContainer {
 			font-size: 0.7rem;
-			line-height: 1.1rem;
 			padding: 0 0.2rem;
 			color: global.$gray9;
-			transition: all 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
 			margin-top: 0.1rem;
+			transition: all 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
 			opacity: 1;
+			text-align: right;
 
 			&.collapsed {
-				margin-top: -1.2rem;
+				margin-top: -1.3rem;
 				opacity: 0;
+			}
+		}
+
+		&.withButton {
+			.extrasContainer {
+				&.collapsed {
+					margin-top: -2.3rem;
+				}
+			}
+		}
+
+		.deleteContainer {
+			button {
+				color: black;
+				cursor: pointer;
+				border: none;
+				visibility: visible;
+				border-radius: 3px;
+				padding: 0.2rem 0.4rem;
+
+				&:focus {
+					outline: none;
+				}
+
+				&:hover {
+					color: white;
+				}
+
+				&.red {
+					background-color: rgba(global.$gray2, 0.5);
+
+					&:hover {
+						background-color: rgb(218, 26, 26);
+					}
+				}
+
+				&.green {
+					background-color: rgba(global.$gray2, 0.5);
+
+					&:hover {
+						background-color: rgb(112, 206, 35);
+					}
+				}
 			}
 		}
 
@@ -91,6 +134,13 @@
 			box-shadow: global.$shadow;
 			z-index: 1;
 			cursor: pointer;
+
+			&.deleted {
+				font-style: italic;
+				font-size: 0.8rem;
+				opacity: 0.5;
+				cursor: default;
+			}
 		}
 	}
 }

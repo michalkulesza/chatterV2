@@ -1,4 +1,4 @@
-import { ADD_MESSGAE, CLEAR_ROOM, SET_JOINING, SET_ROOM_DATA, LOCK_ROOM } from "../types/room";
+import { ADD_MESSGAE, CLEAR_ROOM, SET_JOINING, SET_ROOM_DATA, LOCK_ROOM, SET_MESSAGE_DELETED } from "../types/room";
 import { roomState } from "../types/room";
 import socket from "../../config/socketio";
 import { MessageI } from "../../types";
@@ -80,5 +80,16 @@ export const lockRoom = (room: string) => {
 	return {
 		type: LOCK_ROOM,
 		payload: room,
+	};
+};
+
+export const setMessageAsDeleted = (roomName: string, id: string) => {
+	return async (dispatch: any) => {
+		dispatch({
+			type: SET_MESSAGE_DELETED,
+			payload: id,
+		});
+
+		socket.emit("setMessageAsDeleted", { roomName, id });
 	};
 };

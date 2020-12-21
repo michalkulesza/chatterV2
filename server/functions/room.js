@@ -34,4 +34,29 @@ const removeTempUserToRoom = async (username, roomName) => {
 	);
 };
 
-module.exports = { getRoomData, roomExists, getRoomUsers, addTempUserToRoom, removeTempUserToRoom };
+const setMessageAsDeleted = async (roomName, messageID) => {
+	const res = await RoomModel.findOne({ _id: roomName }).select({ messages: 1, _id: 0 });
+	const messagesArr = res.messages;
+	const index = messagesArr.findIndex(message => message._id === messageID);
+	console.log(index);
+	console.log(messageID);
+	messagesArr[index].deleted = true;
+
+	return await RoomModel.findOneAndUpdate(
+		{ _id: roomName },
+		{
+			$set: {
+				messages: messagesArr,
+			},
+		}
+	);
+};
+
+module.exports = {
+	getRoomData,
+	roomExists,
+	getRoomUsers,
+	addTempUserToRoom,
+	removeTempUserToRoom,
+	setMessageAsDeleted,
+};

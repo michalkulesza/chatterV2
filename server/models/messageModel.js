@@ -8,6 +8,7 @@ const messageSchema = new Schema({
 	author: String,
 	content: String,
 	created: String,
+	deleted: Boolean,
 });
 
 messageSchema.methods.addMessage = async function (roomName) {
@@ -21,6 +22,7 @@ messageSchema.methods.addMessage = async function (roomName) {
 						author: this.author,
 						content: this.content,
 						created: this.created,
+						deleted: this.deleted,
 					},
 				},
 			}
@@ -41,6 +43,7 @@ messageSchema.methods.addTempMessage = async function (roomName) {
 						author: this.author,
 						content: this.content,
 						created: this.created,
+						deleted: this.deleted,
 					},
 				},
 			}

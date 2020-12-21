@@ -5,8 +5,8 @@ const { RoomModel } = require("../models/roomModel");
 const { MessageModel } = require("../models/messageModel");
 const { TempRoomModel } = require("../models/tempRoomModel");
 
+const { getRoomData, roomExists, getRoomUsers, setMessageAsDeleted } = require("../functions/room");
 const { getUserRooms, userExists, addRoomToUser } = require("../functions/user");
-const { getRoomData, roomExists, getRoomUsers } = require("../functions/room");
 const {
 	getTempRoomsWithUser,
 	removeUserFromTempRoom,
@@ -77,6 +77,7 @@ const handleSocket = io => {
 					author,
 					created,
 					content,
+					deleted: false,
 				});
 
 				socket.to(room).emit("message", { ...message.toObject(), _id });
@@ -86,6 +87,17 @@ const handleSocket = io => {
 				} else {
 					await message.addMessage(room);
 				}
+			} catch (error) {
+				console.error(error.message);
+			}
+		});
+
+		socket.on("setMessageAsDeleted", async ({ roomName, id }) => {
+			try {
+				console.log(id);
+				setMessageAsDeleted(roomName, id)
+					.then(document => console.log(document))
+					.catch(err => console.log(err.message));
 			} catch (error) {
 				console.error(error.message);
 			}

@@ -2,6 +2,7 @@ export const JOIN_ROOM = "JOIN_ROOM";
 export const JOIN_PRIVATE = "JOIN_PRIVATE";
 export const SEND_MESSAGE = "SEND_MESSAGE";
 export const ADD_MESSGAE = "ADD_MESSGAE";
+export const SET_MESSAGE_DELETED = "SET_MESSAGE_DELETED";
 export const SET_ROOM_DATA = "SET_ROOM_DATA";
 export const SET_JOINING = "SET_JOINING";
 export const CLEAR_ROOM = "CLEAR_ROOM";
@@ -57,6 +58,11 @@ export interface lockRoomAction {
 	payload: string;
 }
 
+export interface setMessageDeletedAction {
+	type: typeof SET_MESSAGE_DELETED;
+	payload: string;
+}
+
 export type roomTypes =
 	| initializeAction
 	| setJoiningAction
@@ -65,4 +71,5 @@ export type roomTypes =
 	| clearRoomAction
 	| joinPrivateRoomAction
 	| switchRoomAction
+	| setMessageDeletedAction
 	| lockRoomAction;
