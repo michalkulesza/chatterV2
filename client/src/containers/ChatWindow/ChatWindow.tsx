@@ -1,4 +1,5 @@
 import React from "react";
+import ScrollToBottom from "react-scroll-to-bottom";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/reducers/rootReducer";
 
@@ -15,7 +16,7 @@ const ChatWindow: React.FC<Props> = () => {
 	const currentUser = useSelector((state: RootState) => state.auth.username);
 
 	return (
-		<div className="chatWindowContainer">
+		<ScrollToBottom className="chatWindowContainer">
 			<div className="chatWindow">
 				{locked ? (
 					<div className="notice">
@@ -44,7 +45,7 @@ const ChatWindow: React.FC<Props> = () => {
 					</div>
 				)}
 			</div>
-		</div>
+		</ScrollToBottom>
 	);
 };
 
