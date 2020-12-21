@@ -4,6 +4,7 @@ import { toggleSidebar } from "../../redux/actions/ui";
 import { RootState } from "../../redux/reducers/rootReducer";
 
 import { Button } from "../../components";
+import { Badge } from "../../components";
 
 import { IoCloseOutline } from "react-icons/io5";
 import { BiMenuAltLeft } from "react-icons/bi";
@@ -16,9 +17,10 @@ const Mainbar: React.FC<Props> = () => {
 	const sidebarVisible = useSelector((state: RootState) => state.ui.sidebarVisible);
 	const currentUser = useSelector((state: RootState) => state.auth.username);
 	const { type: roomType, users: usersInRoom, _id: roomName } = useSelector((state: RootState) => state.room);
-	const allUsers = useSelector((state: RootState) => state.misc.userList);
+	const onlineUsers = useSelector((state: RootState) => state.misc.userList);
 
-	const partnersName = usersInRoom.filter(user => user !== currentUser);
+	const partnersName = usersInRoom.filter(user => user !== currentUser)[0];
+	const isPartnerOnline = onlineUsers.some(user => user.name === partnersName);
 
 	const handleButtonClick = () => dispatch(toggleSidebar());
 
@@ -37,9 +39,10 @@ const Mainbar: React.FC<Props> = () => {
 						? `Chatting with ${partnersName}`
 						: ""}
 				</h2>
-				<span>
+				<Badge>
 					{roomName === "Main" ? "Public" : roomType === "room" ? "Private" : roomType === "private" ? "Direct" : ""}
-				</span>
+				</Badge>
+				<Badge color={isPartnerOnline ? "green" : "gray"}>{isPartnerOnline ? "online" : "offline"}</Badge>
 			</div>
 		</header>
 	);
