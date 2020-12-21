@@ -97,7 +97,7 @@ const handleSocket = io => {
 			try {
 				const roomName = [...arrayOfNames].sort().join("");
 				const privateRoomExists = await roomExists(roomName);
-				let messages = [];
+				let messages = { messages: [] };
 				const bothUsersAreRegistered = (await userExists(arrayOfNames[0])) && (await userExists(arrayOfNames[1]));
 
 				if (!privateRoomExists) {
@@ -105,14 +105,14 @@ const handleSocket = io => {
 						_id: roomName,
 						type: "private",
 						users: arrayOfNames,
-						messages,
+						messages: messages.messages,
 					}).save();
 
 					socket.join(roomName);
 					const secondUser = findGlobalUser(arrayOfNames.filter(name => name !== user)[0]);
 
 					const roomCopy = room.toObject();
-					delete roomCopy["messages"];
+					delete roomCopy && roomCopy["messages"] && roomCopy["messages"];
 
 					if (bothUsersAreRegistered) {
 						await addRoomToUser(user, roomCopy);
@@ -134,7 +134,7 @@ const handleSocket = io => {
 				socket.emit("initialData", {
 					_id: roomName,
 					type: "private",
-					messages: messages[0].messages,
+					messages: messages.messages,
 					users: arrayOfNames,
 					locked: false,
 				});
@@ -178,7 +178,6 @@ const handleSocket = io => {
 		socket.on("disconnect", async () => {
 			removeGlobalUser(user);
 			io.emit("userList", getGlobalUsers());
-			console.log(user);
 
 			socket.to(currentRoom).emit("message", {
 				_id: mongoose.Types.ObjectId(),
@@ -199,9 +198,15 @@ const handleSocket = io => {
 
 			roomsToLockAndLeave.forEach(async room => {
 				lockTempRoom(room);
-				io.in(room).emit("lockRoom", room);
-				io.in(room).emit("lockRoom", room);
 				await removeUserFromTempRoom(user, room);
+
+				const tempRoomUsers = await getTempRoomUsers(room);
+				const otherUserName = tempRoomUsers.users[0];
+
+				const globalUsers = getGlobalUsers();
+				const secondUser = globalUsers.filter(user => user.name === otherUserName);
+
+				io.to(secondUser[0].id).emit("lockRoom", room);
 			});
 
 			roomsToDelete.forEach(async room => {
