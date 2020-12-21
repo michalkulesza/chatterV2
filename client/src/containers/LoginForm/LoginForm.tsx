@@ -60,6 +60,7 @@ const LoginForm: React.FC<Props> = () => {
 						state={register}
 						label="I want to register Username"
 						disabled={authLoading}
+						labelColor="white"
 					/>
 					{error && <div className="error">{error}</div>}
 					<Button loading={authLoading}>Join</Button>

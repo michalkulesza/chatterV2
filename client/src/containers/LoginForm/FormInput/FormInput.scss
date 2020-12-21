@@ -11,6 +11,10 @@
 		padding: 1rem 1.5rem;
 		border-radius: 5px;
 		font-size: 0.95rem;
+
+		&:focus {
+			outline: none;
+		}
 	}
 
 	label {
@@ -22,12 +26,16 @@
 		transition: all 0.15s cubic-bezier(0.165, 0.84, 0.44, 1);
 		cursor: text;
 
+		&.white {
+			color: global.$white;
+		}
+
 		&.onTop {
 			top: 0;
 			left: 0.5rem;
 			transform: translateY(-100%);
 			font-size: 0.8rem;
-			color: global.$gray;
+			color: white;
 		}
 	}
 
