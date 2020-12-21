@@ -1,11 +1,21 @@
 @use '../../styles/global';
 
 .mainbar {
+	position: absolute;
+	top: 0;
 	width: 100%;
 	height: 4rem;
 	padding: 1rem;
-	background-color: white;
+	background-color: rgba(white, $alpha: 0.6);
+	backdrop-filter: blur(7px);
 	display: flex;
+	z-index: 5;
+
+	button {
+		&:hover {
+			background-color: rgba(global.$gray6, 0.2) !important;
+		}
+	}
 
 	.chatInfo {
 		margin-left: 0.5rem;
@@ -17,7 +27,7 @@
 		span {
 			font-size: 0.75rem;
 			margin-left: 0.5rem;
-			background-color: global.$gray3;
+			background-color: rgba(global.$gray6, 0.2);
 			padding: 0.1rem 0.5rem;
 			border-radius: 3px;
 		}

@@ -1,15 +1,21 @@
 @use '../../styles/global';
 
 .input {
+	position: absolute;
+	bottom: 0;
 	width: 100%;
 	padding: 1rem 1.5rem;
 	display: flex;
+	z-index: 5;
+	background-color: rgba(white, $alpha: 0.6);
+	backdrop-filter: blur(7px);
 
 	input {
 		width: 100%;
 		padding: 0.5rem 1rem;
 		font-size: 0.9rem;
-		background-color: global.$gray2;
+		background-color: rgba(global.$gray2, 0.6);
+
 		border: none;
 		margin-right: 0.5rem;
 		border-radius: 3px;
