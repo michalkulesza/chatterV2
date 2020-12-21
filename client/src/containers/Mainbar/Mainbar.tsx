@@ -42,7 +42,9 @@ const Mainbar: React.FC<Props> = () => {
 				<Badge>
 					{roomName === "Main" ? "Public" : roomType === "room" ? "Private" : roomType === "private" ? "Direct" : ""}
 				</Badge>
-				<Badge color={isPartnerOnline ? "green" : "gray"}>{isPartnerOnline ? "online" : "offline"}</Badge>
+				{roomName !== "Main" && (
+					<Badge color={isPartnerOnline ? "green" : "gray"}>{isPartnerOnline ? "online" : "offline"}</Badge>
+				)}
 			</div>
 		</header>
 	);

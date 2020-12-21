@@ -14,7 +14,7 @@ const Chat: React.FC<Props> = () => {
 
 	return (
 		<div className="chat">
-			{loadingData && <Overlay />}
+			{loadingData === true && <Overlay />}
 			<Sidebar></Sidebar>
 			<ChatContainer></ChatContainer>
 		</div>
