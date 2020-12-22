@@ -183,43 +183,47 @@ const handleSocket = io => {
 		});
 
 		socket.on("disconnect", async () => {
-			removeGlobalUser(user);
-			io.emit("userList", getGlobalUsers());
+			try {
+				removeGlobalUser(user);
+				io.emit("userList", getGlobalUsers());
 
-			socket.to(currentRoom).emit("message", {
-				_id: mongoose.Types.ObjectId(),
-				author: "admin",
-				created: new Date().toISOString(),
-				content: `${user} left`,
-			});
+				socket.to(currentRoom).emit("message", {
+					_id: mongoose.Types.ObjectId(),
+					author: "admin",
+					created: new Date().toISOString(),
+					content: `${user} left`,
+				});
 
-			const usersTempRooms = await getTempRoomsWithUser(user);
-			let roomsToLockAndLeave = [];
-			let roomsToDelete = [];
+				const usersTempRooms = await getTempRoomsWithUser(user);
+				let roomsToLockAndLeave = [];
+				let roomsToDelete = [];
 
-			///////////////////
-			usersTempRooms.forEach(room => {
-				if (room.users.length === 2) roomsToLockAndLeave = [...roomsToLockAndLeave, room.name];
-				if (room.users.length < 2) roomsToDelete = [...roomsToDelete, room.name];
-			});
+				///////////////////
+				usersTempRooms.forEach(room => {
+					if (room.users.length === 2) roomsToLockAndLeave = [...roomsToLockAndLeave, room.name];
+					if (room.users.length < 2) roomsToDelete = [...roomsToDelete, room.name];
+				});
 
-			roomsToLockAndLeave.forEach(async room => {
-				lockTempRoom(room);
-				await removeUserFromTempRoom(user, room);
+				roomsToLockAndLeave.forEach(async room => {
+					lockTempRoom(room);
+					await removeUserFromTempRoom(user, room);
 
-				const tempRoomUsers = await getTempRoomUsers(room);
-				const otherUserName = tempRoomUsers.users[0];
+					const tempRoomUsers = await getTempRoomUsers(room);
+					const otherUserName = tempRoomUsers.users[0];
 
-				const globalUsers = getGlobalUsers();
-				const secondUser = globalUsers.filter(user => user.name === otherUserName);
+					const globalUsers = getGlobalUsers();
+					const secondUser = globalUsers.filter(user => user.name === otherUserName);
 
-				io.to(secondUser[0].id).emit("lockRoom", room);
-			});
+					io.to(secondUser[0].id).emit("lockRoom", room);
+				});
 
-			roomsToDelete.forEach(async room => {
-				await deleteTempRoom(room);
-			});
-			///////////////////
+				roomsToDelete.forEach(async room => {
+					await deleteTempRoom(room);
+				});
+				///////////////////
+			} catch (error) {
+				console.error(error.message);
+			}
 
 			console.log(`Socket ${socket.id} disconnected`);
 		});
