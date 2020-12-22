@@ -7,6 +7,7 @@ import {
 	SET_LOADING,
 	SET_USER,
 	SET_USER_ROOMS,
+	SET_AVATAR_SELECTED,
 } from "../types/auth";
 import { authTypes } from "../types/auth";
 
@@ -14,6 +15,7 @@ const initState: authState = {
 	username: undefined,
 	registered: false,
 	loading: false,
+	avatarSelected: false,
 	userRooms: [
 		{
 			_id: "Main",
@@ -51,6 +53,8 @@ const auth = (state = initState, action: authTypes) => {
 				...state,
 				userRooms: userRoomsCopy,
 			};
+		case SET_AVATAR_SELECTED:
+			return { ...state, avatarSelected: action.payload };
 		case CLEAR_USER:
 			return initState;
 		default:

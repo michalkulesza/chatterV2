@@ -5,11 +5,13 @@ export const CLEAR_USER = "CLEAR_USER";
 export const ADD_USER_ROOM = "ADD_USER_ROOM";
 export const REMOVE_USER_ROOM = "REMOVE_USER_ROOM";
 export const LOCK_ROOM = "LOCK_ROOM";
+export const SET_AVATAR_SELECTED = "AVATAR_SELECTED";
 
 export interface authState {
 	username: string | undefined;
 	registered: boolean;
 	loading: boolean;
+	avatarSelected: boolean;
 	userRooms: userRoomI[] | [];
 }
 
@@ -57,6 +59,11 @@ export interface lockRoomAction {
 	payload: string;
 }
 
+export interface setAvatarSelectedAction {
+	type: typeof SET_AVATAR_SELECTED;
+	payload: boolean;
+}
+
 export type authTypes =
 	| setUser
 	| setLoading
@@ -65,4 +72,5 @@ export type authTypes =
 	| addUserRoomAction
 	| removeUserRoomAction
 	| lockRoomAction
+	| setAvatarSelectedAction
 	| userRoomI;

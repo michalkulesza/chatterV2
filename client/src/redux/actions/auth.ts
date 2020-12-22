@@ -5,6 +5,7 @@ import {
 	CLEAR_USER,
 	LOCK_ROOM,
 	REMOVE_USER_ROOM,
+	SET_AVATAR_SELECTED,
 	SET_LOADING,
 	SET_USER,
 	SET_USER_ROOMS,
@@ -28,6 +29,11 @@ export const loginWithoutPassword = (username: string) => {
 					dispatch({
 						type: SET_USER,
 						payload: { username, registered: false },
+					});
+
+					dispatch({
+						type: SET_AVATAR_SELECTED,
+						payload: true,
 					});
 				}
 			})
@@ -61,6 +67,11 @@ export const loginWithPassword = (username: string, password: string) => {
 					dispatch({
 						type: SET_USER,
 						payload: { username, registered: true },
+					});
+
+					dispatch({
+						type: SET_AVATAR_SELECTED,
+						payload: true,
 					});
 				}
 			})
