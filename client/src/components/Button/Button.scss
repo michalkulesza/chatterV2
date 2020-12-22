@@ -56,6 +56,19 @@
 		}
 	}
 
+	&.gray {
+		background-color: global.$gray2;
+		span {
+			svg {
+				fill: global.$gray6;
+			}
+		}
+
+		&:hover {
+			background-color: global.$white;
+		}
+	}
+
 	&.rectangle {
 		padding: 0.7rem 2rem;
 	}

@@ -7,7 +7,7 @@ interface Props {
 	children: any;
 	loading?: boolean;
 	type?: "square" | "rectangle";
-	color?: "defaultColor" | "transparent";
+	color?: "defaultColor" | "transparent" | "gray";
 	svgSize?: "large";
 	onMouseDown?: () => void;
 }
