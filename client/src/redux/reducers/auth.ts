@@ -8,8 +8,10 @@ import {
 	SET_USER,
 	SET_USER_ROOMS,
 	SET_AVATAR_SELECTED,
+	SET_PROFILE_IMAGE,
 } from "../types/auth";
 import { authTypes } from "../types/auth";
+import { Default1 } from "../../constants/defaultProfilePictures";
 
 const initState: authState = {
 	username: undefined,
@@ -23,6 +25,7 @@ const initState: authState = {
 			locked: false,
 		},
 	],
+	profileImage: Default1,
 };
 
 const auth = (state = initState, action: authTypes) => {
@@ -55,6 +58,8 @@ const auth = (state = initState, action: authTypes) => {
 			};
 		case SET_AVATAR_SELECTED:
 			return { ...state, avatarSelected: action.payload };
+		case SET_PROFILE_IMAGE:
+			return { ...state, profileImage: action.payload };
 		case CLEAR_USER:
 			return initState;
 		default:

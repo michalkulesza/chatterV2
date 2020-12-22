@@ -5,7 +5,9 @@ export const CLEAR_USER = "CLEAR_USER";
 export const ADD_USER_ROOM = "ADD_USER_ROOM";
 export const REMOVE_USER_ROOM = "REMOVE_USER_ROOM";
 export const LOCK_ROOM = "LOCK_ROOM";
-export const SET_AVATAR_SELECTED = "AVATAR_SELECTED";
+export const SET_AVATAR_SELECTED = "SET_AVATAR_SELECTED";
+export const SET_PROFILE_IMAGE = "SET_PROFILE_IMAGE";
+export const UPLOAD_PROFILE_IMAGE = "UPLOAD_PROFILE_IMAGE";
 
 export interface authState {
 	username: string | undefined;
@@ -13,6 +15,7 @@ export interface authState {
 	loading: boolean;
 	avatarSelected: boolean;
 	userRooms: userRoomI[] | [];
+	profileImage: string;
 }
 
 export interface userRoomI {
@@ -64,6 +67,16 @@ export interface setAvatarSelectedAction {
 	payload: boolean;
 }
 
+export interface setProfileImageAction {
+	type: typeof SET_PROFILE_IMAGE;
+	payload: string;
+}
+
+export interface uploadProfileImageAction {
+	type: typeof UPLOAD_PROFILE_IMAGE;
+	payload: File;
+}
+
 export type authTypes =
 	| setUser
 	| setLoading
@@ -73,4 +86,6 @@ export type authTypes =
 	| removeUserRoomAction
 	| lockRoomAction
 	| setAvatarSelectedAction
+	| setProfileImageAction
+	| uploadProfileImageAction
 	| userRoomI;

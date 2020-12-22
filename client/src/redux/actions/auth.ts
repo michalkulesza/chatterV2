@@ -7,6 +7,7 @@ import {
 	REMOVE_USER_ROOM,
 	SET_AVATAR_SELECTED,
 	SET_LOADING,
+	SET_PROFILE_IMAGE,
 	SET_USER,
 	SET_USER_ROOMS,
 	userRoomI,
@@ -152,5 +153,23 @@ export const updateLockRoomOnList = (room: string) => {
 	return {
 		type: LOCK_ROOM,
 		payload: room,
+	};
+};
+
+export const setProfileImage = (image: string) => {
+	return async (dispatch: any) => {
+		dispatch({
+			type: SET_PROFILE_IMAGE,
+			payload: image,
+		});
+	};
+};
+
+export const uploadProfileImage = (image: File) => {
+	return async (dispatch: any) => {
+		// dispatch({
+		// 	type: SET_PROFILE_IMAGE,
+		// 	payload: image,
+		// });
 	};
 };
