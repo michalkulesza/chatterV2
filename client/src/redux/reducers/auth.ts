@@ -9,6 +9,8 @@ import {
 	SET_USER_ROOMS,
 	SET_AVATAR_SELECTED,
 	SET_PROFILE_IMAGE,
+	SET_UPLOADED_IMAGE,
+	SET_UPLOADING,
 } from "../types/auth";
 import { authTypes } from "../types/auth";
 import { Default1 } from "../../constants/defaultProfilePictures";
@@ -26,6 +28,8 @@ const initState: authState = {
 		},
 	],
 	profileImage: Default1,
+	uploadedImage: null,
+	uploading: false,
 };
 
 const auth = (state = initState, action: authTypes) => {
@@ -60,6 +64,10 @@ const auth = (state = initState, action: authTypes) => {
 			return { ...state, avatarSelected: action.payload };
 		case SET_PROFILE_IMAGE:
 			return { ...state, profileImage: action.payload };
+		case SET_UPLOADED_IMAGE:
+			return { ...state, uploadedImage: action.payload };
+		case SET_UPLOADING:
+			return { ...state, uploading: action.payload };
 		case CLEAR_USER:
 			return initState;
 		default:

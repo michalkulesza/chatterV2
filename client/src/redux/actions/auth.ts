@@ -8,11 +8,14 @@ import {
 	SET_AVATAR_SELECTED,
 	SET_LOADING,
 	SET_PROFILE_IMAGE,
+	SET_UPLOADED_IMAGE,
+	SET_UPLOADING,
 	SET_USER,
 	SET_USER_ROOMS,
 	userRoomI,
 } from "../types/auth";
 import { addAuthError } from "./error";
+import storage from "../../config/firebase";
 
 export const loginWithoutPassword = (username: string) => {
 	return async (dispatch: any) => {
@@ -167,9 +170,51 @@ export const setProfileImage = (image: string) => {
 
 export const uploadProfileImage = (image: File) => {
 	return async (dispatch: any) => {
+		const fileName = `image-${Date.now()}`;
+
+		const uploadImage = storage.storage.ref(`images/${fileName}`).put(image);
+
+		dispatch({
+			type: SET_UPLOADING,
+			payload: true,
+		});
+
+		uploadImage.on(
+			"state_changed",
+			() => {},
+			error => {
+				dispatch(addAuthError(error.message));
+			},
+			() => {
+				storage.storage
+					.ref("images")
+					.child(fileName)
+					.getDownloadURL()
+					.then(url => {
+						dispatch(setUploadedImage(url));
+
+						//send to mongo
+					});
+
+				dispatch({
+					type: SET_UPLOADING,
+					payload: false,
+				});
+			}
+		);
+
 		// dispatch({
 		// 	type: SET_PROFILE_IMAGE,
 		// 	payload: image,
 		// });
+	};
+};
+
+export const setUploadedImage = (image: string) => {
+	return async (dispatch: any) => {
+		dispatch({
+			type: SET_UPLOADED_IMAGE,
+			payload: image,
+		});
 	};
 };
