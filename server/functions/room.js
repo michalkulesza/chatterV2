@@ -35,21 +35,25 @@ const removeTempUserToRoom = async (username, roomName) => {
 };
 
 const setMessageAsDeleted = async (roomName, messageID) => {
-	const res = await RoomModel.findOne({ _id: roomName }).select({ messages: 1, _id: 0 });
-	const messagesArr = res.messages;
-	const index = messagesArr.findIndex(message => message._id === messageID);
-	console.log(index);
-	console.log(messageID);
-	messagesArr[index].deleted = true;
+	const room = await RoomModel.findOne({ _id: roomName }).select({ messages: 1, _id: 0 });
 
-	return await RoomModel.findOneAndUpdate(
-		{ _id: roomName },
-		{
-			$set: {
-				messages: messagesArr,
-			},
-		}
-	);
+	//Room
+	if (room) {
+		const messagesArr = room.messages;
+		const index = messagesArr.findIndex(message => message._id.toString() === messageID);
+		messagesArr[index].deleted = true;
+
+		return await RoomModel.findOneAndUpdate(
+			{ _id: roomName },
+			{
+				$set: {
+					messages: messagesArr,
+				},
+			}
+		);
+	} else {
+		//TempRoom
+	}
 };
 
 module.exports = {

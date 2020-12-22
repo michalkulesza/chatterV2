@@ -70,17 +70,15 @@ const handleSocket = io => {
 
 		socket.on("message", async ({ author, created, content, room }) => {
 			try {
-				const _id = mongoose.Types.ObjectId();
-
 				const message = new MessageModel({
-					_id,
+					_id: mongoose.Types.ObjectId(),
 					author,
 					created,
 					content,
 					deleted: false,
 				});
 
-				socket.to(room).emit("message", { ...message.toObject(), _id });
+				io.in(room).emit("message", message.toObject());
 
 				if (await isTempRoom(room)) {
 					await message.addTempMessage(room);
@@ -94,10 +92,7 @@ const handleSocket = io => {
 
 		socket.on("setMessageAsDeleted", async ({ roomName, id }) => {
 			try {
-				console.log(id);
-				setMessageAsDeleted(roomName, id)
-					.then(document => console.log(document))
-					.catch(err => console.log(err.message));
+				await setMessageAsDeleted(roomName, id);
 			} catch (error) {
 				console.error(error.message);
 			}

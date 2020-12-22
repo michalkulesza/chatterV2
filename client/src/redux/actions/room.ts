@@ -38,12 +38,7 @@ export const addMessage = (message: MessageI) => {
 };
 
 export const sendMessage = (message: MessageI) => {
-	return async (dispatch: any) => {
-		dispatch({
-			type: ADD_MESSGAE,
-			payload: message,
-		});
-
+	return async () => {
 		socket.emit("message", message);
 	};
 };
