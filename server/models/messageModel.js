@@ -35,7 +35,7 @@ messageSchema.methods.addMessage = async function (roomName) {
 messageSchema.methods.addTempMessage = async function (roomName) {
 	try {
 		await TempRoomModel.updateOne(
-			{ name: roomName },
+			{ _id: roomName },
 			{
 				$push: {
 					messages: {

@@ -8,24 +8,13 @@ const getTempRoomsWithUser = async username => {
 	});
 };
 
-const removeUserFromTempRoom = async (username, roomname) => {
-	await TempRoomModel.findOneAndUpdate(
-		{ name: roomname },
-		{
-			$pull: {
-				users: username,
-			},
-		}
-	);
-};
-
 const deleteTempRoom = async roomname => {
-	await TempRoomModel.findOneAndRemove({ name: roomname });
+	return TempRoomModel.findOneAndRemove({ _id: roomname });
 };
 
 const lockTempRoom = async roomname => {
 	await TempRoomModel.findOneAndUpdate(
-		{ name: roomname },
+		{ _id: roomname },
 		{
 			$set: {
 				locked: true,
@@ -35,24 +24,23 @@ const lockTempRoom = async roomname => {
 };
 
 const isTempRoom = async roomname => {
-	return TempRoomModel.exists({ name: roomname });
+	return TempRoomModel.exists({ _id: roomname });
 };
 
 const getTempRoomMessages = async roomname => {
-	return TempRoomModel.findOne({ name: roomname }).select({ messages: 1, _id: 0 });
+	return TempRoomModel.findOne({ _id: roomname }).select({ messages: 1, _id: 0 });
 };
 
 const getTempRoomUsers = async roomname => {
-	return TempRoomModel.findOne({ name: roomname }).select({ users: 1, _id: 0 });
+	return TempRoomModel.findOne({ _id: roomname }).select({ users: 1, _id: 0 });
 };
 
 const isTempRoomLocked = async roomname => {
-	return TempRoomModel.findOne({ name: roomname }).select({ locked: 1, _id: 0 });
+	return TempRoomModel.findOne({ _id: roomname }).select({ locked: 1, _id: 0 });
 };
 
 module.exports = {
 	getTempRoomsWithUser,
-	removeUserFromTempRoom,
 	deleteTempRoom,
 	lockTempRoom,
 	isTempRoom,

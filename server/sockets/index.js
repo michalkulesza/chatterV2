@@ -9,7 +9,6 @@ const { getRoomData, roomExists, getRoomUsers, setMessageAsDeleted } = require("
 const { getUserRooms, userExists, addRoomToUser } = require("../functions/user");
 const {
 	getTempRoomsWithUser,
-	removeUserFromTempRoom,
 	deleteTempRoom,
 	lockTempRoom,
 	isTempRoom,
@@ -78,6 +77,8 @@ const handleSocket = io => {
 					deleted: false,
 				});
 
+				console.log(room);
+
 				io.in(room).emit("message", message.toObject());
 
 				if (await isTempRoom(room)) {
@@ -106,36 +107,38 @@ const handleSocket = io => {
 				const privateRoomExists = await roomExists(roomName);
 				let messages = { messages: [] };
 				const bothUsersAreRegistered = (await userExists(arrayOfNames[0])) && (await userExists(arrayOfNames[1]));
+				const secondUser = findGlobalUser(arrayOfNames.filter(name => name !== user)[0]);
+				let roomCopy;
+
+				socket.join(roomName);
 
 				if (!privateRoomExists) {
-					const room = await new RoomModel({
-						_id: roomName,
-						type: "private",
-						users: arrayOfNames,
-						messages: messages.messages,
-					}).save();
-
-					socket.join(roomName);
-					const secondUser = findGlobalUser(arrayOfNames.filter(name => name !== user)[0]);
-
-					const roomCopy = room.toObject();
-					delete roomCopy && roomCopy["messages"] && roomCopy["messages"];
-
 					if (bothUsersAreRegistered) {
+						const room = await new RoomModel({
+							_id: roomName,
+							type: "private",
+							users: arrayOfNames,
+							messages: messages.messages,
+						}).save();
+
+						roomCopy = room.toObject();
+						delete roomCopy && roomCopy["messages"] && roomCopy["messages"];
+
 						await addRoomToUser(user, roomCopy);
 						await addRoomToUser(secondUser.name, roomCopy);
 					} else {
-						await new TempRoomModel({
-							name: roomName,
+						const room = await new TempRoomModel({
+							_id: roomName,
 							users: arrayOfNames,
 							locked: false,
 						}).save();
+
+						roomCopy = room.toObject();
 					}
 					socket.emit("addUserRoom", roomCopy);
 					io.to(secondUser.id).emit("addUserRoom", roomCopy);
 				} else {
 					messages = await getRoomData(roomName);
-					socket.join(roomName);
 				}
 
 				socket.emit("initialData", {
@@ -151,6 +154,7 @@ const handleSocket = io => {
 		});
 
 		socket.on("switchRooms", async room => {
+			console.log(room);
 			try {
 				socket.leave(currentRoom);
 				currentRoom = room;
@@ -200,18 +204,18 @@ const handleSocket = io => {
 
 				///////////////////
 				usersTempRooms.forEach(room => {
-					if (!room.locked) roomsToLockAndLeave = [...roomsToLockAndLeave, room.name];
-					if (room.locked) roomsToDelete = [...roomsToDelete, room.name];
+					if (room.locked === false) roomsToLockAndLeave = [...roomsToLockAndLeave, room._id];
+					if (room.locked === true) roomsToDelete = [...roomsToDelete, room._id];
 				});
 
 				roomsToLockAndLeave.forEach(async room => {
 					lockTempRoom(room);
 
 					const tempRoomUsers = await getTempRoomUsers(room);
-					const otherUserName = tempRoomUsers.users[0];
+					const otherUserName = tempRoomUsers.users.filter(user => user.name !== user);
 
 					const globalUsers = getGlobalUsers();
-					const secondUser = globalUsers.filter(user => user.name === otherUserName);
+					const secondUser = globalUsers.filter(user => user.name === otherUserName[0]);
 
 					io.to(secondUser[0].id).emit("lockRoom", room);
 				});

@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const tempRoomSchema = new Schema({
-	name: String,
+	_id: String,
 	users: Array,
 	locked: Boolean,
 	messages: Array,
