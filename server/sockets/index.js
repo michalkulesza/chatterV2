@@ -94,6 +94,8 @@ const handleSocket = io => {
 		socket.on("setMessageAsDeleted", async ({ roomName, id }) => {
 			try {
 				await setMessageAsDeleted(roomName, id);
+
+				socket.to(roomName).emit("setMessageDeleted", id);
 			} catch (error) {
 				console.error(error.message);
 			}

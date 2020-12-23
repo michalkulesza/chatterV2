@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import socket from "../../config/socketio";
 import { useDispatch, useSelector } from "react-redux";
 
-import { addMessage, clearRoom, initialize, setRoomData, lockRoom } from "../../redux/actions/room";
+import { addMessage, clearRoom, initialize, setRoomData, lockRoom, setMessageDeleted } from "../../redux/actions/room";
 import { addUserRoom, clearUser, setUserRooms, updateLockRoomOnList } from "../../redux/actions/auth";
 import { clearMisc, setUserList } from "../../redux/actions/misc";
 import { roomState } from "../../redux/types/room";
@@ -33,6 +33,8 @@ const ChatContainer: React.FC<Props> = () => {
 		socket.on("userList", (users: UserI[]) => dispatch(setUserList(users)));
 
 		socket.on("message", (message: MessageI) => dispatch(addMessage(message)));
+
+		socket.on("setMessageDeleted", (id: string) => dispatch(setMessageDeleted(id)));
 
 		socket.on("requestToJoinRoom", (roomName: string) => socket.emit("joinRoom", roomName));
 

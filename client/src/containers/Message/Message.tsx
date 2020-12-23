@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { setMessageAsDeleted } from "../../redux/actions/room";
+import { deleteMessage } from "../../redux/actions/room";
 import { useDispatch, useSelector } from "react-redux";
 import { MessageI } from "../../types";
 import Moment from "react-moment";
@@ -34,7 +34,7 @@ const Message: React.FC<Props> = ({ currentUser, message, prevMessage, deleteDis
 	const handleMouseEnter = () => setMouseOverExtras(true);
 	const handleMouseLeave = () => setMouseOverExtras(false);
 	const handleDeleteClick = () => setDeleteConfirmation(true);
-	const handleDeleteConfirm = () => currentRoom && dispatch(setMessageAsDeleted(currentRoom, message._id));
+	const handleDeleteConfirm = () => currentRoom && dispatch(deleteMessage(currentRoom, message._id));
 
 	useEffect(() => {
 		if (!collapsed && !mouseOverExtras) timer = setTimeout(() => setCollapsed(true), 2500);

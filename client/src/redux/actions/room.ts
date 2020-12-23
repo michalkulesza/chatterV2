@@ -78,7 +78,7 @@ export const lockRoom = (room: string) => {
 	};
 };
 
-export const setMessageAsDeleted = (roomName: string, id: string) => {
+export const deleteMessage = (roomName: string, id: string) => {
 	return async (dispatch: any) => {
 		dispatch({
 			type: SET_MESSAGE_DELETED,
@@ -86,5 +86,12 @@ export const setMessageAsDeleted = (roomName: string, id: string) => {
 		});
 
 		socket.emit("setMessageAsDeleted", { roomName, id });
+	};
+};
+
+export const setMessageDeleted = (id: string) => {
+	return {
+		type: SET_MESSAGE_DELETED,
+		payload: id,
 	};
 };
