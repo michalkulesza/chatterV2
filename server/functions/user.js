@@ -19,8 +19,20 @@ const addRoomToUser = async (username, room) => {
 	);
 };
 
+const updateProfileImage = async (username, profileImage) => {
+	return await UserModel.findOneAndUpdate(
+		{ name: username },
+		{
+			$set: {
+				profileImage,
+			},
+		}
+	);
+};
+
 module.exports = {
 	getUserRooms,
 	userExists,
 	addRoomToUser,
+	updateProfileImage,
 };

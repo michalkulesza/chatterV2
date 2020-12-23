@@ -7,6 +7,7 @@ export const REMOVE_USER_ROOM = "REMOVE_USER_ROOM";
 export const LOCK_ROOM = "LOCK_ROOM";
 export const SET_AVATAR_SELECTED = "SET_AVATAR_SELECTED";
 export const SET_PROFILE_IMAGE = "SET_PROFILE_IMAGE";
+export const UPDATE_PROFILE_IMAGE = "UPDATE_PROFILE_IMAGE";
 export const SET_UPLOADED_IMAGE = "SET_UPLOADED_IMAGE";
 export const UPLOAD_PROFILE_IMAGE = "UPLOAD_PROFILE_IMAGE";
 export const SET_UPLOADING = "SET_UPLOADING";
@@ -34,6 +35,7 @@ export interface setUser {
 	payload: {
 		username: string;
 		registered: boolean;
+		profileImage: string;
 	};
 }
 
@@ -91,6 +93,11 @@ export interface setUploadingAction {
 	payload: boolean;
 }
 
+export interface updateProfileImageAction {
+	type: typeof UPDATE_PROFILE_IMAGE;
+	payload: string;
+}
+
 export type authTypes =
 	| setUser
 	| setLoading
@@ -104,4 +111,5 @@ export type authTypes =
 	| uploadProfileImageAction
 	| setUploadedImageAction
 	| setUploadingAction
+	| updateProfileImageAction
 	| userRoomI;

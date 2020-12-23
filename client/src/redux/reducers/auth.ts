@@ -11,6 +11,7 @@ import {
 	SET_PROFILE_IMAGE,
 	SET_UPLOADED_IMAGE,
 	SET_UPLOADING,
+	UPDATE_PROFILE_IMAGE,
 } from "../types/auth";
 import { authTypes } from "../types/auth";
 import { Default1 } from "../../constants/defaultProfilePictures";
@@ -66,6 +67,8 @@ const auth = (state = initState, action: authTypes) => {
 			return { ...state, profileImage: action.payload };
 		case SET_UPLOADED_IMAGE:
 			return { ...state, uploadedImage: action.payload };
+		case UPDATE_PROFILE_IMAGE:
+			return { ...state, profileImage: action.payload };
 		case SET_UPLOADING:
 			return { ...state, uploading: action.payload };
 		case CLEAR_USER:

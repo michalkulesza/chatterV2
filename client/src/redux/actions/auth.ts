@@ -12,6 +12,7 @@ import {
 	SET_UPLOADING,
 	SET_USER,
 	SET_USER_ROOMS,
+	UPDATE_PROFILE_IMAGE,
 	userRoomI,
 } from "../types/auth";
 import { addAuthError } from "./error";
@@ -68,9 +69,11 @@ export const loginWithPassword = (username: string, password: string) => {
 			})
 			.then(res => {
 				if (res.status === 200) {
+					const profileImage = res.data;
+
 					dispatch({
 						type: SET_USER,
-						payload: { username, registered: true },
+						payload: { username, registered: true, profileImage },
 					});
 
 					dispatch({
@@ -92,7 +95,7 @@ export const loginWithPassword = (username: string, password: string) => {
 	};
 };
 
-export const registerUser = (username: string, password: string) => {
+export const registerUser = (username: string, password: string, profileImage: string) => {
 	return async (dispatch: any) => {
 		dispatch({
 			type: SET_LOADING,
@@ -103,12 +106,13 @@ export const registerUser = (username: string, password: string) => {
 			.post(`${PATH}/auth/register`, {
 				username,
 				password,
+				profileImage,
 			})
 			.then(res => {
 				if (res.status === 200) {
 					dispatch({
 						type: SET_USER,
-						payload: { username, registered: true },
+						payload: { username, registered: true, profileImage },
 					});
 				}
 			})
@@ -216,5 +220,37 @@ export const setUploadedImage = (image: string) => {
 			type: SET_UPLOADED_IMAGE,
 			payload: image,
 		});
+	};
+};
+
+export const setAvatarSelected = (state: boolean) => {
+	return {
+		type: SET_AVATAR_SELECTED,
+		payload: state,
+	};
+};
+
+export const updateProfileImage = (image: string, username: string, password: string) => {
+	return async (dispatch: any) => {
+		return axios
+			.post(`${PATH}/auth/updateProfileImage`, {
+				username,
+				password,
+				image,
+			})
+			.then(res => {
+				if (res.status === 200) {
+					const resImage = res.data;
+
+					dispatch({
+						type: UPDATE_PROFILE_IMAGE,
+						payload: resImage,
+					});
+				}
+			})
+			.catch(err => {
+				dispatch(addAuthError("Something went wrong..."));
+				console.error(err.message);
+			});
 	};
 };
