@@ -19,7 +19,10 @@ const Input: React.FC<Props> = () => {
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
-		if (username && room && !locked) {
+		const messageContent = input.trim();
+		const messageIsEmpty = messageContent === "";
+
+		if (username && room && !locked && !messageIsEmpty) {
 			const message = {
 				_id: new Date().toISOString(),
 				author: {
