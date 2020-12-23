@@ -11,9 +11,10 @@ interface Props {
 	currentUser: string;
 	message: MessageI;
 	prevMessage?: MessageI;
+	deleteDisabled?: boolean;
 }
 
-const Message: React.FC<Props> = ({ currentUser, message, prevMessage }) => {
+const Message: React.FC<Props> = ({ currentUser, message, prevMessage, deleteDisabled = false }) => {
 	let timer: NodeJS.Timeout;
 	const dispatch = useDispatch();
 	const currentRoom = useSelector((state: RootState) => state.room._id);
@@ -60,7 +61,7 @@ const Message: React.FC<Props> = ({ currentUser, message, prevMessage }) => {
 						<Moment fromNow interval={10000}>
 							{message.created}
 						</Moment>
-						{!fromAdmin && !fromPartner && (
+						{!fromAdmin && !fromPartner && !deleteDisabled && (
 							<div className="deleteContainer">
 								{deleteConfirmation ? (
 									<button className="green" onMouseDown={handleDeleteConfirm}>

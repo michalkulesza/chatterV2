@@ -18,7 +18,29 @@ const ChatWindow: React.FC<Props> = () => {
 	return (
 		<ScrollToBottom className="chatWindowContainer">
 			<div className="chatWindow">
-				{locked ? (
+				{currentUser && messages?.length > 0 ? (
+					messages.map((message, i) => {
+						const prevMessage = i > 0 ? messages[i - 1] : undefined;
+						return (
+							<Message
+								key={message._id}
+								currentUser={currentUser}
+								message={message}
+								prevMessage={prevMessage}
+								deleteDisabled={locked}
+							/>
+						);
+					})
+				) : (
+					<div className="notice">
+						<div className="icon">
+							<RiChat1Line />
+						</div>
+						<div className="text">No messages yet</div>
+						<div className="text">Be a first one to start the conversation!</div>
+					</div>
+				)}
+				{locked && (
 					<div className="notice">
 						<div className="icon">
 							<IoLockClosed />
@@ -29,19 +51,6 @@ const ChatWindow: React.FC<Props> = () => {
 							<br />
 							make sure that both of users are registered!
 						</div>
-					</div>
-				) : currentUser && messages?.length > 0 ? (
-					messages.map((message, i) => {
-						const prevMessage = i > 0 ? messages[i - 1] : undefined;
-						return <Message key={message._id} currentUser={currentUser} message={message} prevMessage={prevMessage} />;
-					})
-				) : (
-					<div className="notice">
-						<div className="icon">
-							<RiChat1Line />
-						</div>
-						<div className="text">No messages yet</div>
-						<div className="text">Be a first one to start the conversation!</div>
 					</div>
 				)}
 			</div>
