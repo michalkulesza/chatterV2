@@ -1,33 +1,37 @@
 import React, { useState, useEffect } from "react";
+import { RootState } from "../../redux/reducers/rootReducer";
 import { deleteMessage } from "../../redux/actions/room";
 import { useDispatch, useSelector } from "react-redux";
 import { MessageI } from "../../types";
 import Moment from "react-moment";
 
 import "./Message.scss";
-import { RootState } from "../../redux/reducers/rootReducer";
 
 interface Props {
-	currentUser: string;
 	message: MessageI;
 	prevMessage?: MessageI;
 	deleteDisabled?: boolean;
 }
 
-const Message: React.FC<Props> = ({ currentUser, message, prevMessage, deleteDisabled = false }) => {
+const Message: React.FC<Props> = ({ message, prevMessage, deleteDisabled = false }) => {
 	let timer: NodeJS.Timeout;
-	const dispatch = useDispatch();
-	const currentRoom = useSelector((state: RootState) => state.room._id);
-	const [collapsed, setCollapsed] = useState(true);
-	const [mouseOverExtras, setMouseOverExtras] = useState(false);
-	const [deleteConfirmation, setDeleteConfirmation] = useState(false);
 
-	const fromMyself = currentUser === message.author;
-	const fromAdmin = message.author === "admin";
-	const fromPartner = currentUser !== message.author && !fromAdmin;
+	const dispatch = useDispatch();
+	const currentUser = useSelector((state: RootState) => state.auth.username);
+	const currentRoom = useSelector((state: RootState) => state.room._id);
+
+	const [deleteConfirmation, setDeleteConfirmation] = useState(false);
+	const [mouseOverExtras, setMouseOverExtras] = useState(false);
+	const [collapsed, setCollapsed] = useState(true);
+
+	console.log(message);
+
+	const fromMyself = currentUser === message.author.name;
+	const fromAdmin = message.author.name === "admin";
+	const fromPartner = currentUser !== message.author.name && !fromAdmin;
 	const authorClass = `${fromMyself && "fromMyself"} ${fromAdmin && "fromAdmin"} ${fromPartner && "fromPartner"}`;
 
-	const fromTheSameUser = prevMessage && prevMessage.author === message.author;
+	const fromTheSameUser = prevMessage && prevMessage.author.name === message.author.name;
 	const messageDeleted = message.deleted;
 
 	const handleMessageClick = () => setCollapsed(!collapsed);
@@ -38,6 +42,7 @@ const Message: React.FC<Props> = ({ currentUser, message, prevMessage, deleteDis
 
 	useEffect(() => {
 		if (!collapsed && !mouseOverExtras) timer = setTimeout(() => setCollapsed(true), 2500);
+
 		return () => {
 			clearTimeout(timer);
 			setDeleteConfirmation(false);
@@ -46,8 +51,13 @@ const Message: React.FC<Props> = ({ currentUser, message, prevMessage, deleteDis
 
 	return (
 		<div className={`messageContainer ${authorClass}`}>
+			{fromPartner && (
+				<div className="profilePicture">
+					{!fromTheSameUser && <img src={message.author.picture} className="picture"></img>}
+				</div>
+			)}
 			<div className={`messageWrapper ${authorClass} ${fromMyself && "withButton"}`}>
-				{fromPartner && !fromTheSameUser && <span>{message.author}</span>}
+				{fromPartner && !fromTheSameUser && <span>{message.author.name}</span>}
 				<div className={`message ${messageDeleted && "deleted"}`} onMouseDown={handleMessageClick}>
 					{!messageDeleted && message.content}
 					{messageDeleted && `Message deleted...`}
