@@ -200,13 +200,12 @@ const handleSocket = io => {
 
 				///////////////////
 				usersTempRooms.forEach(room => {
-					if (room.users.length === 2) roomsToLockAndLeave = [...roomsToLockAndLeave, room.name];
-					if (room.users.length < 2) roomsToDelete = [...roomsToDelete, room.name];
+					if (!room.locked) roomsToLockAndLeave = [...roomsToLockAndLeave, room.name];
+					if (room.locked) roomsToDelete = [...roomsToDelete, room.name];
 				});
 
 				roomsToLockAndLeave.forEach(async room => {
 					lockTempRoom(room);
-					await removeUserFromTempRoom(user, room);
 
 					const tempRoomUsers = await getTempRoomUsers(room);
 					const otherUserName = tempRoomUsers.users[0];
