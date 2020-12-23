@@ -83,8 +83,6 @@ const handleSocket = io => {
 					deleted: false,
 				});
 
-				console.log(room);
-
 				io.in(room).emit("message", message.toObject());
 
 				if (await isTempRoom(room)) {
@@ -162,7 +160,6 @@ const handleSocket = io => {
 		});
 
 		socket.on("switchRooms", async room => {
-			console.log(room);
 			try {
 				socket.leave(currentRoom);
 				currentRoom = room;

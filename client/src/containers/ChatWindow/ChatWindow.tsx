@@ -8,6 +8,7 @@ import { Message } from "../../containers";
 import { RiChat1Line } from "react-icons/ri";
 import { IoLockClosed } from "react-icons/io5";
 import "./ChatWindow.scss";
+import { MessageI } from "../../types";
 
 interface Props {}
 
@@ -21,7 +22,16 @@ const ChatWindow: React.FC<Props> = () => {
 				{currentUser && messages?.length > 0 ? (
 					messages.map((message, i) => {
 						const prevMessage = i > 0 ? messages[i - 1] : undefined;
-						return <Message key={message._id} message={message} prevMessage={prevMessage} deleteDisabled={locked} />;
+						const nextMessage = i < messages.length ? messages[i + 1] : undefined;
+						return (
+							<Message
+								key={message._id}
+								message={message}
+								prevMessage={prevMessage}
+								deleteDisabled={locked}
+								marginBottom={nextMessage && nextMessage.author.name !== message.author.name}
+							/>
+						);
 					})
 				) : (
 					<div className="notice">

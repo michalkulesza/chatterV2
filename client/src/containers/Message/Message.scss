@@ -5,6 +5,10 @@
 	display: flex;
 	margin-bottom: 0.5rem;
 
+	&.marginBottom {
+		margin-bottom: 1rem;
+	}
+
 	&.fromMyself {
 		justify-content: flex-end;
 	}

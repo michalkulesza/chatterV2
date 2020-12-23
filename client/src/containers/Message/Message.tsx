@@ -11,9 +11,10 @@ interface Props {
 	message: MessageI;
 	prevMessage?: MessageI;
 	deleteDisabled?: boolean;
+	marginBottom?: boolean;
 }
 
-const Message: React.FC<Props> = ({ message, prevMessage, deleteDisabled = false }) => {
+const Message: React.FC<Props> = ({ message, prevMessage, deleteDisabled = false, marginBottom }) => {
 	let timer: NodeJS.Timeout;
 
 	const dispatch = useDispatch();
@@ -50,7 +51,7 @@ const Message: React.FC<Props> = ({ message, prevMessage, deleteDisabled = false
 	}, [collapsed, mouseOverExtras]);
 
 	return (
-		<div className={`messageContainer ${authorClass}`}>
+		<div className={`messageContainer ${authorClass} ${marginBottom && "marginBottom"}`}>
 			{fromPartner && (
 				<div className="profilePicture">
 					{!fromTheSameUser && <img src={message.author.picture} className="picture"></img>}
