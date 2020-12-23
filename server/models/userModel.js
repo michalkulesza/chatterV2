@@ -21,6 +21,7 @@ const userSchema = new Schema({
 	password: String,
 	lastSeen: String,
 	rooms: [userRoomsSchema],
+	profileImage: String,
 });
 
 const UserModel = mongoose.model("user", userSchema);

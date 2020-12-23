@@ -5,7 +5,14 @@ const initState: roomState = {
 	joining: false,
 	_id: undefined,
 	users: [],
-	messages: [{ _id: "1", author: "admin", content: "Connected", created: new Date().toISOString() }],
+	messages: [
+		{
+			_id: "1",
+			author: { name: "admin", picture: "" },
+			content: "Connected",
+			created: new Date().toISOString(),
+		},
+	],
 	type: undefined,
 	locked: false,
 };

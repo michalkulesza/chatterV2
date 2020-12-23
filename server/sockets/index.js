@@ -48,14 +48,20 @@ const handleSocket = io => {
 
 				socket.to(currentRoom).emit("message", {
 					_id: mongoose.Types.ObjectId(),
-					author: "admin",
+					author: {
+						name: "admin",
+						picture: "",
+					},
 					created: new Date().toISOString(),
 					content: `${user} joined`,
 				});
 
 				socket.emit("message", {
 					_id: mongoose.Types.ObjectId(),
-					author: "admin",
+					author: {
+						name: "admin",
+						picture: "",
+					},
 					created: new Date().toISOString(),
 					content: `You have joined`,
 				});
@@ -195,7 +201,10 @@ const handleSocket = io => {
 
 				socket.to(currentRoom).emit("message", {
 					_id: mongoose.Types.ObjectId(),
-					author: "admin",
+					author: {
+						name: "admin",
+						picture: "",
+					},
 					created: new Date().toISOString(),
 					content: `${user} left`,
 				});

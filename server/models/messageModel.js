@@ -5,7 +5,10 @@ const { TempRoomModel } = require("./tempRoomModel");
 
 const messageSchema = new Schema({
 	_id: mongoose.Types.ObjectId,
-	author: String,
+	author: {
+		name: String,
+		picture: String,
+	},
 	content: String,
 	created: String,
 	deleted: Boolean,

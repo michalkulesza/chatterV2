@@ -4,12 +4,12 @@ const router = express.Router();
 
 const { UserModel } = require("../models/userModel");
 
-const { userExists } = require("../functions/user");
+const { userExists, updateProfileImage } = require("../functions/user");
 const { findGlobalUser } = require("../functions/globalUsers");
 
 router.post("/register", async (req, res) => {
 	try {
-		const { username, password } = req.body;
+		const { username, password, profileImage } = req.body;
 
 		const usernameRegistered = await userExists(username);
 		const usernameReserved = findGlobalUser(username);
@@ -27,6 +27,7 @@ router.post("/register", async (req, res) => {
 					locked: false,
 				},
 			],
+			profileImage,
 		});
 
 		user
@@ -56,7 +57,7 @@ router.post("/login", async (req, res) => {
 			const passwordCorrect = await bcrypt.compare(password, user.password);
 
 			if (passwordCorrect) {
-				res.sendStatus(200);
+				res.status(200).send(user.profileImage);
 			} else {
 				res.status(401).send("Incorrect password");
 			}
@@ -78,6 +79,30 @@ router.post("/join", async (req, res) => {
 		if (usernameRegistered || usernameReserved) return res.status(401).send("Username is taken. Please Login.");
 
 		res.sendStatus(200);
+	} catch (error) {
+		res.status(400).send("Something went wrong.");
+	}
+});
+
+router.post("/updateProfileImage", async (req, res) => {
+	try {
+		const { username, password, image } = req.body;
+
+		const usernameRegistered = await userExists(username);
+
+		if (usernameRegistered) {
+			const user = await UserModel.findOne({ name: username });
+			const passwordCorrect = await bcrypt.compare(password, user.password);
+
+			if (passwordCorrect) {
+				await updateProfileImage(username, image);
+				res.status(200).send(image);
+			} else {
+				res.status(401).send("Incorrect password");
+			}
+		} else {
+			res.status(404).send("User does not exist.");
+		}
 	} catch (error) {
 		res.status(400).send("Something went wrong.");
 	}
