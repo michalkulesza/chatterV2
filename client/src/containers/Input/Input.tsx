@@ -10,19 +10,22 @@ interface Props {}
 
 const Input: React.FC<Props> = () => {
 	const dispatch = useDispatch();
-	const [input, setInput] = useState("");
-	const username = useSelector((state: RootState) => state.auth.username);
+
+	const { username, profileImage } = useSelector((state: RootState) => state.auth);
 	const { _id: room, locked } = useSelector((state: RootState) => state.room);
+	const [input, setInput] = useState("");
 
 	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => setInput(e.target.value);
-
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
 		if (username && room && !locked) {
 			const message = {
 				_id: new Date().toISOString(),
-				author: username,
+				author: {
+					name: username,
+					picture: profileImage,
+				},
 				created: new Date().toISOString(),
 				room,
 				content: input,

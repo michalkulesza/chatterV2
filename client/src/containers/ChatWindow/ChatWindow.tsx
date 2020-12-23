@@ -21,15 +21,7 @@ const ChatWindow: React.FC<Props> = () => {
 				{currentUser && messages?.length > 0 ? (
 					messages.map((message, i) => {
 						const prevMessage = i > 0 ? messages[i - 1] : undefined;
-						return (
-							<Message
-								key={message._id}
-								currentUser={currentUser}
-								message={message}
-								prevMessage={prevMessage}
-								deleteDisabled={locked}
-							/>
-						);
+						return <Message key={message._id} message={message} prevMessage={prevMessage} deleteDisabled={locked} />;
 					})
 				) : (
 					<div className="notice">

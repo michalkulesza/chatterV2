@@ -20,4 +20,8 @@ code {
 	&::-webkit-scrollbar {
 		display: none;
 	}
+
+	img[id^="__lpform_"] {
+		display: none !important;
+	}
 }

@@ -1,0 +1,146 @@
+@use '../../../styles/global';
+
+.avatarSelection {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
+	opacity: 1;
+	transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+
+	&.hidden {
+		opacity: 0;
+		left: calc(100% + 4.5rem);
+	}
+
+	.main {
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 10px;
+
+		.preview {
+			height: 80px;
+			width: 80px;
+			border-radius: 50%;
+			background-color: white;
+
+			img {
+				height: 100%;
+				width: 100%;
+				object-fit: cover;
+			}
+		}
+
+		.title {
+			color: global.$white;
+		}
+
+		.carouselContainer {
+			width: 100%;
+			height: 80px;
+			overflow: hidden;
+			position: relative;
+			margin-bottom: 1rem;
+			display: flex;
+			justify-content: center;
+
+			.button {
+				position: absolute;
+				left: 0;
+				height: 30px;
+				width: 30px;
+				background-color: red;
+				top: 50%;
+			}
+
+			.carousel {
+				display: flex;
+				width: fit-content;
+
+				.uploadStatus {
+					height: 80px;
+					width: 80px;
+					position: relative;
+					margin-right: 0.5rem;
+
+					.outline {
+						position: absolute;
+						height: 100%;
+						width: 100%;
+						top: 0;
+						left: 0;
+						border-radius: 50%;
+						border: 3px dashed white;
+						animation: rotate 4s infinite linear;
+					}
+
+					.text {
+						position: absolute;
+						top: 50%;
+						left: 50%;
+						color: global.$white;
+						transform: translate(-50%, -50%);
+						font-size: 0.8rem;
+					}
+				}
+			}
+		}
+
+		.upload {
+			width: 100%;
+
+			input {
+				width: 100%;
+				background-color: rgba(global.$white, 0.3);
+				padding: 0.5rem;
+				font-size: 0.9rem;
+				border-radius: 5px;
+				box-shadow: global.$shadow;
+				cursor: pointer;
+				overflow: hidden;
+
+				&:focus {
+					outline: none;
+				}
+
+				&::-webkit-file-upload-button {
+					cursor: pointer;
+					background-color: global.$purple;
+					border: none;
+					padding: 0.4rem 0.5rem;
+					color: global.$white;
+					border-radius: 3px;
+					font-size: 0.9rem;
+					margin-right: 0.5rem;
+
+					&:focus {
+						outline: none;
+					}
+				}
+			}
+		}
+	}
+
+	.buttons {
+		width: 100%;
+		display: flex;
+		justify-content: space-between;
+	}
+
+	@keyframes rotate {
+		from {
+			transform: rotate(0deg);
+		}
+
+		to {
+			transform: rotate(180deg);
+		}
+	}
+}
