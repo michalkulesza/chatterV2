@@ -47,7 +47,7 @@ const ChatWindow: React.FC<Props> = () => {
 						<div className="icon">
 							<IoLockClosed />
 						</div>
-						<div className="text">Chat had been locked.</div>
+						<div className="text">Chat has been locked.</div>
 						<div className="text">
 							To continue chatting and keep your messages saved
 							<br />

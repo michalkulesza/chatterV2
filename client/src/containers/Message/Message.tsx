@@ -25,8 +25,6 @@ const Message: React.FC<Props> = ({ message, prevMessage, deleteDisabled = false
 	const [mouseOverExtras, setMouseOverExtras] = useState(false);
 	const [collapsed, setCollapsed] = useState(true);
 
-	console.log(message);
-
 	const fromMyself = currentUser === message.author.name;
 	const fromAdmin = message.author.name === "admin";
 	const fromPartner = currentUser !== message.author.name && !fromAdmin;
