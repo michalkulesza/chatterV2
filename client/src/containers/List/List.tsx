@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { joinPrivate, switchRooms } from "../../redux/actions/room";
 import { RootState } from "../../redux/reducers/rootReducer";
-import { userRoomI } from "../../redux/types/auth";
+import { userRoomI } from "../../redux/types/user";
 import { UserI } from "../../types";
 
 import { User, Room } from "../../components";
@@ -21,7 +21,7 @@ interface Props {
 const List: React.FC<Props> = ({ type, usersData, roomsData }) => {
 	const dispatch = useDispatch();
 	const listRef = useRef<HTMLDivElement>(null);
-	const currentUser = useSelector((state: RootState) => state.auth.username);
+	const currentUser = useSelector((state: RootState) => state.user.username);
 	const [collapsed, setCollapsed] = useState(false);
 
 	const handleCollapse = () => setCollapsed(!collapsed);

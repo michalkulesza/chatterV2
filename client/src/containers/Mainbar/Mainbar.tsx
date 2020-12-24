@@ -15,7 +15,7 @@ interface Props {}
 const Mainbar: React.FC<Props> = () => {
 	const dispatch = useDispatch();
 	const sidebarVisible = useSelector((state: RootState) => state.ui.sidebarVisible);
-	const currentUser = useSelector((state: RootState) => state.auth.username);
+	const currentUser = useSelector((state: RootState) => state.user.username);
 	const { type: roomType, users: usersInRoom, _id: roomName } = useSelector((state: RootState) => state.room);
 	const onlineUsers = useSelector((state: RootState) => state.misc.userList);
 

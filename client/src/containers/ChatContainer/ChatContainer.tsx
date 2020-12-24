@@ -7,7 +7,7 @@ import { addUserRoom, clearUser, setUserRooms, updateLockRoomOnList } from "../.
 import { clearMisc, setUserList } from "../../redux/actions/misc";
 import { roomState } from "../../redux/types/room";
 import { MessageI, UserI } from "../../types";
-import { userRoomI } from "../../redux/types/auth";
+import { userRoomI } from "../../redux/types/user";
 import { RootState } from "../../redux/reducers/rootReducer";
 
 import { Mainbar, ChatWindow, Input } from "../../containers";
@@ -17,7 +17,7 @@ interface Props {}
 
 const ChatContainer: React.FC<Props> = () => {
 	const dispatch = useDispatch();
-	const { username, registered } = useSelector((state: RootState) => state.auth);
+	const { username, registered } = useSelector((state: RootState) => state.user);
 
 	useEffect(() => {
 		username && dispatch(initialize(username, registered));

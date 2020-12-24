@@ -10,7 +10,7 @@ interface Props {}
 const Sidebar: React.FC<Props> = () => {
 	const visible = useSelector((state: RootState) => state.ui.sidebarVisible);
 	const userList = useSelector((state: RootState) => state.misc.userList);
-	const roomsList = useSelector((state: RootState) => state.auth.userRooms);
+	const roomsList = useSelector((state: RootState) => state.user.userRooms);
 
 	return (
 		<div className={`sidebar ${!visible && "collapsed"}`}>

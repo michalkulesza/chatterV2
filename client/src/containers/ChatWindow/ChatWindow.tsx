@@ -14,7 +14,7 @@ interface Props {}
 
 const ChatWindow: React.FC<Props> = () => {
 	const { messages, locked } = useSelector((state: RootState) => state.room);
-	const currentUser = useSelector((state: RootState) => state.auth.username);
+	const currentUser = useSelector((state: RootState) => state.user.username);
 
 	return (
 		<ScrollToBottom className="chatWindowContainer">

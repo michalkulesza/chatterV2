@@ -21,7 +21,7 @@ interface Props {
 
 const AvatarSelection: React.FC<Props> = ({ hidden, password }) => {
 	const dispatch = useDispatch();
-	const { profileImage, uploadedImage, uploading, username } = useSelector((state: RootState) => state.auth);
+	const { profileImage, uploadedImage, uploading, username } = useSelector((state: RootState) => state.user);
 
 	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) =>
 		e.target.files && dispatch(uploadProfileImage(e.target.files[0]));

@@ -14,7 +14,7 @@ import {
 	SET_USER_ROOMS,
 	UPDATE_PROFILE_IMAGE,
 	userRoomI,
-} from "../types/auth";
+} from "../types/user";
 import { addAuthError } from "./error";
 import storage from "../../config/firebase";
 

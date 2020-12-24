@@ -14,7 +14,7 @@ interface Props {}
 const LoginForm: React.FC<Props> = () => {
 	const dispatch = useDispatch();
 	const error = useSelector((state: RootState) => state.error.auth);
-	const { loading, username, profileImage } = useSelector((state: RootState) => state.auth);
+	const { loading, username, profileImage } = useSelector((state: RootState) => state.user);
 
 	const [user, setUser] = useState("");
 	const [password, setPassword] = useState("");
