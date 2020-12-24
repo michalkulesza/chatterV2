@@ -11,7 +11,7 @@ interface Props {}
 const Input: React.FC<Props> = () => {
 	const dispatch = useDispatch();
 
-	const { username, profileImage } = useSelector((state: RootState) => state.auth);
+	const { username, profileImage } = useSelector((state: RootState) => state.user);
 	const { _id: room, locked } = useSelector((state: RootState) => state.room);
 	const [input, setInput] = useState("");
 

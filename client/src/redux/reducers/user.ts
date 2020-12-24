@@ -1,6 +1,6 @@
 import {
+	userState,
 	ADD_USER_ROOM,
-	authState,
 	CLEAR_USER,
 	LOCK_ROOM,
 	REMOVE_USER_ROOM,
@@ -12,11 +12,11 @@ import {
 	SET_UPLOADED_IMAGE,
 	SET_UPLOADING,
 	UPDATE_PROFILE_IMAGE,
-} from "../types/auth";
-import { authTypes } from "../types/auth";
+} from "../types/user";
+import { userTypes } from "../types/user";
 import { Default1 } from "../../constants/defaultProfilePictures";
 
-const initState: authState = {
+const initState: userState = {
 	username: undefined,
 	registered: false,
 	loading: false,
@@ -33,7 +33,7 @@ const initState: authState = {
 	uploading: false,
 };
 
-const auth = (state = initState, action: authTypes) => {
+const user = (state = initState, action: userTypes) => {
 	switch (action.type) {
 		case SET_USER:
 			return { ...state, ...action.payload };
@@ -78,4 +78,4 @@ const auth = (state = initState, action: authTypes) => {
 	}
 };
 
-export default auth;
+export default user;

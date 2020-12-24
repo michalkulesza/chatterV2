@@ -18,7 +18,7 @@ const Message: React.FC<Props> = ({ message, prevMessage, deleteDisabled = false
 	let timer: NodeJS.Timeout;
 
 	const dispatch = useDispatch();
-	const currentUser = useSelector((state: RootState) => state.auth.username);
+	const currentUser = useSelector((state: RootState) => state.user.username);
 	const currentRoom = useSelector((state: RootState) => state.room._id);
 
 	const [deleteConfirmation, setDeleteConfirmation] = useState(false);

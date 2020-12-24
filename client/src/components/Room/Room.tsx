@@ -1,5 +1,5 @@
 import React from "react";
-import { userRoomI } from "../../redux/types/auth";
+import { userRoomI } from "../../redux/types/user";
 
 import { FaLock } from "react-icons/fa";
 import "./Room.scss";

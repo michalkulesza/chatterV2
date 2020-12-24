@@ -1,12 +1,12 @@
 import { combineReducers } from "redux";
-import auth from "./auth";
+import user from "./user";
 import error from "./error";
 import ui from "./ui";
 import room from "./room";
 import misc from "./misc";
 
 const rootReducer = combineReducers({
-	auth,
+	user,
 	error,
 	ui,
 	room,

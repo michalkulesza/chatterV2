@@ -6,7 +6,6 @@ import {
 	LOCK_ROOM,
 	REMOVE_USER_ROOM,
 	SET_AVATAR_SELECTED,
-	SET_LOADING,
 	SET_PROFILE_IMAGE,
 	SET_UPLOADED_IMAGE,
 	SET_UPLOADING,
@@ -14,7 +13,8 @@ import {
 	SET_USER_ROOMS,
 	UPDATE_PROFILE_IMAGE,
 	userRoomI,
-} from "../types/auth";
+} from "../types/user";
+import { SET_LOADING } from "../types/ui";
 import { addAuthError } from "./error";
 import storage from "../../config/firebase";
 

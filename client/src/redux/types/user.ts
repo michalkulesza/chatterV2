@@ -1,5 +1,4 @@
 export const SET_USER = "SET_USER";
-export const SET_LOADING = "SET_LOADING";
 export const SET_USER_ROOMS = "SET_USER_ROOMS";
 export const CLEAR_USER = "CLEAR_USER";
 export const ADD_USER_ROOM = "ADD_USER_ROOM";
@@ -10,9 +9,10 @@ export const SET_PROFILE_IMAGE = "SET_PROFILE_IMAGE";
 export const UPDATE_PROFILE_IMAGE = "UPDATE_PROFILE_IMAGE";
 export const SET_UPLOADED_IMAGE = "SET_UPLOADED_IMAGE";
 export const UPLOAD_PROFILE_IMAGE = "UPLOAD_PROFILE_IMAGE";
+export const SET_LOADING = "SET_LOADING";
 export const SET_UPLOADING = "SET_UPLOADING";
 
-export interface authState {
+export interface userState {
 	username: string | undefined;
 	registered: boolean;
 	loading: boolean;
@@ -30,7 +30,7 @@ export interface userRoomI {
 	locked?: boolean;
 }
 
-export interface setUser {
+export interface setUserAction {
 	type: typeof SET_USER;
 	payload: {
 		username: string;
@@ -39,12 +39,12 @@ export interface setUser {
 	};
 }
 
-export interface setLoading {
+export interface setLoadingAction {
 	type: typeof SET_LOADING;
 	payload: boolean;
 }
 
-export interface setUserRooms {
+export interface setUserRoomsAction {
 	type: typeof SET_USER_ROOMS;
 	payload: userRoomI[] | [];
 }
@@ -59,7 +59,7 @@ export interface removeUserRoomAction {
 	payload: string;
 }
 
-export interface clearUser {
+export interface clearUserAction {
 	type: typeof CLEAR_USER;
 }
 
@@ -98,11 +98,11 @@ export interface updateProfileImageAction {
 	payload: string;
 }
 
-export type authTypes =
-	| setUser
-	| setLoading
-	| setUserRooms
-	| clearUser
+export type userTypes =
+	| setUserAction
+	| setLoadingAction
+	| setUserRoomsAction
+	| clearUserAction
 	| addUserRoomAction
 	| removeUserRoomAction
 	| lockRoomAction

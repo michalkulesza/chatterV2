@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { loginWithoutPassword, loginWithPassword, registerUser } from "../../redux/actions/auth";
+import { loginWithoutPassword, loginWithPassword, registerUser } from "../../redux/actions/user";
 import { addAuthError } from "../../redux/actions/error";
 import { RootState } from "../../redux/reducers/rootReducer";
 import "./LoginForm.scss";
@@ -14,7 +14,8 @@ interface Props {}
 const LoginForm: React.FC<Props> = () => {
 	const dispatch = useDispatch();
 	const error = useSelector((state: RootState) => state.error.auth);
-	const { loading, username, profileImage } = useSelector((state: RootState) => state.auth);
+	const { username, profileImage } = useSelector((state: RootState) => state.user);
+	const { loading } = useSelector((state: RootState) => state.ui);
 
 	const [user, setUser] = useState("");
 	const [password, setPassword] = useState("");
@@ -25,7 +26,6 @@ const LoginForm: React.FC<Props> = () => {
 	const validPassword = (password: string) => hasLength(password, 4);
 
 	const showAvatarSelection = (register || validPassword(password)) && username;
-	// const showAvatarSelection = register;
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();

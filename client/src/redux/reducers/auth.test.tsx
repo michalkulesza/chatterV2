@@ -1,11 +1,11 @@
-import auth from "./auth";
-import * as types from "../types/auth";
+import user from "./user";
+import * as types from "../types/user";
 
-describe("Auth reducer", () => {
+describe("User reducer", () => {
 	it("Should return initial state", () => {
 		const expectedObject = { loading: false, registered: null, username: null };
 
-		expect(auth(undefined, {})).toEqual(expectedObject);
+		expect(user(undefined, {})).toEqual(expectedObject);
 	});
 
 	it("Should handle SET_USER", () => {
@@ -17,7 +17,7 @@ describe("Auth reducer", () => {
 		const expectedObject = { loading: false, registered: true, username: testUser.username };
 
 		expect(
-			auth(undefined, {
+			user(undefined, {
 				type: types.SET_USER,
 				payload: testUser,
 			})
@@ -28,7 +28,7 @@ describe("Auth reducer", () => {
 		const expectedObject = { loading: true, registered: null, username: null };
 
 		expect(
-			auth(undefined, {
+			user(undefined, {
 				type: types.SET_LOADING,
 				payload: true,
 			})

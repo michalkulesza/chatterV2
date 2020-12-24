@@ -1,4 +1,4 @@
-import { loginWithoutPassword, loginWithPassword, registerUser } from "./auth";
+import { loginWithoutPassword, loginWithPassword, registerUser } from "./user";
 import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
 import configureMockStore from "redux-mock-store";
