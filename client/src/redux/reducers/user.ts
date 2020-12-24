@@ -1,10 +1,8 @@
 import {
-	userState,
 	ADD_USER_ROOM,
 	CLEAR_USER,
 	LOCK_ROOM,
 	REMOVE_USER_ROOM,
-	SET_LOADING,
 	SET_USER,
 	SET_USER_ROOMS,
 	SET_AVATAR_SELECTED,
@@ -13,13 +11,12 @@ import {
 	SET_UPLOADING,
 	UPDATE_PROFILE_IMAGE,
 } from "../types/user";
-import { userTypes } from "../types/user";
+import { userState, userTypes } from "../types/user";
 import { Default1 } from "../../constants/defaultProfilePictures";
 
 const initState: userState = {
 	username: undefined,
 	registered: false,
-	loading: false,
 	avatarSelected: false,
 	userRooms: [
 		{
@@ -37,8 +34,6 @@ const user = (state = initState, action: userTypes) => {
 	switch (action.type) {
 		case SET_USER:
 			return { ...state, ...action.payload };
-		case SET_LOADING:
-			return { ...state, loading: action.payload };
 		case SET_USER_ROOMS:
 			return { ...state, userRooms: action.payload };
 		case ADD_USER_ROOM:

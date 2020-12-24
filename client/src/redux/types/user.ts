@@ -9,13 +9,11 @@ export const SET_PROFILE_IMAGE = "SET_PROFILE_IMAGE";
 export const UPDATE_PROFILE_IMAGE = "UPDATE_PROFILE_IMAGE";
 export const SET_UPLOADED_IMAGE = "SET_UPLOADED_IMAGE";
 export const UPLOAD_PROFILE_IMAGE = "UPLOAD_PROFILE_IMAGE";
-export const SET_LOADING = "SET_LOADING";
 export const SET_UPLOADING = "SET_UPLOADING";
 
 export interface userState {
 	username: string | undefined;
 	registered: boolean;
-	loading: boolean;
 	avatarSelected: boolean;
 	userRooms: userRoomI[] | [];
 	profileImage: string;
@@ -37,11 +35,6 @@ export interface setUserAction {
 		registered: boolean;
 		profileImage: string;
 	};
-}
-
-export interface setLoadingAction {
-	type: typeof SET_LOADING;
-	payload: boolean;
 }
 
 export interface setUserRoomsAction {
@@ -100,7 +93,6 @@ export interface updateProfileImageAction {
 
 export type userTypes =
 	| setUserAction
-	| setLoadingAction
 	| setUserRoomsAction
 	| clearUserAction
 	| addUserRoomAction
