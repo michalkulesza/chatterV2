@@ -1,8 +1,7 @@
-import { ADD_MESSGAE, CLEAR_ROOM, SET_JOINING, SET_ROOM_DATA, LOCK_ROOM, SET_MESSAGE_DELETED } from "../types/room";
+import { ADD_MESSGAE, CLEAR_ROOM, SET_ROOM_DATA, LOCK_ROOM, SET_MESSAGE_DELETED } from "../types/room";
 import { roomTypes, roomState } from "../types/room";
 
 const initState: roomState = {
-	joining: false,
 	_id: undefined,
 	users: [],
 	messages: [
@@ -19,8 +18,6 @@ const initState: roomState = {
 
 const room = (state = initState, action: roomTypes) => {
 	switch (action.type) {
-		case SET_JOINING:
-			return { ...state, joining: action.payload };
 		case SET_ROOM_DATA:
 			return { ...state, ...action.payload };
 		case ADD_MESSGAE:

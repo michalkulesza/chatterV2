@@ -1,4 +1,5 @@
-import { ADD_MESSGAE, CLEAR_ROOM, SET_JOINING, SET_ROOM_DATA, LOCK_ROOM, SET_MESSAGE_DELETED } from "../types/room";
+import { ADD_MESSGAE, CLEAR_ROOM, SET_ROOM_DATA, LOCK_ROOM, SET_MESSAGE_DELETED } from "../types/room";
+import { SET_LOADING } from "../types/user";
 import { roomState } from "../types/room";
 import socket from "../../config/socketio";
 import { MessageI } from "../../types";
@@ -6,7 +7,7 @@ import { MessageI } from "../../types";
 export const initialize = (username: string, registered: boolean) => {
 	return async (dispatch: any) => {
 		dispatch({
-			type: SET_JOINING,
+			type: SET_LOADING,
 			payload: true,
 		});
 
@@ -22,7 +23,7 @@ export const setRoomData = ({ _id, type, messages, users, locked }: roomState) =
 		});
 
 		dispatch({
-			type: SET_JOINING,
+			type: SET_LOADING,
 			payload: false,
 		});
 	};
@@ -52,7 +53,7 @@ export const clearRoom = () => {
 export const joinPrivate = (arr: string[]) => {
 	return async (dispatch: any) => {
 		dispatch({
-			type: SET_JOINING,
+			type: SET_LOADING,
 			payload: true,
 		});
 
@@ -63,7 +64,7 @@ export const joinPrivate = (arr: string[]) => {
 export const switchRooms = (room: string) => {
 	return async (dispatch: any) => {
 		dispatch({
-			type: SET_JOINING,
+			type: SET_LOADING,
 			payload: true,
 		});
 

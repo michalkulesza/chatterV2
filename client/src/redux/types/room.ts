@@ -4,7 +4,6 @@ export const SEND_MESSAGE = "SEND_MESSAGE";
 export const ADD_MESSGAE = "ADD_MESSGAE";
 export const SET_MESSAGE_DELETED = "SET_MESSAGE_DELETED";
 export const SET_ROOM_DATA = "SET_ROOM_DATA";
-export const SET_JOINING = "SET_JOINING";
 export const CLEAR_ROOM = "CLEAR_ROOM";
 export const SWITCH_ROOM = "SWITCH_ROOM";
 export const LOCK_ROOM = "LOCK_ROOM";
@@ -12,7 +11,6 @@ export const LOCK_ROOM = "LOCK_ROOM";
 import { MessageI } from "../../types/index";
 
 export interface roomState {
-	joining?: boolean;
 	_id?: string;
 	type?: "room" | "private";
 	messages: MessageI[];
@@ -22,11 +20,6 @@ export interface roomState {
 
 export interface initializeAction {
 	type: typeof JOIN_ROOM;
-}
-
-export interface setJoiningAction {
-	type: typeof SET_JOINING;
-	payload: boolean;
 }
 
 export interface setRoomData {
@@ -65,7 +58,6 @@ export interface setMessageDeletedAction {
 
 export type roomTypes =
 	| initializeAction
-	| setJoiningAction
 	| setRoomData
 	| addMessageAction
 	| clearRoomAction

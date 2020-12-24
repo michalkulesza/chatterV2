@@ -1,20 +1,19 @@
 import React from "react";
+import { RootState } from "../../redux/reducers/rootReducer";
 import { useSelector } from "react-redux";
-import { roomState } from "../../redux/types/room";
 
-import { Overlay } from "../../components";
 import { ChatContainer, Sidebar } from "../../containers";
-
+import { Overlay } from "../../components";
 import "./Chat.scss";
 
 interface Props {}
 
 const Chat: React.FC<Props> = () => {
-	const loadingData = useSelector((state: roomState) => state.joining);
+	const { loading } = useSelector((state: RootState) => state.ui);
 
 	return (
 		<div className="chat">
-			{loadingData === true && <Overlay />}
+			{loading === true && <Overlay />}
 			<Sidebar></Sidebar>
 			<ChatContainer></ChatContainer>
 		</div>
