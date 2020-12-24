@@ -1,9 +1,12 @@
 export const TOGGLE_SIDEBAR = "TOGGLE_SIDEBAR";
 export const SET_LOADING = "SET_LOADING";
+export const ADD_ERROR = "ADD_ERROR";
+export const CLEAR_ERROR = "CLEAR_ERROR";
 
 export interface uiState {
 	sidebarVisible: boolean;
 	loading: boolean;
+	error: null | string;
 }
 
 export interface toggleSidebarAction {
@@ -15,4 +18,13 @@ export interface setLoadingAction {
 	payload: boolean;
 }
 
-export type uiTypes = toggleSidebarAction | setLoadingAction;
+export interface addErrorAction {
+	type: typeof ADD_ERROR;
+	payload: string;
+}
+
+export interface clearErrorAction {
+	type: typeof CLEAR_ERROR;
+}
+
+export type uiTypes = toggleSidebarAction | setLoadingAction | addErrorAction | clearErrorAction;

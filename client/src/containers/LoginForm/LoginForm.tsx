@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loginWithoutPassword, loginWithPassword, registerUser } from "../../redux/actions/user";
-import { addAuthError } from "../../redux/actions/error";
+import { addError } from "../../redux/actions/ui";
 import { RootState } from "../../redux/reducers/rootReducer";
 import "./LoginForm.scss";
 
@@ -13,13 +13,12 @@ interface Props {}
 
 const LoginForm: React.FC<Props> = () => {
 	const dispatch = useDispatch();
-	const error = useSelector((state: RootState) => state.error.auth);
 	const { username, profileImage } = useSelector((state: RootState) => state.user);
-	const { loading } = useSelector((state: RootState) => state.ui);
+	const { loading, error } = useSelector((state: RootState) => state.ui);
 
-	const [user, setUser] = useState("");
-	const [password, setPassword] = useState("");
 	const [register, setRegister] = useState(false);
+	const [password, setPassword] = useState("");
+	const [user, setUser] = useState("");
 
 	const hasLength = (string: string, length: number) => string.length >= length;
 	const validName = (name: string) => hasLength(name, 3) && name !== "admin";
@@ -31,10 +30,10 @@ const LoginForm: React.FC<Props> = () => {
 		e.preventDefault();
 		const passwordEntered = password.length > 0;
 
-		if (!validName(user)) return dispatch(addAuthError("Username must be at least 3 characters long."));
+		if (!validName(user)) return dispatch(addError("Username must be at least 3 characters long."));
 
 		if (!validPassword(password) && (register || passwordEntered))
-			return dispatch(addAuthError("Password must be at least 4 characters long."));
+			return dispatch(addError("Password must be at least 4 characters long."));
 
 		if (passwordEntered && register) return dispatch(registerUser(user, password, profileImage));
 		if (passwordEntered) return dispatch(loginWithPassword(user, password));

@@ -15,7 +15,7 @@ import {
 	userRoomI,
 } from "../types/user";
 import { SET_LOADING } from "../types/ui";
-import { addAuthError } from "./error";
+import { addError } from "./ui";
 import storage from "../../config/firebase";
 
 export const loginWithoutPassword = (username: string) => {
@@ -43,7 +43,7 @@ export const loginWithoutPassword = (username: string) => {
 				}
 			})
 			.catch(err => {
-				dispatch(addAuthError("Username is already taken."));
+				dispatch(addError("Username is already taken."));
 				console.error(err.message);
 			})
 			.finally(() => {
@@ -83,7 +83,7 @@ export const loginWithPassword = (username: string, password: string) => {
 				}
 			})
 			.catch(err => {
-				dispatch(addAuthError("Please check email and/or password."));
+				dispatch(addError("Please check email and/or password."));
 				console.error(err.message);
 			})
 			.finally(() => {
@@ -117,7 +117,7 @@ export const registerUser = (username: string, password: string, profileImage: s
 				}
 			})
 			.catch(err => {
-				dispatch(addAuthError("Username is already taken."));
+				dispatch(addError("Username is already taken."));
 				console.error(err.message);
 			})
 			.finally(() => {
@@ -187,7 +187,7 @@ export const uploadProfileImage = (image: File) => {
 			"state_changed",
 			() => {},
 			error => {
-				dispatch(addAuthError(error.message));
+				dispatch(addError(error.message));
 			},
 			() => {
 				storage.storage
@@ -249,7 +249,7 @@ export const updateProfileImage = (image: string, username: string, password: st
 				}
 			})
 			.catch(err => {
-				dispatch(addAuthError("Something went wrong..."));
+				dispatch(addError("Something went wrong..."));
 				console.error(err.message);
 			});
 	};
