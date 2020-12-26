@@ -53,13 +53,15 @@ const AvatarSelection: React.FC<Props> = ({ hidden, password }) => {
 				<div className="title">Profile picture</div>
 				<div className="carouselContainer">
 					<div className="carousel">
-						{uploading && (
-							<div className="uploadStatus">
-								<div className="outline" />
-								<div className="text">Uploading</div>
-							</div>
-						)}
-						{uploadedImage && !uploading && <AvatarPreview handler={handleImageClick} imgUrl={uploadedImage} />}
+						<div className="reservedSpace">
+							{uploading && (
+								<div className="uploadStatus">
+									<div className="outline" />
+									<div className="text">Uploading</div>
+								</div>
+							)}
+							{uploadedImage && !uploading && <AvatarPreview handler={handleImageClick} imgUrl={uploadedImage} />}
+						</div>
 
 						<AvatarPreview imgUrl={Default1} handler={handleImageClick} />
 						<AvatarPreview imgUrl={Default2} handler={handleImageClick} />
