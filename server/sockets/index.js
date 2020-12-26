@@ -81,6 +81,12 @@ const handleSocket = io => {
 					created,
 					content,
 					deleted: false,
+					reactions: {
+						"+1": 0,
+						heart: 0,
+						rolling_on_the_floor_laughing: 0,
+						slightly_frowning_face: 0,
+					},
 				});
 
 				io.in(room).emit("message", message.toObject());

@@ -12,6 +12,12 @@ const messageSchema = new Schema({
 	content: String,
 	created: String,
 	deleted: Boolean,
+	reactions: {
+		"+1": Number,
+		heart: Number,
+		rolling_on_the_floor_laughing: Number,
+		slightly_frowning_face: Number,
+	},
 });
 
 messageSchema.methods.addMessage = async function (roomName) {

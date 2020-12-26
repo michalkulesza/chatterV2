@@ -44,6 +44,12 @@ const Input: React.FC<Props> = () => {
 				created: new Date().toISOString(),
 				room,
 				content: input,
+				reactions: {
+					"+1": 0,
+					heart: 0,
+					rolling_on_the_floor_laughing: 0,
+					slightly_frowning_face: 0,
+				},
 			};
 
 			dispatch(sendMessage(message));
