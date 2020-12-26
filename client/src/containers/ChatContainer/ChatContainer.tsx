@@ -5,9 +5,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { addMessage, clearRoom, initialize, setRoomData, lockRoom, setMessageDeleted } from "../../redux/actions/room";
 import { addUserRoom, clearUser, setUserRooms, updateLockRoomOnList } from "../../redux/actions/user";
 import { clearMisc, setUserList } from "../../redux/actions/misc";
+import { clearUI } from "../../redux/actions/ui";
 import { roomState } from "../../redux/types/room";
-import { MessageI, UserI } from "../../types";
 import { userRoomI } from "../../redux/types/user";
+import { MessageI, UserI } from "../../types";
 import { RootState } from "../../redux/reducers/rootReducer";
 
 import { Mainbar, ChatWindow, Input } from "../../containers";
@@ -51,6 +52,7 @@ const ChatContainer: React.FC<Props> = () => {
 			dispatch(clearUser());
 			dispatch(clearMisc());
 			dispatch(clearRoom());
+			dispatch(clearUI());
 		});
 
 		return () => {

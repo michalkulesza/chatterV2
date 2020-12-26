@@ -1,4 +1,4 @@
-import { TOGGLE_SIDEBAR, SET_LOADING, ADD_ERROR, CLEAR_ERROR } from "../types/ui";
+import { TOGGLE_SIDEBAR, SET_LOADING, ADD_ERROR, CLEAR_ERROR, CLEAR_UI } from "../types/ui";
 import { uiState, uiTypes } from "../types/ui";
 
 const initState: uiState = {
@@ -17,6 +17,8 @@ const error = (state = initState, action: uiTypes) => {
 			return { ...state, error: action.payload };
 		case CLEAR_ERROR:
 			return { ...state, error: initState.error };
+		case CLEAR_UI:
+			return initState;
 		default:
 			return state;
 	}

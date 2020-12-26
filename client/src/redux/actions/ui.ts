@@ -1,4 +1,4 @@
-import { TOGGLE_SIDEBAR, ADD_ERROR, CLEAR_ERROR } from "../types/ui";
+import { TOGGLE_SIDEBAR, ADD_ERROR, CLEAR_ERROR, CLEAR_UI } from "../types/ui";
 
 export const toggleSidebar = () => {
 	return {
@@ -20,5 +20,11 @@ export const addError = (error: string, time: number = 3000) => {
 export const clearError = () => {
 	return {
 		type: CLEAR_ERROR,
+	};
+};
+
+export const clearUI = () => {
+	return {
+		type: CLEAR_UI,
 	};
 };

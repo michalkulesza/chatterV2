@@ -2,6 +2,7 @@ export const TOGGLE_SIDEBAR = "TOGGLE_SIDEBAR";
 export const SET_LOADING = "SET_LOADING";
 export const ADD_ERROR = "ADD_ERROR";
 export const CLEAR_ERROR = "CLEAR_ERROR";
+export const CLEAR_UI = "CLEAR_UI";
 
 export interface uiState {
 	sidebarVisible: boolean;
@@ -27,4 +28,8 @@ export interface clearErrorAction {
 	type: typeof CLEAR_ERROR;
 }
 
-export type uiTypes = toggleSidebarAction | setLoadingAction | addErrorAction | clearErrorAction;
+export interface clearUiActon {
+	type: typeof CLEAR_UI;
+}
+
+export type uiTypes = toggleSidebarAction | setLoadingAction | addErrorAction | clearErrorAction | clearUiActon;
