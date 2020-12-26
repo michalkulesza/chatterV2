@@ -10,6 +10,7 @@ interface Props {
 	disabled?: boolean;
 	type?: "text" | "password" | "checkbox";
 	required?: boolean;
+	autoFocus?: boolean;
 }
 
 const FormInput: React.FC<Props> = ({
@@ -20,6 +21,7 @@ const FormInput: React.FC<Props> = ({
 	disabled,
 	type = "text",
 	required = false,
+	autoFocus,
 }) => {
 	const ID = uuid();
 	const [active, setActive] = useState(false);
@@ -46,6 +48,7 @@ const FormInput: React.FC<Props> = ({
 				onBlur={handleOnBlur}
 				required={required}
 				disabled={disabled}
+				autoFocus={autoFocus}
 			/>
 			<label htmlFor={ID} className={`${labelOnTop && type !== "checkbox" && "onTop"} ${labelColor}`}>
 				{label}

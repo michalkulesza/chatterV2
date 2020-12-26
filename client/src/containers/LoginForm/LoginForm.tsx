@@ -47,7 +47,15 @@ const LoginForm: React.FC<Props> = () => {
 					<div className="Logo">Chatter</div>
 					<div className="Title">Join In</div>
 					<form onSubmit={e => handleSubmit(e)}>
-						<FormInput type="text" setState={setUser} state={user} label="Username" disabled={loading} required />
+						<FormInput
+							autoFocus
+							type="text"
+							setState={setUser}
+							state={user}
+							label="Username"
+							disabled={loading}
+							required
+						/>
 						<FormInput
 							type="password"
 							setState={setPassword}
