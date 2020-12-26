@@ -24,6 +24,7 @@ interface Props {
 const AvatarSelection: React.FC<Props> = ({ hidden, password }) => {
 	const dispatch = useDispatch();
 	const { profileImage, uploadedImage, uploading, username } = useSelector((state: RootState) => state.user);
+	const { error } = useSelector((state: RootState) => state.ui);
 
 	const handleImageClick = (url: string) => dispatch(setProfileImage(url));
 	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -53,15 +54,17 @@ const AvatarSelection: React.FC<Props> = ({ hidden, password }) => {
 				<div className="title">Profile picture</div>
 				<div className="carouselContainer">
 					<div className="carousel">
-						<div className="reservedSpace">
-							{uploading && (
-								<div className="uploadStatus">
-									<div className="outline" />
-									<div className="text">Uploading</div>
-								</div>
-							)}
-							{uploadedImage && !uploading && <AvatarPreview handler={handleImageClick} imgUrl={uploadedImage} />}
-						</div>
+						{uploading || uploadedImage ? (
+							<div className="reservedSpace">
+								{uploading && (
+									<div className="uploadStatus">
+										<div className="outline" />
+										<div className="text">Uploading</div>
+									</div>
+								)}
+								{uploadedImage && !uploading && <AvatarPreview handler={handleImageClick} imgUrl={uploadedImage} />}
+							</div>
+						) : null}
 
 						<AvatarPreview imgUrl={Default1} handler={handleImageClick} />
 						<AvatarPreview imgUrl={Default2} handler={handleImageClick} />
@@ -71,6 +74,7 @@ const AvatarSelection: React.FC<Props> = ({ hidden, password }) => {
 				<div className="upload">
 					<input type="file" accept="image/png, image/jpeg" onChange={e => handleInputChange(e)} multiple={false} />
 				</div>
+				<div className="error">{error}</div>
 			</div>
 			<div className="buttons">
 				<Button color="gray" onMouseDown={handleSkipClick}>
