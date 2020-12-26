@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 const tempRoomSchema = new Schema({
 	_id: String,
 	users: Array,
+	type: String,
 	locked: Boolean,
 	messages: Array,
 });

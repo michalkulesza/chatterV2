@@ -136,6 +136,7 @@ const handleSocket = io => {
 						const room = await new TempRoomModel({
 							_id: roomName,
 							users: arrayOfNames,
+							type: "private",
 							locked: false,
 						}).save();
 
