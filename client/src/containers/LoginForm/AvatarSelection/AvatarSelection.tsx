@@ -7,12 +7,14 @@ import {
 } from "../../../redux/actions/user";
 import { RootState } from "../../../redux/reducers/rootReducer";
 import { useDispatch, useSelector } from "react-redux";
+import { readAndCompressImage } from "browser-image-resizer";
 
 import AvatarPreview from "./AvatarPreview/AvatarPreview";
 import { Button } from "../../../components";
 
 import { Default1, Default2, Default3 } from "../../../constants/defaultProfilePictures";
 import "./AvatarSelection.scss";
+import { addError } from "../../../redux/actions/ui";
 
 interface Props {
 	hidden: boolean;
@@ -23,9 +25,16 @@ const AvatarSelection: React.FC<Props> = ({ hidden, password }) => {
 	const dispatch = useDispatch();
 	const { profileImage, uploadedImage, uploading, username } = useSelector((state: RootState) => state.user);
 
-	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) =>
-		e.target.files && dispatch(uploadProfileImage(e.target.files[0]));
 	const handleImageClick = (url: string) => dispatch(setProfileImage(url));
+	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		if (e.target.files && e.target.files.length > 0) {
+			const image = e.target.files[0];
+
+			readAndCompressImage(image, { quality: 0.9, maxWidth: 300, maxHeight: 300 })
+				.then((resizedImage: File) => dispatch(uploadProfileImage(resizedImage)))
+				.catch((err: Error) => dispatch(addError(err?.message)));
+		}
+	};
 
 	const handleSkipClick = () => dispatch(setAvatarSelected(true));
 	const handleConfirmClick = () => {
