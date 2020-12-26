@@ -1,10 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import "./Input.scss";
+import { EmojiData, Picker } from "emoji-mart";
 
-import { Button } from "../../components";
 import { RootState } from "../../redux/reducers/rootReducer";
+import { toggleEmojiPicker } from "../../redux/actions/ui";
 import { sendMessage } from "../../redux/actions/room";
+import { Button } from "../../components";
+
+import { VscSmiley } from "react-icons/vsc";
+import "emoji-mart/css/emoji-mart.css";
+import "./Input.scss";
 
 interface Props {}
 
@@ -13,9 +18,16 @@ const Input: React.FC<Props> = () => {
 
 	const { username, profileImage } = useSelector((state: RootState) => state.user);
 	const { _id: room, locked } = useSelector((state: RootState) => state.room);
+	const { emojiPicker } = useSelector((state: RootState) => state.ui);
 	const [input, setInput] = useState("");
 
 	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => setInput(e.target.value);
+	const handleEmojiPickerClick = () => dispatch(toggleEmojiPicker());
+	const handleEmojiClick = (e: EmojiData) => {
+		const emoji = e.native;
+		setInput(`${input}${emoji}`);
+	};
+	const handleInputFocus = () => emojiPicker && dispatch(toggleEmojiPicker());
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
@@ -41,14 +53,32 @@ const Input: React.FC<Props> = () => {
 
 	return (
 		<form className="input" onSubmit={e => handleSubmit(e)}>
-			<input
-				type="text"
-				placeholder={locked ? "Messages are disabled" : "Type here..."}
-				value={input}
-				disabled={locked}
-				onChange={e => handleInputChange(e)}
-			/>
-			<Button>Send</Button>
+			<div className="inputWrapper">
+				<div className={`emojiPicker ${emojiPicker && "visible"}`}>
+					<Picker
+						showPreview={false}
+						showSkinTones={false}
+						native={true}
+						emojiSize={20}
+						onSelect={e => handleEmojiClick(e)}
+					/>
+				</div>
+				<div className="tools">
+					<div className={`emojiPickerButton ${emojiPicker && "active"}`} onMouseDown={handleEmojiPickerClick}>
+						<VscSmiley />
+					</div>
+				</div>
+				<input
+					type="text"
+					placeholder={locked ? "Messages are disabled" : "Type here..."}
+					value={input}
+					disabled={locked}
+					onChange={e => handleInputChange(e)}
+					autoComplete="off"
+					onFocus={handleInputFocus}
+				/>
+				<Button>Send</Button>
+			</div>
 		</form>
 	);
 };
