@@ -1,4 +1,4 @@
-import { TOGGLE_SIDEBAR, ADD_ERROR, CLEAR_ERROR, CLEAR_UI } from "../types/ui";
+import { TOGGLE_SIDEBAR, ADD_ERROR, CLEAR_ERROR, CLEAR_UI, TOGGLE_EMOJI_PICKER } from "../types/ui";
 
 export const toggleSidebar = () => {
 	return {
@@ -26,5 +26,11 @@ export const clearError = () => {
 export const clearUI = () => {
 	return {
 		type: CLEAR_UI,
+	};
+};
+
+export const toggleEmojiPicker = () => {
+	return {
+		type: TOGGLE_EMOJI_PICKER,
 	};
 };
