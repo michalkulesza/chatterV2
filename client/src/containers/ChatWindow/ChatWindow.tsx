@@ -8,7 +8,6 @@ import { Message } from "../../containers";
 import { RiChat1Line } from "react-icons/ri";
 import { IoLockClosed } from "react-icons/io5";
 import "./ChatWindow.scss";
-import { MessageI } from "../../types";
 
 interface Props {}
 

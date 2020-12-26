@@ -6,15 +6,17 @@ const { UserModel } = require("../models/userModel");
 
 const { userExists, updateProfileImage } = require("../functions/user");
 const { findGlobalUser } = require("../functions/globalUsers");
+const { isUsernameReserved } = require("../functions/reservedNames");
 
 router.post("/register", async (req, res) => {
 	try {
 		const { username, password, profileImage } = req.body;
 
 		const usernameRegistered = await userExists(username);
-		const usernameReserved = findGlobalUser(username);
+		const usernameConnected = findGlobalUser(username);
+		const usernameReserved = isUsernameReserved(username);
 
-		if (usernameRegistered || usernameReserved) return res.status(400).send("User already exists");
+		if (usernameRegistered || usernameConnected || usernameReserved) return res.status(400).send("User already exists");
 
 		const hashedPassword = await bcrypt.hash(password, 15);
 		const user = new UserModel({
@@ -50,9 +52,10 @@ router.post("/login", async (req, res) => {
 		const { username, password } = req.body;
 
 		const usernameRegistered = await userExists(username);
-		const usernameReserved = findGlobalUser(username);
+		const usernameConnected = findGlobalUser(username);
+		const usernameReserved = isUsernameReserved(username);
 
-		if (usernameRegistered || usernameReserved) {
+		if (usernameRegistered || usernameConnected || usernameReserved) {
 			const user = await UserModel.findOne({ name: username });
 			const passwordCorrect = await bcrypt.compare(password, user.password);
 
@@ -74,9 +77,11 @@ router.post("/join", async (req, res) => {
 		const { username } = req.body;
 
 		const usernameRegistered = await userExists(username);
-		const usernameReserved = findGlobalUser(username);
+		const usernameConnected = findGlobalUser(username);
+		const usernameReserved = isUsernameReserved(username);
 
-		if (usernameRegistered || usernameReserved) return res.status(401).send("Username is taken. Please Login.");
+		if (usernameRegistered || usernameConnected || usernameReserved)
+			return res.status(401).send("Username is taken. Please Login.");
 
 		res.sendStatus(200);
 	} catch (error) {

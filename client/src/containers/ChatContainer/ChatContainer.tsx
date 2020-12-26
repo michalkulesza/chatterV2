@@ -26,6 +26,10 @@ const ChatContainer: React.FC<Props> = () => {
 			dispatch(setRoomData({ _id, type, messages, users, locked }));
 		});
 
+		//initial users data
+
+		//users data
+
 		socket.on("userRooms", (rooms: userRoomI[]) => dispatch(setUserRooms(rooms)));
 
 		socket.on("addUserRoom", (room: userRoomI) => dispatch(addUserRoom(room)));
