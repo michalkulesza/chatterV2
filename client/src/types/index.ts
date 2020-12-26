@@ -8,6 +8,7 @@ export interface MessageI {
 	created: string;
 	seenBy?: UserI[];
 	deleted?: boolean;
+	reactions: ReactionsI;
 }
 
 export interface UserI {
@@ -22,4 +23,11 @@ export interface RoomI {
 	type: "room" | "private";
 	users?: UserI[];
 	messages?: MessageI[];
+}
+
+export interface ReactionsI {
+	"+1": number;
+	heart: number;
+	rolling_on_the_floor_laughing: number;
+	slightly_frowning_face: number;
 }

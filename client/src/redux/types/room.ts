@@ -7,6 +7,7 @@ export const SET_ROOM_DATA = "SET_ROOM_DATA";
 export const CLEAR_ROOM = "CLEAR_ROOM";
 export const SWITCH_ROOM = "SWITCH_ROOM";
 export const LOCK_ROOM = "LOCK_ROOM";
+export const ADD_REACTION = "ADD_REACTION";
 
 import { MessageI } from "../../types/index";
 
@@ -56,6 +57,14 @@ export interface setMessageDeletedAction {
 	payload: string;
 }
 
+export interface addReactionAction {
+	type: typeof ADD_REACTION;
+	payload: {
+		reaction: "+1" | "heart" | "rolling_on_the_floor_laughing" | "slightly_frowning_face";
+		messageID: string;
+	};
+}
+
 export type roomTypes =
 	| initializeAction
 	| setRoomData
@@ -64,4 +73,5 @@ export type roomTypes =
 	| joinPrivateRoomAction
 	| switchRoomAction
 	| setMessageDeletedAction
-	| lockRoomAction;
+	| lockRoomAction
+	| addReactionAction;

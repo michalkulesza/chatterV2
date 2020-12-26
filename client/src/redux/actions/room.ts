@@ -1,4 +1,4 @@
-import { ADD_MESSGAE, CLEAR_ROOM, SET_ROOM_DATA, LOCK_ROOM, SET_MESSAGE_DELETED } from "../types/room";
+import { ADD_MESSGAE, CLEAR_ROOM, SET_ROOM_DATA, LOCK_ROOM, SET_MESSAGE_DELETED, ADD_REACTION } from "../types/room";
 import { SET_LOADING } from "../types/user";
 import { roomState } from "../types/room";
 import socket from "../../config/socketio";
@@ -94,5 +94,15 @@ export const setMessageDeleted = (id: string) => {
 	return {
 		type: SET_MESSAGE_DELETED,
 		payload: id,
+	};
+};
+
+export const addReaction = (room: string, messageID: string, reaction: string) => {
+	return {
+		type: ADD_REACTION,
+		payload: {
+			reaction,
+			messageID,
+		},
 	};
 };
