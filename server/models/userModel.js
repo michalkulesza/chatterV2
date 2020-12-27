@@ -22,6 +22,7 @@ const userSchema = new Schema({
 	lastSeen: String,
 	rooms: [userRoomsSchema],
 	profileImage: String,
+	reactions: Array,
 });
 
 const UserModel = mongoose.model("user", userSchema);

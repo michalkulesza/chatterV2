@@ -30,6 +30,7 @@ router.post("/register", async (req, res) => {
 				},
 			],
 			profileImage,
+			reactions: [],
 		});
 
 		user

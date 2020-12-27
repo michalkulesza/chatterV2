@@ -11,11 +11,17 @@ export interface MessageI {
 	reactions: ReactionsI;
 }
 
+export interface UsersMessageReactionsI {
+	messageID: string;
+	reaction: string;
+}
+
 export interface UserI {
 	_id: string;
 	name: string;
 	registered: boolean;
 	profileImage: string;
+	reactions: UsersMessageReactionsI[];
 }
 
 export interface RoomI {

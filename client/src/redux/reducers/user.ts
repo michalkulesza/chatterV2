@@ -28,6 +28,7 @@ const initState: userState = {
 	profileImage: Default1,
 	uploadedImage: null,
 	uploading: false,
+	reactions: [],
 };
 
 const user = (state = initState, action: userTypes) => {

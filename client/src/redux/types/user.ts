@@ -1,3 +1,5 @@
+import { UsersMessageReactionsI } from "../../types";
+
 export const SET_USER = "SET_USER";
 export const SET_USER_ROOMS = "SET_USER_ROOMS";
 export const CLEAR_USER = "CLEAR_USER";
@@ -20,6 +22,7 @@ export interface userState {
 	profileImage: string;
 	uploadedImage: string | null;
 	uploading: boolean;
+	reactions: UsersMessageReactionsI[] | [];
 }
 
 export interface userRoomI {
