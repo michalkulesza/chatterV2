@@ -46,8 +46,6 @@ const addReactionToUser = async (username, messageID, reaction) => {
 	);
 };
 const removeReactionFromUser = async (username, messageID) => {
-	console.log("HEYHYEHYE");
-
 	return await UserModel.findOneAndUpdate(
 		{ name: username },
 		{

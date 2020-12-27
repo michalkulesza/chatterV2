@@ -61,7 +61,13 @@ const Message: React.FC<Props> = ({ message, prevMessage, deleteDisabled = false
 			if (userReaction.reaction === reaction) {
 				socket.emit("removeReaction", { username: currentUser, room: currentRoom, messageID: message._id, reaction });
 			} else {
-				//dispatch change reaction
+				socket.emit("changeReaction", {
+					username: currentUser,
+					room: currentRoom,
+					messageID: message._id,
+					reactionFrom: userReaction.reaction,
+					reactionTo: reaction,
+				});
 			}
 		} else {
 			if (currentRoom && currentUser)

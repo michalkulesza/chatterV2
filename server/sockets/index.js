@@ -237,6 +237,23 @@ const handleSocket = io => {
 			}
 		});
 
+		socket.on("changeReaction", async ({ username, room, messageID, reactionFrom, reactionTo }) => {
+			try {
+				await removeReactionFromMessage(room, messageID, reactionFrom);
+				await removeReactionFromUser(username, messageID);
+				io.in(currentRoom).emit("removeReaction", { messageID, reaction: reactionFrom });
+
+				await addReactionToMessage(room, messageID, reactionTo);
+				await addReactionToUser(username, messageID, reactionTo);
+				io.in(currentRoom).emit("addReaction", { messageID, reaction: reactionTo });
+
+				const userReactions = await getUserReactions(username);
+				socket.emit("userReactions", userReactions.reactions);
+			} catch (error) {
+				console.log(error.message);
+			}
+		});
+
 		socket.on("disconnect", async () => {
 			try {
 				removeGlobalUser(user);
