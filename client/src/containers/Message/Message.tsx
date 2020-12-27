@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { addReaction, deleteMessage } from "../../redux/actions/room";
+import { deleteMessage } from "../../redux/actions/room";
 import { RootState } from "../../redux/reducers/rootReducer";
 import { useDispatch, useSelector } from "react-redux";
 import socket from "../../config/socketio";
@@ -27,7 +27,7 @@ const Message: React.FC<Props> = ({ message, prevMessage, deleteDisabled = false
 	let timer: NodeJS.Timeout;
 
 	const dispatch = useDispatch();
-	const { username: currentUser, reactions } = useSelector((state: RootState) => state.user);
+	const { username: currentUser, reactions: userReactions } = useSelector((state: RootState) => state.user);
 	const currentRoom = useSelector((state: RootState) => state.room._id);
 
 	const [deleteConfirmation, setDeleteConfirmation] = useState(false);
@@ -46,6 +46,9 @@ const Message: React.FC<Props> = ({ message, prevMessage, deleteDisabled = false
 	const thereIsReaction = Object.values(combinedReactions).filter(num => num > 0).length > 0;
 	const reactionsFullyVisible = messageHovered;
 	const reactionsCompactVisible = thereIsReaction && !reactionsFullyVisible;
+	const reactionFromMyself = userReactions.find(reaction => {
+		if (reaction.messageID === message._id) return reaction.reaction;
+	});
 
 	const handleMessageClick = () => setCollapsed(!collapsed);
 	const handleMouseEnter = () => setMouseOverExtras(true);
@@ -55,7 +58,7 @@ const Message: React.FC<Props> = ({ message, prevMessage, deleteDisabled = false
 	const handleMessageHoverIn = () => setMessageHovered(true);
 	const handleMessageHoverOut = () => setMessageHovered(false);
 	const handleReactionClick = (reaction: string) => {
-		const userReaction = reactions.find(reaction => reaction.messageID === message._id);
+		const userReaction = userReactions.find(reaction => reaction.messageID === message._id);
 
 		if (userReaction) {
 			if (userReaction.reaction === reaction) {
@@ -112,7 +115,9 @@ const Message: React.FC<Props> = ({ message, prevMessage, deleteDisabled = false
 								<div
 									className={`reaction ${reaction[1] > 0 && !reactionsFullyVisible && "compact"} ${
 										reactionsFullyVisible && "visible"
-									} ${fromPartner && "left"}`}
+									} ${fromPartner && "left"} ${
+										reactionFromMyself && reactionFromMyself.reaction === reaction[0] && "highlighted"
+									}`}
 									onMouseDown={() => handleReactionClick(reaction[0])}
 									key={reaction[0]}
 								>

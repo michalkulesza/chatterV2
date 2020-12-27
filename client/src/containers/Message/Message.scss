@@ -89,6 +89,11 @@
 					transform: scaleX(1);
 				}
 
+				&.highlighted {
+					background-color: global.$purple;
+					color: global.$white;
+				}
+
 				.icon {
 					display: flex;
 					justify-content: center;
