@@ -28,9 +28,9 @@ const Input: React.FC<Props> = () => {
 		setInput(`${input}${emoji}`);
 	};
 	const handleInputFocus = () => emojiPicker && dispatch(toggleEmojiPicker());
-	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
-
+	const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => e.key === "Enter" && handleSubmit();
+	const handleSubmit = (e?: React.FormEvent<HTMLFormElement>) => {
+		e?.preventDefault();
 		const messageContent = input.trim();
 		const messageIsEmpty = messageContent === "";
 
@@ -82,6 +82,7 @@ const Input: React.FC<Props> = () => {
 					onChange={e => handleInputChange(e)}
 					autoComplete="off"
 					onFocus={handleInputFocus}
+					onKeyDown={e => handleInputKeyDown(e)}
 				/>
 				<Button>Send</Button>
 			</div>
