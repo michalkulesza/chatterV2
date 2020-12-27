@@ -10,6 +10,7 @@ import {
 	SET_UPLOADED_IMAGE,
 	SET_UPLOADING,
 	SET_USER,
+	SET_USER_REACTIONS,
 	SET_USER_ROOMS,
 	UPDATE_PROFILE_IMAGE,
 	userRoomI,
@@ -17,6 +18,7 @@ import {
 import { SET_LOADING } from "../types/ui";
 import { addError } from "./ui";
 import storage from "../../config/firebase";
+import { ReactionsI } from "../../types";
 
 export const loginWithoutPassword = (username: string) => {
 	return async (dispatch: any) => {
@@ -129,6 +131,13 @@ export const registerUser = (username: string, password: string, profileImage: s
 	};
 };
 
+export const setUserReactions = (reactions: ReactionsI) => {
+	return {
+		type: SET_USER_REACTIONS,
+		payload: reactions,
+	};
+};
+
 export const setUserRooms = (rooms: userRoomI[]) => {
 	return {
 		type: SET_USER_ROOMS,
@@ -196,8 +205,6 @@ export const uploadProfileImage = (image: File) => {
 					.getDownloadURL()
 					.then(url => {
 						dispatch(setUploadedImage(url));
-
-						//send to mongo
 					});
 
 				dispatch({
@@ -206,11 +213,6 @@ export const uploadProfileImage = (image: File) => {
 				});
 			}
 		);
-
-		// dispatch({
-		// 	type: SET_PROFILE_IMAGE,
-		// 	payload: image,
-		// });
 	};
 };
 

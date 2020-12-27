@@ -10,6 +10,7 @@ import {
 	SET_UPLOADED_IMAGE,
 	SET_UPLOADING,
 	UPDATE_PROFILE_IMAGE,
+	SET_USER_REACTIONS,
 } from "../types/user";
 import { userState, userTypes } from "../types/user";
 import { Default1 } from "../../constants/defaultProfilePictures";
@@ -37,6 +38,8 @@ const user = (state = initState, action: userTypes) => {
 			return { ...state, ...action.payload };
 		case SET_USER_ROOMS:
 			return { ...state, userRooms: action.payload };
+		case SET_USER_REACTIONS:
+			return { ...state, reactions: action.payload };
 		case ADD_USER_ROOM:
 			return { ...state, userRooms: [...state.userRooms, action.payload] };
 		case REMOVE_USER_ROOM:

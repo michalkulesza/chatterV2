@@ -1,13 +1,13 @@
 const mongoose = require("mongoose");
 const { addGlobalUser, removeGlobalUser, getGlobalUsers, findGlobalUser } = require("../functions/globalUsers");
 
-const { RoomModel } = require("../models/roomModel");
-const { MessageModel } = require("../models/messageModel");
 const { TempRoomModel } = require("../models/tempRoomModel");
+const { MessageModel } = require("../models/messageModel");
+const { RoomModel } = require("../models/roomModel");
 
-const { getUserRooms, userExists, addRoomToUser } = require("../functions/user");
+const { getUserRooms, userExists, addRoomToUser, getUserReactions, addReactionToUser } = require("../functions/user");
+const { setMessageAsDeleted, addReactionToMessage } = require("../functions/messages");
 const { getRoomData, roomExists, getRoomUsers } = require("../functions/room");
-const { setMessageAsDeleted, addReaction } = require("../functions/messages");
 const {
 	getTempRoomsWithUser,
 	deleteTempRoom,
@@ -69,6 +69,9 @@ const handleSocket = io => {
 
 				if (registered && userRoomsData) socket.emit("userRooms", userRoomsData.rooms);
 				io.in(currentRoom).emit("userList", getGlobalUsers());
+
+				const userReactions = await getUserReactions(user);
+				socket.emit("userReactions", userReactions.reactions);
 			} catch (error) {
 				console.error(error);
 			}
@@ -199,9 +202,10 @@ const handleSocket = io => {
 			}
 		});
 
-		socket.on("addReaction", async ({ room, messageID, reaction }) => {
+		socket.on("addReaction", async ({ username, room, messageID, reaction }) => {
 			try {
-				await addReaction(room, messageID, reaction);
+				await addReactionToMessage(room, messageID, reaction);
+				await addReactionToUser(username, messageID, reaction);
 			} catch (error) {
 				console.log(error.message);
 			}

@@ -97,7 +97,7 @@ export const setMessageDeleted = (id: string) => {
 	};
 };
 
-export const addReaction = (room: string, messageID: string, reaction: string) => {
+export const addReaction = (username: string, room: string, messageID: string, reaction: string) => {
 	return async (dispatch: any) => {
 		dispatch({
 			type: ADD_REACTION,
@@ -107,6 +107,6 @@ export const addReaction = (room: string, messageID: string, reaction: string) =
 			},
 		});
 
-		socket.emit("addReaction", { room, messageID, reaction });
+		socket.emit("addReaction", { username, room, messageID, reaction });
 	};
 };

@@ -54,7 +54,7 @@ const Message: React.FC<Props> = ({ message, prevMessage, deleteDisabled = false
 	const handleMessageHoverIn = () => setMessageHovered(true);
 	const handleMessageHoverOut = () => setMessageHovered(false);
 	const handleReactionClick = (reaction: string) =>
-		currentRoom && dispatch(addReaction(currentRoom, message._id, reaction));
+		currentRoom && currentUser && dispatch(addReaction(currentUser, currentRoom, message._id, reaction));
 
 	useEffect(() => {
 		if (!collapsed && !mouseOverExtras) timer = setTimeout(() => setCollapsed(true), 2500);

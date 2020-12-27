@@ -36,7 +36,7 @@ const setMessageAsDeleted = async (roomName, messageID) => {
 	}
 };
 
-const addReaction = async (room, messageID, reaction) => {
+const addReactionToMessage = async (room, messageID, reaction) => {
 	RoomModel.findOne({ _id: room }, (err, doc) => {
 		const index = doc.messages.findIndex(message => message._id.toString() === messageID);
 
@@ -48,4 +48,4 @@ const addReaction = async (room, messageID, reaction) => {
 	});
 };
 
-module.exports = { setMessageAsDeleted, addReaction };
+module.exports = { setMessageAsDeleted, addReactionToMessage };

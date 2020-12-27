@@ -1,7 +1,8 @@
-import { UsersMessageReactionsI } from "../../types";
+import { ReactionsI, UsersMessageReactionsI } from "../../types";
 
 export const SET_USER = "SET_USER";
 export const SET_USER_ROOMS = "SET_USER_ROOMS";
+export const SET_USER_REACTIONS = "SET_USER_REACTIONS";
 export const CLEAR_USER = "CLEAR_USER";
 export const ADD_USER_ROOM = "ADD_USER_ROOM";
 export const REMOVE_USER_ROOM = "REMOVE_USER_ROOM";
@@ -44,6 +45,11 @@ export interface setUserAction {
 export interface setUserRoomsAction {
 	type: typeof SET_USER_ROOMS;
 	payload: userRoomI[] | [];
+}
+
+export interface setUserReactionsAction {
+	type: typeof SET_USER_REACTIONS;
+	payload: ReactionsI | [];
 }
 
 export interface addUserRoomAction {
@@ -98,6 +104,7 @@ export interface updateProfileImageAction {
 export type userTypes =
 	| setUserAction
 	| setUserRoomsAction
+	| setUserReactionsAction
 	| clearUserAction
 	| addUserRoomAction
 	| removeUserRoomAction

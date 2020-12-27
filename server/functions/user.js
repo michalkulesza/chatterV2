@@ -30,9 +30,27 @@ const updateProfileImage = async (username, profileImage) => {
 	);
 };
 
+const getUserReactions = async username => await UserModel.findOne({ name: username }).select({ reactions: 1, _id: 0 });
+
+const addReactionToUser = async (username, messageID, reaction) => {
+	return await UserModel.findOneAndUpdate(
+		{ name: username },
+		{
+			$push: {
+				reactions: {
+					messageID,
+					reaction,
+				},
+			},
+		}
+	);
+};
+
 module.exports = {
 	getUserRooms,
 	userExists,
 	addRoomToUser,
 	updateProfileImage,
+	getUserReactions,
+	addReactionToUser,
 };

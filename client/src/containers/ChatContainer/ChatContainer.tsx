@@ -3,12 +3,12 @@ import socket from "../../config/socketio";
 import { useDispatch, useSelector } from "react-redux";
 
 import { addMessage, clearRoom, initialize, setRoomData, lockRoom, setMessageDeleted } from "../../redux/actions/room";
-import { addUserRoom, clearUser, setUserRooms, updateLockRoomOnList } from "../../redux/actions/user";
+import { addUserRoom, clearUser, setUserReactions, setUserRooms, updateLockRoomOnList } from "../../redux/actions/user";
 import { clearMisc, setUserList } from "../../redux/actions/misc";
 import { clearUI } from "../../redux/actions/ui";
 import { roomState } from "../../redux/types/room";
 import { userRoomI } from "../../redux/types/user";
-import { MessageI, UserI } from "../../types";
+import { MessageI, ReactionsI, UserI } from "../../types";
 import { RootState } from "../../redux/reducers/rootReducer";
 
 import { Mainbar, ChatWindow, Input } from "../../containers";
@@ -36,6 +36,8 @@ const ChatContainer: React.FC<Props> = () => {
 		socket.on("addUserRoom", (room: userRoomI) => dispatch(addUserRoom(room)));
 
 		socket.on("userList", (users: UserI[]) => dispatch(setUserList(users)));
+
+		socket.on("userReactions", (reactions: ReactionsI) => dispatch(setUserReactions(reactions)));
 
 		socket.on("message", (message: MessageI) => dispatch(addMessage(message)));
 
