@@ -8,6 +8,7 @@ export const CLEAR_ROOM = "CLEAR_ROOM";
 export const SWITCH_ROOM = "SWITCH_ROOM";
 export const LOCK_ROOM = "LOCK_ROOM";
 export const ADD_REACTION = "ADD_REACTION";
+export const REMOVE_REACTION = "REMOVE_REACTION";
 
 import { MessageI } from "../../types/index";
 
@@ -65,6 +66,14 @@ export interface addReactionAction {
 	};
 }
 
+export interface removeReactionAction {
+	type: typeof REMOVE_REACTION;
+	payload: {
+		reaction: "+1" | "heart" | "rolling_on_the_floor_laughing" | "slightly_frowning_face";
+		messageID: string;
+	};
+}
+
 export type roomTypes =
 	| initializeAction
 	| setRoomData
@@ -74,4 +83,5 @@ export type roomTypes =
 	| switchRoomAction
 	| setMessageDeletedAction
 	| lockRoomAction
-	| addReactionAction;
+	| addReactionAction
+	| removeReactionAction;

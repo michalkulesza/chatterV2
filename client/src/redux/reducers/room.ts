@@ -1,4 +1,12 @@
-import { ADD_MESSGAE, CLEAR_ROOM, SET_ROOM_DATA, LOCK_ROOM, SET_MESSAGE_DELETED, ADD_REACTION } from "../types/room";
+import {
+	ADD_MESSGAE,
+	CLEAR_ROOM,
+	SET_ROOM_DATA,
+	LOCK_ROOM,
+	SET_MESSAGE_DELETED,
+	ADD_REACTION,
+	REMOVE_REACTION,
+} from "../types/room";
 import { roomTypes, roomState } from "../types/room";
 
 const initState: roomState = {
@@ -24,6 +32,7 @@ const initState: roomState = {
 
 const room = (state = initState, action: roomTypes) => {
 	let messagesCopy;
+	let messageIndex;
 
 	switch (action.type) {
 		case SET_ROOM_DATA:
@@ -48,11 +57,22 @@ const room = (state = initState, action: roomTypes) => {
 			return initState;
 		case ADD_REACTION:
 			messagesCopy = [...state.messages];
-			const messageIndex = messagesCopy.findIndex(msg => msg._id === action.payload.messageID);
+			messageIndex = messagesCopy.findIndex(msg => msg._id === action.payload.messageID);
 			if (messageIndex > -1) {
 				let reaction: "+1" | "heart" | "rolling_on_the_floor_laughing" | "slightly_frowning_face" =
 					action.payload.reaction;
 				messagesCopy[messageIndex].reactions[reaction] += 1;
+				return { ...state, messages: messagesCopy };
+			} else {
+				return state;
+			}
+		case REMOVE_REACTION:
+			messagesCopy = [...state.messages];
+			messageIndex = messagesCopy.findIndex(msg => msg._id === action.payload.messageID);
+			if (messageIndex > -1) {
+				let reaction: "+1" | "heart" | "rolling_on_the_floor_laughing" | "slightly_frowning_face" =
+					action.payload.reaction;
+				if (messagesCopy[messageIndex].reactions[reaction] > 0) messagesCopy[messageIndex].reactions[reaction] -= 1;
 				return { ...state, messages: messagesCopy };
 			} else {
 				return state;

@@ -2,13 +2,22 @@ import React, { useEffect } from "react";
 import socket from "../../config/socketio";
 import { useDispatch, useSelector } from "react-redux";
 
-import { addMessage, clearRoom, initialize, setRoomData, lockRoom, setMessageDeleted } from "../../redux/actions/room";
+import {
+	addMessage,
+	clearRoom,
+	initialize,
+	setRoomData,
+	lockRoom,
+	setMessageDeleted,
+	addReaction,
+	removeReaction,
+} from "../../redux/actions/room";
 import { addUserRoom, clearUser, setUserReactions, setUserRooms, updateLockRoomOnList } from "../../redux/actions/user";
 import { clearMisc, setUserList } from "../../redux/actions/misc";
 import { clearUI } from "../../redux/actions/ui";
 import { roomState } from "../../redux/types/room";
 import { userRoomI } from "../../redux/types/user";
-import { MessageI, ReactionsI, UserI } from "../../types";
+import { MessageI, UserI, UsersMessageReactionsI } from "../../types";
 import { RootState } from "../../redux/reducers/rootReducer";
 
 import { Mainbar, ChatWindow, Input } from "../../containers";
@@ -27,17 +36,21 @@ const ChatContainer: React.FC<Props> = () => {
 			dispatch(setRoomData({ _id, type, messages, users, locked }));
 		});
 
-		//initial users data
-
-		//users data
-
 		socket.on("userRooms", (rooms: userRoomI[]) => dispatch(setUserRooms(rooms)));
 
 		socket.on("addUserRoom", (room: userRoomI) => dispatch(addUserRoom(room)));
 
 		socket.on("userList", (users: UserI[]) => dispatch(setUserList(users)));
 
-		socket.on("userReactions", (reactions: ReactionsI) => dispatch(setUserReactions(reactions)));
+		socket.on("userReactions", (reactions: UsersMessageReactionsI) => dispatch(setUserReactions(reactions)));
+
+		socket.on("addReaction", ({ messageID, reaction }: { messageID: string; reaction: string }) =>
+			dispatch(addReaction(messageID, reaction))
+		);
+
+		socket.on("removeReaction", ({ messageID, reaction }: { messageID: string; reaction: string }) =>
+			dispatch(removeReaction(messageID, reaction))
+		);
 
 		socket.on("message", (message: MessageI) => dispatch(addMessage(message)));
 

@@ -5,8 +5,15 @@ const { TempRoomModel } = require("../models/tempRoomModel");
 const { MessageModel } = require("../models/messageModel");
 const { RoomModel } = require("../models/roomModel");
 
-const { getUserRooms, userExists, addRoomToUser, getUserReactions, addReactionToUser } = require("../functions/user");
-const { setMessageAsDeleted, addReactionToMessage } = require("../functions/messages");
+const {
+	getUserRooms,
+	userExists,
+	addRoomToUser,
+	getUserReactions,
+	addReactionToUser,
+	removeReactionFromUser,
+} = require("../functions/user");
+const { setMessageAsDeleted, addReactionToMessage, removeReactionFromMessage } = require("../functions/messages");
 const { getRoomData, roomExists, getRoomUsers } = require("../functions/room");
 const {
 	getTempRoomsWithUser,
@@ -206,6 +213,25 @@ const handleSocket = io => {
 			try {
 				await addReactionToMessage(room, messageID, reaction);
 				await addReactionToUser(username, messageID, reaction);
+
+				const userReactions = await getUserReactions(username);
+				socket.emit("userReactions", userReactions.reactions);
+
+				io.in(currentRoom).emit("addReaction", { messageID, reaction });
+			} catch (error) {
+				console.log(error.message);
+			}
+		});
+
+		socket.on("removeReaction", async ({ username, room, messageID, reaction }) => {
+			try {
+				await removeReactionFromMessage(room, messageID, reaction);
+				await removeReactionFromUser(username, messageID);
+
+				const userReactions = await getUserReactions(username);
+				socket.emit("userReactions", userReactions.reactions);
+
+				io.in(currentRoom).emit("removeReaction", { messageID, reaction });
 			} catch (error) {
 				console.log(error.message);
 			}

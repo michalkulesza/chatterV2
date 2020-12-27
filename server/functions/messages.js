@@ -48,4 +48,16 @@ const addReactionToMessage = async (room, messageID, reaction) => {
 	});
 };
 
-module.exports = { setMessageAsDeleted, addReactionToMessage };
+const removeReactionFromMessage = async (room, messageID, reaction) => {
+	RoomModel.findOne({ _id: room }, (err, doc) => {
+		const index = doc.messages.findIndex(message => message._id.toString() === messageID);
+
+		if (index > -1) {
+			if (doc.messages[index].reactions[reaction] > 0) doc.messages[index].reactions[reaction] -= 1;
+			doc.markModified("messages");
+			doc.save(err => err && console.log("lolsdfsdfsdfsdfdfdsfsd", err));
+		}
+	});
+};
+
+module.exports = { setMessageAsDeleted, addReactionToMessage, removeReactionFromMessage };

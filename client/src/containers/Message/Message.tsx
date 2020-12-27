@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { addReaction, deleteMessage } from "../../redux/actions/room";
 import { RootState } from "../../redux/reducers/rootReducer";
 import { useDispatch, useSelector } from "react-redux";
+import socket from "../../config/socketio";
 import { MessageI } from "../../types";
 import { Emoji } from "emoji-mart";
 import Moment from "react-moment";
@@ -26,7 +27,7 @@ const Message: React.FC<Props> = ({ message, prevMessage, deleteDisabled = false
 	let timer: NodeJS.Timeout;
 
 	const dispatch = useDispatch();
-	const currentUser = useSelector((state: RootState) => state.user.username);
+	const { username: currentUser, reactions } = useSelector((state: RootState) => state.user);
 	const currentRoom = useSelector((state: RootState) => state.room._id);
 
 	const [deleteConfirmation, setDeleteConfirmation] = useState(false);
@@ -53,8 +54,20 @@ const Message: React.FC<Props> = ({ message, prevMessage, deleteDisabled = false
 	const handleDeleteConfirm = () => currentRoom && dispatch(deleteMessage(currentRoom, message._id));
 	const handleMessageHoverIn = () => setMessageHovered(true);
 	const handleMessageHoverOut = () => setMessageHovered(false);
-	const handleReactionClick = (reaction: string) =>
-		currentRoom && currentUser && dispatch(addReaction(currentUser, currentRoom, message._id, reaction));
+	const handleReactionClick = (reaction: string) => {
+		const userReaction = reactions.find(reaction => reaction.messageID === message._id);
+
+		if (userReaction) {
+			if (userReaction.reaction === reaction) {
+				socket.emit("removeReaction", { username: currentUser, room: currentRoom, messageID: message._id, reaction });
+			} else {
+				//dispatch change reaction
+			}
+		} else {
+			if (currentRoom && currentUser)
+				socket.emit("addReaction", { username: currentUser, room: currentRoom, messageID: message._id, reaction });
+		}
+	};
 
 	useEffect(() => {
 		if (!collapsed && !mouseOverExtras) timer = setTimeout(() => setCollapsed(true), 2500);

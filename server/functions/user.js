@@ -45,6 +45,20 @@ const addReactionToUser = async (username, messageID, reaction) => {
 		}
 	);
 };
+const removeReactionFromUser = async (username, messageID) => {
+	console.log("HEYHYEHYE");
+
+	return await UserModel.findOneAndUpdate(
+		{ name: username },
+		{
+			$pull: {
+				reactions: {
+					messageID,
+				},
+			},
+		}
+	);
+};
 
 module.exports = {
 	getUserRooms,
@@ -53,4 +67,5 @@ module.exports = {
 	updateProfileImage,
 	getUserReactions,
 	addReactionToUser,
+	removeReactionFromUser,
 };

@@ -18,7 +18,7 @@ import {
 import { SET_LOADING } from "../types/ui";
 import { addError } from "./ui";
 import storage from "../../config/firebase";
-import { ReactionsI } from "../../types";
+import { ReactionsI, UsersMessageReactionsI } from "../../types";
 
 export const loginWithoutPassword = (username: string) => {
 	return async (dispatch: any) => {
@@ -131,7 +131,7 @@ export const registerUser = (username: string, password: string, profileImage: s
 	};
 };
 
-export const setUserReactions = (reactions: ReactionsI) => {
+export const setUserReactions = (reactions: UsersMessageReactionsI) => {
 	return {
 		type: SET_USER_REACTIONS,
 		payload: reactions,

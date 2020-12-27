@@ -1,4 +1,12 @@
-import { ADD_MESSGAE, CLEAR_ROOM, SET_ROOM_DATA, LOCK_ROOM, SET_MESSAGE_DELETED, ADD_REACTION } from "../types/room";
+import {
+	ADD_MESSGAE,
+	CLEAR_ROOM,
+	SET_ROOM_DATA,
+	LOCK_ROOM,
+	SET_MESSAGE_DELETED,
+	ADD_REACTION,
+	REMOVE_REACTION,
+} from "../types/room";
 import { SET_LOADING } from "../types/user";
 import { roomState } from "../types/room";
 import socket from "../../config/socketio";
@@ -97,7 +105,7 @@ export const setMessageDeleted = (id: string) => {
 	};
 };
 
-export const addReaction = (username: string, room: string, messageID: string, reaction: string) => {
+export const addReaction = (messageID: string, reaction: string) => {
 	return async (dispatch: any) => {
 		dispatch({
 			type: ADD_REACTION,
@@ -106,7 +114,17 @@ export const addReaction = (username: string, room: string, messageID: string, r
 				messageID,
 			},
 		});
+	};
+};
 
-		socket.emit("addReaction", { username, room, messageID, reaction });
+export const removeReaction = (messageID: string, reaction: string) => {
+	return async (dispatch: any) => {
+		dispatch({
+			type: REMOVE_REACTION,
+			payload: {
+				reaction,
+				messageID,
+			},
+		});
 	};
 };
