@@ -98,11 +98,15 @@ export const setMessageDeleted = (id: string) => {
 };
 
 export const addReaction = (room: string, messageID: string, reaction: string) => {
-	return {
-		type: ADD_REACTION,
-		payload: {
-			reaction,
-			messageID,
-		},
+	return async (dispatch: any) => {
+		dispatch({
+			type: ADD_REACTION,
+			payload: {
+				reaction,
+				messageID,
+			},
+		});
+
+		socket.emit("addReaction", { room, messageID, reaction });
 	};
 };

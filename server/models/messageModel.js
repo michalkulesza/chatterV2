@@ -32,6 +32,7 @@ messageSchema.methods.addMessage = async function (roomName) {
 						content: this.content,
 						created: this.created,
 						deleted: this.deleted,
+						reactions: this.reactions,
 					},
 				},
 			}
@@ -53,6 +54,7 @@ messageSchema.methods.addTempMessage = async function (roomName) {
 						content: this.content,
 						created: this.created,
 						deleted: this.deleted,
+						reactions: this.reactions,
 					},
 				},
 			}
@@ -64,4 +66,4 @@ messageSchema.methods.addTempMessage = async function (roomName) {
 
 const MessageModel = mongoose.model("message", messageSchema);
 
-module.exports = { MessageModel };
+module.exports = { MessageModel, messageSchema };

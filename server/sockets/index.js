@@ -5,8 +5,9 @@ const { RoomModel } = require("../models/roomModel");
 const { MessageModel } = require("../models/messageModel");
 const { TempRoomModel } = require("../models/tempRoomModel");
 
-const { getRoomData, roomExists, getRoomUsers, setMessageAsDeleted } = require("../functions/room");
 const { getUserRooms, userExists, addRoomToUser } = require("../functions/user");
+const { getRoomData, roomExists, getRoomUsers } = require("../functions/room");
+const { setMessageAsDeleted, addReaction } = require("../functions/messages");
 const {
 	getTempRoomsWithUser,
 	deleteTempRoom,
@@ -195,6 +196,14 @@ const handleSocket = io => {
 				socket.join(currentRoom);
 			} catch (error) {
 				console.error(error.message);
+			}
+		});
+
+		socket.on("addReaction", async ({ room, messageID, reaction }) => {
+			try {
+				await addReaction(room, messageID, reaction);
+			} catch (error) {
+				console.log(error.message);
 			}
 		});
 
