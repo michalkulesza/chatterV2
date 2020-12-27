@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import OutsideClickHandler from "react-outside-click-handler";
 import { useDispatch, useSelector } from "react-redux";
 import { EmojiData, Picker } from "emoji-mart";
 
@@ -23,11 +24,11 @@ const Input: React.FC<Props> = () => {
 
 	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => setInput(e.target.value);
 	const handleEmojiPickerClick = () => dispatch(toggleEmojiPicker());
+	const handleEmojiPickerClickOutside = () => emojiPicker && dispatch(toggleEmojiPicker());
 	const handleEmojiClick = (e: EmojiData) => {
 		const emoji = e.native;
 		setInput(`${input}${emoji}`);
 	};
-	const handleInputFocus = () => emojiPicker && dispatch(toggleEmojiPicker());
 	const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => e.key === "Enter" && handleSubmit();
 	const handleSubmit = (e?: React.FormEvent<HTMLFormElement>) => {
 		e?.preventDefault();
@@ -60,20 +61,22 @@ const Input: React.FC<Props> = () => {
 	return (
 		<form className="input" onSubmit={e => handleSubmit(e)}>
 			<div className="inputWrapper">
-				<div className={`emojiPicker ${emojiPicker && "visible"}`}>
-					<Picker
-						showPreview={false}
-						showSkinTones={false}
-						native={true}
-						emojiSize={20}
-						onSelect={e => handleEmojiClick(e)}
-					/>
-				</div>
-				<div className="tools">
-					<div className={`emojiPickerButton ${emojiPicker && "active"}`} onMouseDown={handleEmojiPickerClick}>
-						<VscSmiley />
+				<OutsideClickHandler onOutsideClick={handleEmojiPickerClickOutside}>
+					<div className={`emojiPicker ${emojiPicker && "visible"}`}>
+						<Picker
+							showPreview={false}
+							showSkinTones={false}
+							native={true}
+							emojiSize={20}
+							onSelect={e => handleEmojiClick(e)}
+						/>
 					</div>
-				</div>
+					<div className="tools">
+						<div className={`emojiPickerButton ${emojiPicker && "active"}`} onMouseDown={handleEmojiPickerClick}>
+							<VscSmiley />
+						</div>
+					</div>
+				</OutsideClickHandler>
 				<input
 					type="text"
 					placeholder={locked ? "Messages are disabled" : "Type here..."}
@@ -81,7 +84,6 @@ const Input: React.FC<Props> = () => {
 					disabled={locked}
 					onChange={e => handleInputChange(e)}
 					autoComplete="off"
-					onFocus={handleInputFocus}
 					onKeyDown={e => handleInputKeyDown(e)}
 				/>
 				<Button>Send</Button>
