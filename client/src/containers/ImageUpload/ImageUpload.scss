@@ -1,17 +1,7 @@
 @use '../../styles/global';
 
 .imageUploadContainer {
-	position: absolute;
-	top: 0;
-	left: 0;
-	height: 100%;
-	width: 100%;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	background-color: rgba(0, 0, 0, 0.15);
 	z-index: 10;
-	backdrop-filter: blur(2px);
 
 	.imageUpload {
 		height: 450px;

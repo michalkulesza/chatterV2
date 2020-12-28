@@ -4,6 +4,8 @@ import { useSelector } from "react-redux";
 
 import { ChatContainer, Sidebar, ImageUpload } from "../../containers";
 import { Overlay } from "../../components";
+
+import { CgSpinner } from "react-icons/cg";
 import "./Chat.scss";
 
 interface Props {}
@@ -13,10 +15,21 @@ const Chat: React.FC<Props> = () => {
 
 	return (
 		<div className="chat">
-			{loading === true && <Overlay />}
+			{loading === true && (
+				<Overlay>
+					<div className="spinning">
+						<CgSpinner />
+					</div>
+					<span>Getting things ready...</span>
+				</Overlay>
+			)}
 			<Sidebar />
 			<ChatContainer />
-			{imageUpload && <ImageUpload />}
+			{imageUpload && (
+				<Overlay>
+					<ImageUpload />
+				</Overlay>
+			)}
 		</div>
 	);
 };

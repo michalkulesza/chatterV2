@@ -13,10 +13,15 @@
 	flex-direction: column;
 	user-select: none;
 
+	.spinning {
+		svg {
+			animation: spinningLrg 0.7s infinite;
+		}
+	}
+
 	svg {
 		transform: scale(2.5);
 		margin-bottom: 1.5rem;
-		animation: spinningLrg 0.7s infinite;
 
 		path {
 			fill: white;
