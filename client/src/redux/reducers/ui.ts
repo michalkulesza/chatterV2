@@ -1,4 +1,12 @@
-import { TOGGLE_SIDEBAR, SET_LOADING, ADD_ERROR, CLEAR_ERROR, CLEAR_UI, TOGGLE_EMOJI_PICKER } from "../types/ui";
+import {
+	TOGGLE_SIDEBAR,
+	SET_LOADING,
+	ADD_ERROR,
+	CLEAR_ERROR,
+	CLEAR_UI,
+	TOGGLE_EMOJI_PICKER,
+	TOGGLE_IMAGE_UPLOAD,
+} from "../types/ui";
 import { uiState, uiTypes } from "../types/ui";
 
 const initState: uiState = {
@@ -6,6 +14,7 @@ const initState: uiState = {
 	loading: false,
 	error: null,
 	emojiPicker: false,
+	imageUpload: false,
 };
 
 const error = (state = initState, action: uiTypes) => {
@@ -22,6 +31,8 @@ const error = (state = initState, action: uiTypes) => {
 			return initState;
 		case TOGGLE_EMOJI_PICKER:
 			return { ...state, emojiPicker: !state.emojiPicker };
+		case TOGGLE_IMAGE_UPLOAD:
+			return { ...state, imageUpload: !state.imageUpload };
 		default:
 			return state;
 	}
