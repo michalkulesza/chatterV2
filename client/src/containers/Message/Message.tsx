@@ -3,11 +3,14 @@ import { RootState } from "../../redux/reducers/rootReducer";
 import { deleteMessage } from "../../redux/actions/room";
 import { useDispatch, useSelector } from "react-redux";
 import { MessageI } from "../../types";
+import { key } from "../../config/key";
 import Moment from "react-moment";
 
 import { Reactions } from "../../containers";
 import "./Message.scss";
 import { setImagePreview } from "../../redux/actions/ui";
+import { GiphyFetch } from "@giphy/js-fetch-api";
+import { Gif } from "@giphy/react-components";
 
 interface Props {
 	message: MessageI;
@@ -29,6 +32,7 @@ const Message: React.FC<Props> = ({ message, prevMessage, deleteDisabled = false
 	const [messageHoverTrigger, setMessageHoverTrigger] = useState(false);
 	const [messageHovered, setMessageHovered] = useState(false);
 	const [collapsed, setCollapsed] = useState(true);
+	const [gif, setGif] = useState<any>(null);
 
 	const fromMyself = currentUser === message.author.name;
 	const fromAdmin = message.author.name === "admin";
@@ -65,6 +69,18 @@ const Message: React.FC<Props> = ({ message, prevMessage, deleteDisabled = false
 		};
 	}, [messageHoverTrigger]);
 
+	useEffect(() => {
+		if (message.giphyID) {
+			const gf = new GiphyFetch(key);
+			const getGif = async (gifID: any) => {
+				const { data } = await gf.gif(gifID);
+				setGif(data);
+			};
+
+			getGif(message.giphyID);
+		}
+	}, [message.giphyID]);
+
 	return (
 		<div className={`messageContainer ${authorClass} ${marginBottom && "marginBottom"}`}>
 			{fromPartner && (
@@ -79,12 +95,13 @@ const Message: React.FC<Props> = ({ message, prevMessage, deleteDisabled = false
 			>
 				{fromPartner && !fromTheSameUser && <span>{message.author.name}</span>}
 				<div className={`message ${messageDeleted && "deleted"}`} onMouseDown={handleMessageClick}>
+					{gif && <Gif gif={gif} width={300}></Gif>}
 					{message.image && (
 						<div className="imageContainer" onMouseDown={handleImageClick}>
 							<img src={message.image} alt="" />
 						</div>
 					)}
-					{!messageDeleted && message.content}
+					{!messageDeleted && message.content.length > 0 && message.content}
 					{messageDeleted && `Message deleted...`}
 				</div>
 				{!fromAdmin && !messageDeleted && (

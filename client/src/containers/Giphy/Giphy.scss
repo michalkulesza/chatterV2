@@ -1,0 +1,22 @@
+@use '../../styles/global';
+
+.giphy {
+	position: absolute;
+	height: 500px;
+	width: calc(400px + 2rem);
+	background-color: rgba(global.$gray2, $alpha: 0.9);
+	border-radius: 3px;
+	bottom: calc(100% + 1rem);
+	padding: 1rem;
+	left: 0;
+	overflow-y: scroll;
+	box-shadow: global.$shadow;
+
+	.search {
+		margin-bottom: 0.5rem;
+	}
+
+	.grid {
+		cursor: pointer;
+	}
+}
