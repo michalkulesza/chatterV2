@@ -25,6 +25,7 @@ const initReactions = {
 
 const Message: React.FC<Props> = ({ message, prevMessage, deleteDisabled = false, marginBottom }) => {
 	let timer: NodeJS.Timeout;
+	let messageHoverTimer: NodeJS.Timeout;
 
 	const dispatch = useDispatch();
 	const { username: currentUser, reactions: userReactions } = useSelector((state: RootState) => state.user);
@@ -32,6 +33,7 @@ const Message: React.FC<Props> = ({ message, prevMessage, deleteDisabled = false
 
 	const [deleteConfirmation, setDeleteConfirmation] = useState(false);
 	const [mouseOverExtras, setMouseOverExtras] = useState(false);
+	const [messageHoverTrigger, setMessageHoverTrigger] = useState(false);
 	const [messageHovered, setMessageHovered] = useState(false);
 	const [collapsed, setCollapsed] = useState(true);
 
@@ -55,8 +57,8 @@ const Message: React.FC<Props> = ({ message, prevMessage, deleteDisabled = false
 	const handleMouseLeave = () => setMouseOverExtras(false);
 	const handleDeleteClick = () => setDeleteConfirmation(true);
 	const handleDeleteConfirm = () => currentRoom && dispatch(deleteMessage(currentRoom, message._id));
-	const handleMessageHoverIn = () => setMessageHovered(true);
-	const handleMessageHoverOut = () => setMessageHovered(false);
+	const handleMessageHoverIn = () => setMessageHoverTrigger(true);
+	const handleMessageHoverOut = () => setMessageHoverTrigger(false);
 	const handleReactionClick = (reaction: string) => {
 		const userReaction = userReactions.find(reaction => reaction.messageID === message._id);
 
@@ -86,6 +88,15 @@ const Message: React.FC<Props> = ({ message, prevMessage, deleteDisabled = false
 			setDeleteConfirmation(false);
 		};
 	}, [collapsed, mouseOverExtras]);
+
+	useEffect(() => {
+		if (messageHoverTrigger) messageHoverTimer = setTimeout(() => setMessageHovered(true), 500);
+
+		return () => {
+			clearTimeout(messageHoverTimer);
+			setMessageHovered(false);
+		};
+	}, [messageHoverTrigger]);
 
 	return (
 		<div className={`messageContainer ${authorClass} ${marginBottom && "marginBottom"}`}>
