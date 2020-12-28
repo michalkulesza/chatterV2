@@ -3,7 +3,8 @@ import { RootState } from "../../redux/reducers/rootReducer";
 import socket from "../../config/socketio";
 import { useSelector } from "react-redux";
 import { MessageI } from "../../types";
-import { Emoji } from "emoji-mart";
+
+import Reaction from "./Reaction/Reaction";
 import "./Reactions.scss";
 
 interface Props {
@@ -59,20 +60,14 @@ const Reactions: React.FC<Props> = ({ fromPartner, message, messageHovered }) =>
 			}`}
 		>
 			{Object.entries(combinedReactions).map(reaction => (
-				<div
-					className={`reaction ${reaction[1] > 0 && !reactionsFullyVisible && "compact"} ${
-						reactionsFullyVisible && "visible"
-					} ${fromPartner && "left"} ${
-						reactionFromMyself && reactionFromMyself.reaction === reaction[0] && "highlighted"
-					}`}
-					onMouseDown={() => handleReactionClick(reaction[0])}
-					key={reaction[0]}
-				>
-					<div className="icon">
-						<Emoji emoji={reaction[0]} size={16}></Emoji>
-					</div>
-					<div className="number">{reaction[1]}</div>
-				</div>
+				<Reaction
+					reactionsFullyVisible={reactionsFullyVisible}
+					fromPartner={fromPartner}
+					reactionFromMyself={reactionFromMyself}
+					reactionName={reaction[0]}
+					reactionCount={reaction[1]}
+					handleReactionClick={handleReactionClick}
+				/>
 			))}
 		</div>
 	);
