@@ -62,6 +62,7 @@ const handleSocket = io => {
 					},
 					created: new Date().toISOString(),
 					content: `${user} joined`,
+					image: null,
 				});
 
 				socket.emit("message", {
@@ -98,6 +99,7 @@ const handleSocket = io => {
 						rolling_on_the_floor_laughing: 0,
 						slightly_frowning_face: 0,
 					},
+					image: null,
 				});
 
 				io.in(room).emit("message", message.toObject());
@@ -267,6 +269,7 @@ const handleSocket = io => {
 					},
 					created: new Date().toISOString(),
 					content: `${user} left`,
+					image: null,
 				});
 
 				const usersTempRooms = await getTempRoomsWithUser(user);

@@ -9,6 +9,7 @@ export interface MessageI {
 	seenBy?: UserI[];
 	deleted?: boolean;
 	reactions: ReactionsI;
+	image: String | null;
 }
 
 export interface UsersMessageReactionsI {

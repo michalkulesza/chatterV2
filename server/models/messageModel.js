@@ -18,6 +18,7 @@ const messageSchema = new Schema({
 		rolling_on_the_floor_laughing: Number,
 		slightly_frowning_face: Number,
 	},
+	image: String | null,
 });
 
 messageSchema.methods.addMessage = async function (roomName) {
@@ -33,6 +34,7 @@ messageSchema.methods.addMessage = async function (roomName) {
 						created: this.created,
 						deleted: this.deleted,
 						reactions: this.reactions,
+						image: this.image,
 					},
 				},
 			}
@@ -55,6 +57,7 @@ messageSchema.methods.addTempMessage = async function (roomName) {
 						created: this.created,
 						deleted: this.deleted,
 						reactions: this.reactions,
+						image: this.image,
 					},
 				},
 			}

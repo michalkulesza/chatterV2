@@ -51,6 +51,7 @@ const Input: React.FC<Props> = () => {
 					rolling_on_the_floor_laughing: 0,
 					slightly_frowning_face: 0,
 				},
+				image: null,
 			};
 
 			dispatch(sendMessage(message));
