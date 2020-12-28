@@ -1,0 +1,111 @@
+@use '../../styles/global';
+
+.imageUploadContainer {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: rgba(0, 0, 0, 0.15);
+	z-index: 10;
+	backdrop-filter: blur(2px);
+
+	.imageUpload {
+		height: 450px;
+		width: 500px;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		background-color: global.$white;
+		box-shadow: global.$shadow;
+		border-radius: 3px;
+		padding: 2rem;
+
+		header {
+			background-color: transparent;
+			display: flex;
+			justify-content: flex-end;
+		}
+
+		.preview {
+			position: relative;
+			width: 100%;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			flex-grow: 1;
+
+			.imagePlaceholder {
+				position: absolute;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				opacity: 0.5;
+
+				svg {
+					transform: scale(1.6);
+					margin-bottom: 0.5rem;
+				}
+			}
+
+			img {
+				min-height: 150px;
+				max-height: 150px;
+				object-fit: cover;
+				z-index: 2;
+			}
+		}
+
+		.inputFile {
+			width: 100%;
+			margin-bottom: 1rem;
+			cursor: pointer;
+			border: 1px solid global.$gray3;
+			border-radius: 3px;
+			padding: 0.2rem;
+			font-size: 0.9rem;
+			overflow: hidden;
+
+			&:focus {
+				outline: none;
+			}
+
+			&::-webkit-file-upload-button {
+				border: none;
+				background-color: global.$purple;
+				color: global.$white;
+				border-radius: 3px;
+				padding: 0.7rem 1rem;
+				margin-right: 1rem;
+				cursor: pointer;
+			}
+		}
+
+		.inputText {
+			width: 100%;
+			padding: 0.7rem 1rem;
+			font-size: 0.9rem;
+			background-color: rgba(global.$gray2, 0.6);
+			border: none;
+			margin-bottom: 1rem;
+			border-radius: 3px;
+
+			&::placeholder {
+				color: global.$gray6;
+			}
+
+			&:focus {
+				outline: none;
+			}
+		}
+
+		.buttons {
+			width: 100%;
+			display: flex;
+			justify-content: flex-end;
+		}
+	}
+}
