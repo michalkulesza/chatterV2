@@ -85,7 +85,7 @@ const handleSocket = io => {
 			}
 		});
 
-		socket.on("message", async ({ author, created, content, room, image }) => {
+		socket.on("message", async ({ author, created, content, image, giphyID }) => {
 			try {
 				const message = new MessageModel({
 					_id: mongoose.Types.ObjectId(),
@@ -100,14 +100,15 @@ const handleSocket = io => {
 						slightly_frowning_face: 0,
 					},
 					image,
+					giphyID,
 				});
 
-				io.in(room).emit("message", message.toObject());
+				io.in(currentRoom).emit("message", message.toObject());
 
-				if (await isTempRoom(room)) {
-					await message.addTempMessage(room);
+				if (await isTempRoom(currentRoom)) {
+					await message.addTempMessage(currentRoom);
 				} else {
-					await message.addMessage(room);
+					await message.addMessage(currentRoom);
 				}
 			} catch (error) {
 				console.error(error.message);
@@ -270,6 +271,7 @@ const handleSocket = io => {
 					created: new Date().toISOString(),
 					content: `${user} left`,
 					image: null,
+					giphyID: null,
 				});
 
 				const usersTempRooms = await getTempRoomsWithUser(user);
