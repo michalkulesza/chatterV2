@@ -85,7 +85,7 @@ const handleSocket = io => {
 			}
 		});
 
-		socket.on("message", async ({ author, created, content, room }) => {
+		socket.on("message", async ({ author, created, content, room, image }) => {
 			try {
 				const message = new MessageModel({
 					_id: mongoose.Types.ObjectId(),
@@ -99,7 +99,7 @@ const handleSocket = io => {
 						rolling_on_the_floor_laughing: 0,
 						slightly_frowning_face: 0,
 					},
-					image: null,
+					image,
 				});
 
 				io.in(room).emit("message", message.toObject());

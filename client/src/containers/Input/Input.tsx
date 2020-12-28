@@ -4,11 +4,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { EmojiData, Picker } from "emoji-mart";
 
 import { RootState } from "../../redux/reducers/rootReducer";
-import { toggleEmojiPicker } from "../../redux/actions/ui";
+import { toggleEmojiPicker, toggleImageUpload } from "../../redux/actions/ui";
 import { sendMessage } from "../../redux/actions/room";
 import { Button } from "../../components";
 
 import { VscSmiley } from "react-icons/vsc";
+import { IoImageOutline } from "react-icons/io5";
 import "emoji-mart/css/emoji-mart.css";
 import "./Input.scss";
 
@@ -19,16 +20,18 @@ const Input: React.FC<Props> = () => {
 
 	const { username, profileImage } = useSelector((state: RootState) => state.user);
 	const { _id: room, locked } = useSelector((state: RootState) => state.room);
-	const { emojiPicker } = useSelector((state: RootState) => state.ui);
+	const { emojiPicker, imageUpload } = useSelector((state: RootState) => state.ui);
 	const [input, setInput] = useState("");
 
 	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => setInput(e.target.value);
+	const handleImageUpload = () => dispatch(toggleImageUpload());
 	const handleEmojiPickerClick = () => dispatch(toggleEmojiPicker());
 	const handleEmojiPickerClickOutside = () => emojiPicker && dispatch(toggleEmojiPicker());
 	const handleEmojiClick = (e: EmojiData) => {
 		const emoji = e.native;
 		setInput(`${input}${emoji}`);
 	};
+
 	const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => e.key === "Enter" && handleSubmit();
 	const handleSubmit = (e?: React.FormEvent<HTMLFormElement>) => {
 		e?.preventDefault();
@@ -73,12 +76,16 @@ const Input: React.FC<Props> = () => {
 						/>
 					</div>
 					<div className="tools">
-						<div className={`emojiPickerButton ${emojiPicker && "active"}`} onMouseDown={handleEmojiPickerClick}>
+						<div className={`button ${emojiPicker && "active"}`} onMouseDown={handleEmojiPickerClick}>
 							<VscSmiley />
+						</div>
+						<div className={`button ${imageUpload && "active"}`} onMouseDown={handleImageUpload}>
+							<IoImageOutline />
 						</div>
 					</div>
 				</OutsideClickHandler>
 				<input
+					className="mainInput"
 					type="text"
 					placeholder={locked ? "Messages are disabled" : "Type here..."}
 					value={input}

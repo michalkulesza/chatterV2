@@ -77,6 +77,11 @@ const Message: React.FC<Props> = ({ message, prevMessage, deleteDisabled = false
 			>
 				{fromPartner && !fromTheSameUser && <span>{message.author.name}</span>}
 				<div className={`message ${messageDeleted && "deleted"}`} onMouseDown={handleMessageClick}>
+					{message.image && (
+						<div className="imageContainer">
+							<img src={message.image} alt="" />
+						</div>
+					)}
 					{!messageDeleted && message.content}
 					{messageDeleted && `Message deleted...`}
 				</div>

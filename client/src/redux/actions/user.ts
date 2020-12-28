@@ -183,14 +183,51 @@ export const setProfileImage = (image: string) => {
 
 export const uploadProfileImage = (image: File) => {
 	return async (dispatch: any) => {
-		const fileName = `avatar-${Date.now()}`;
-
-		const uploadImage = storage.storage.ref(`avatar/${fileName}`).put(image);
-
 		dispatch({
 			type: SET_UPLOADING,
 			payload: true,
 		});
+
+		dispatch(setUploadedImage(null));
+
+		const fileName = `avatar-${Date.now()}`;
+		const uploadImage = storage.storage.ref(`avatars/${fileName}`).put(image);
+
+		uploadImage.on(
+			"state_changed",
+			() => {},
+			error => {
+				dispatch(addError(error.message));
+			},
+			() => {
+				storage.storage
+					.ref("avatars")
+					.child(fileName)
+					.getDownloadURL()
+					.then(url => {
+						dispatch(setUploadedImage(url));
+					});
+
+				dispatch({
+					type: SET_UPLOADING,
+					payload: false,
+				});
+			}
+		);
+	};
+};
+
+export const uploadImage = (image: File) => {
+	return async (dispatch: any) => {
+		dispatch({
+			type: SET_UPLOADING,
+			payload: true,
+		});
+
+		dispatch(setUploadedImage(null));
+
+		const fileName = `image-${Date.now()}`;
+		const uploadImage = storage.storage.ref(`images/${fileName}`).put(image);
 
 		uploadImage.on(
 			"state_changed",
@@ -216,7 +253,7 @@ export const uploadProfileImage = (image: File) => {
 	};
 };
 
-export const setUploadedImage = (image: string) => {
+export const setUploadedImage = (image: string | null) => {
 	return async (dispatch: any) => {
 		dispatch({
 			type: SET_UPLOADED_IMAGE,

@@ -185,6 +185,17 @@
 				opacity: 0.5;
 				cursor: default;
 			}
+
+			.imageContainer {
+				margin: 0.5rem 0;
+				display: flex;
+
+				img {
+					max-height: 300px;
+					max-width: 300px;
+					object-fit: cover;
+				}
+			}
 		}
 	}
 }
