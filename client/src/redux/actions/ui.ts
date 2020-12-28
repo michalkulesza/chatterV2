@@ -6,6 +6,7 @@ import {
 	TOGGLE_EMOJI_PICKER,
 	TOGGLE_IMAGE_UPLOAD,
 	SET_IMAGE_PREVIEW,
+	TOGGLE_GIPHY_PICKER,
 } from "../types/ui";
 
 export const toggleSidebar = () => {
@@ -53,5 +54,11 @@ export const setImagePreview = (image: string | null) => {
 	return {
 		type: SET_IMAGE_PREVIEW,
 		payload: image,
+	};
+};
+
+export const toggleGiphyPicker = () => {
+	return {
+		type: TOGGLE_GIPHY_PICKER,
 	};
 };

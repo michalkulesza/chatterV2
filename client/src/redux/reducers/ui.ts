@@ -7,6 +7,7 @@ import {
 	TOGGLE_EMOJI_PICKER,
 	TOGGLE_IMAGE_UPLOAD,
 	SET_IMAGE_PREVIEW,
+	TOGGLE_GIPHY_PICKER,
 } from "../types/ui";
 import { uiState, uiTypes } from "../types/ui";
 
@@ -17,6 +18,7 @@ const initState: uiState = {
 	emojiPicker: false,
 	imageUpload: false,
 	imagePreview: null,
+	giphyPicker: false,
 };
 
 const error = (state = initState, action: uiTypes) => {
@@ -37,6 +39,8 @@ const error = (state = initState, action: uiTypes) => {
 			return { ...state, imageUpload: !state.imageUpload };
 		case SET_IMAGE_PREVIEW:
 			return { ...state, imagePreview: action.payload };
+		case TOGGLE_GIPHY_PICKER:
+			return { ...state, giphyPicker: !state.giphyPicker };
 		default:
 			return state;
 	}
