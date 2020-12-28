@@ -15,9 +15,9 @@ import {
 import { addUserRoom, clearUser, setUserReactions, setUserRooms, updateLockRoomOnList } from "../../redux/actions/user";
 import { clearMisc, setUserList } from "../../redux/actions/misc";
 import { clearUI } from "../../redux/actions/ui";
+import { MessageI, UserI, UsersMessageReactionsI } from "../../types";
 import { roomState } from "../../redux/types/room";
 import { userRoomI } from "../../redux/types/user";
-import { MessageI, UserI, UsersMessageReactionsI } from "../../types";
 import { RootState } from "../../redux/reducers/rootReducer";
 
 import { Mainbar, ChatWindow, Input } from "../../containers";

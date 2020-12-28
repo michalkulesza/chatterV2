@@ -43,8 +43,9 @@
 			height: 100%;
 			width: fit-content;
 			display: flex;
+			margin-left: 0.5rem;
 
-			.emojiPickerButton {
+			.button {
 				background-color: transparent;
 				width: 2rem;
 				border: none;
@@ -52,7 +53,7 @@
 				justify-content: center;
 				align-items: center;
 				cursor: pointer;
-				margin: 0.3rem;
+				margin: 0.3rem 0;
 				border-radius: 3px;
 
 				svg {
@@ -73,9 +74,9 @@
 			}
 		}
 
-		input {
+		.mainInput {
 			width: 100%;
-			padding: 0.5rem 1rem 0.5rem 2.5rem;
+			padding: 0.5rem 1rem 0.5rem 5rem;
 			font-size: 0.9rem;
 			background-color: rgba(global.$gray2, 0.6);
 			border: none;
