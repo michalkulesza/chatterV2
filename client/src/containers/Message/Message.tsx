@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { deleteMessage } from "../../redux/actions/room";
 import { RootState } from "../../redux/reducers/rootReducer";
+import { deleteMessage } from "../../redux/actions/room";
 import { useDispatch, useSelector } from "react-redux";
-import socket from "../../config/socketio";
 import { MessageI } from "../../types";
-import { Emoji } from "emoji-mart";
 import Moment from "react-moment";
 
+import { Reactions } from "../../containers";
 import "./Message.scss";
 
 interface Props {
@@ -16,19 +15,12 @@ interface Props {
 	marginBottom?: boolean;
 }
 
-const initReactions = {
-	"+1": 0,
-	heart: 0,
-	rolling_on_the_floor_laughing: 0,
-	slightly_frowning_face: 0,
-};
-
 const Message: React.FC<Props> = ({ message, prevMessage, deleteDisabled = false, marginBottom }) => {
-	let timer: NodeJS.Timeout;
 	let messageHoverTimer: NodeJS.Timeout;
+	let timer: NodeJS.Timeout;
 
 	const dispatch = useDispatch();
-	const { username: currentUser, reactions: userReactions } = useSelector((state: RootState) => state.user);
+	const { username: currentUser } = useSelector((state: RootState) => state.user);
 	const currentRoom = useSelector((state: RootState) => state.room._id);
 
 	const [deleteConfirmation, setDeleteConfirmation] = useState(false);
@@ -43,14 +35,7 @@ const Message: React.FC<Props> = ({ message, prevMessage, deleteDisabled = false
 	const authorClass = `${fromMyself && "fromMyself"} ${fromAdmin && "fromAdmin"} ${fromPartner && "fromPartner"}`;
 
 	const fromTheSameUser = prevMessage && prevMessage.author.name === message.author.name;
-	const combinedReactions = { ...initReactions, ...message.reactions };
 	const messageDeleted = message.deleted;
-	const thereIsReaction = Object.values(combinedReactions).filter(num => num > 0).length > 0;
-	const reactionsFullyVisible = messageHovered;
-	const reactionsCompactVisible = thereIsReaction && !reactionsFullyVisible;
-	const reactionFromMyself = userReactions.find(reaction => {
-		if (reaction.messageID === message._id) return reaction.reaction;
-	});
 
 	const handleMessageClick = () => setCollapsed(!collapsed);
 	const handleMouseEnter = () => setMouseOverExtras(true);
@@ -59,26 +44,6 @@ const Message: React.FC<Props> = ({ message, prevMessage, deleteDisabled = false
 	const handleDeleteConfirm = () => currentRoom && dispatch(deleteMessage(currentRoom, message._id));
 	const handleMessageHoverIn = () => setMessageHoverTrigger(true);
 	const handleMessageHoverOut = () => setMessageHoverTrigger(false);
-	const handleReactionClick = (reaction: string) => {
-		const userReaction = userReactions.find(reaction => reaction.messageID === message._id);
-
-		if (userReaction) {
-			if (userReaction.reaction === reaction) {
-				socket.emit("removeReaction", { username: currentUser, room: currentRoom, messageID: message._id, reaction });
-			} else {
-				socket.emit("changeReaction", {
-					username: currentUser,
-					room: currentRoom,
-					messageID: message._id,
-					reactionFrom: userReaction.reaction,
-					reactionTo: reaction,
-				});
-			}
-		} else {
-			if (currentRoom && currentUser)
-				socket.emit("addReaction", { username: currentUser, room: currentRoom, messageID: message._id, reaction });
-		}
-	};
 
 	useEffect(() => {
 		if (!collapsed && !mouseOverExtras) timer = setTimeout(() => setCollapsed(true), 2500);
@@ -117,28 +82,7 @@ const Message: React.FC<Props> = ({ message, prevMessage, deleteDisabled = false
 				</div>
 				{!fromAdmin && !messageDeleted && (
 					<>
-						<div
-							className={`reactions ${fromPartner && "left"} ${
-								(reactionsCompactVisible || reactionsFullyVisible) && "visible"
-							}`}
-						>
-							{Object.entries(combinedReactions).map(reaction => (
-								<div
-									className={`reaction ${reaction[1] > 0 && !reactionsFullyVisible && "compact"} ${
-										reactionsFullyVisible && "visible"
-									} ${fromPartner && "left"} ${
-										reactionFromMyself && reactionFromMyself.reaction === reaction[0] && "highlighted"
-									}`}
-									onMouseDown={() => handleReactionClick(reaction[0])}
-									key={reaction[0]}
-								>
-									<div className="icon">
-										<Emoji emoji={reaction[0]} size={16}></Emoji>
-									</div>
-									<div className="number">{reaction[1]}</div>
-								</div>
-							))}
-						</div>
+						<Reactions fromPartner={fromPartner} message={message} messageHovered={messageHovered} />
 						<div
 							className={`extrasContainer ${collapsed && "collapsed"}`}
 							onMouseEnter={handleMouseEnter}

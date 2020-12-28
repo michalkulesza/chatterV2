@@ -7,3 +7,4 @@ export { default as Mainbar } from "./Mainbar/Mainbar";
 export { default as ChatWindow } from "./ChatWindow/ChatWindow";
 export { default as Input } from "./Input/Input";
 export { default as Message } from "./Message/Message";
+export { default as Reactions } from "./Reactions/Reactions";

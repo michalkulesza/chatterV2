@@ -64,69 +64,6 @@
 				transform: scaleY(1);
 				margin-bottom: 0.5rem;
 			}
-
-			.reaction {
-				display: flex;
-				background-color: global.$gray3;
-				border-radius: 3px;
-				box-shadow: global.$shadow;
-				width: 0px;
-				transform: scaleX(0);
-				transition: all 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
-				transform-origin: right;
-				cursor: pointer;
-				padding: 0;
-
-				&.left {
-					transform-origin: left;
-				}
-
-				&.compact {
-					width: initial;
-					transform: scaleX(1);
-					padding: 0.2rem;
-					transform-origin: center;
-				}
-
-				&.visible {
-					width: initial;
-					transform: scaleX(1);
-					padding: 0.2rem;
-					transform-origin: center;
-				}
-
-				&.highlighted {
-					background-color: global.$purple;
-					color: global.$white;
-				}
-
-				&:hover {
-					transform: scale(1.35);
-					box-shadow: global.$shadow;
-					z-index: 5;
-				}
-
-				.icon {
-					display: flex;
-					justify-content: center;
-					align-items: center;
-
-					span {
-						margin: 0;
-						display: flex;
-						justify-content: center;
-						align-items: center;
-					}
-				}
-
-				.number {
-					font-size: 0.7rem;
-					display: flex;
-					align-items: center;
-					padding-right: 0.1rem;
-					margin-left: 0.1rem;
-				}
-			}
 		}
 
 		.extrasContainer {
