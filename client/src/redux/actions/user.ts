@@ -183,9 +183,9 @@ export const setProfileImage = (image: string) => {
 
 export const uploadProfileImage = (image: File) => {
 	return async (dispatch: any) => {
-		const fileName = `image-${Date.now()}`;
+		const fileName = `avatar-${Date.now()}`;
 
-		const uploadImage = storage.storage.ref(`images/${fileName}`).put(image);
+		const uploadImage = storage.storage.ref(`avatar/${fileName}`).put(image);
 
 		dispatch({
 			type: SET_UPLOADING,

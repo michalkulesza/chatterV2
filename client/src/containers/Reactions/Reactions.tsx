@@ -59,8 +59,9 @@ const Reactions: React.FC<Props> = ({ fromPartner, message, messageHovered }) =>
 				(reactionsCompactVisible || reactionsFullyVisible) && "visible"
 			}`}
 		>
-			{Object.entries(combinedReactions).map(reaction => (
+			{Object.entries(combinedReactions).map((reaction, i) => (
 				<Reaction
+					key={i}
 					reactionsFullyVisible={reactionsFullyVisible}
 					fromPartner={fromPartner}
 					reactionFromMyself={reactionFromMyself}

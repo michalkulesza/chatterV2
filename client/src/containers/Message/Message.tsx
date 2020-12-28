@@ -67,7 +67,7 @@ const Message: React.FC<Props> = ({ message, prevMessage, deleteDisabled = false
 		<div className={`messageContainer ${authorClass} ${marginBottom && "marginBottom"}`}>
 			{fromPartner && (
 				<div className="profilePicture">
-					{!fromTheSameUser && <img src={message.author.picture} className="picture"></img>}
+					{!fromTheSameUser && <img src={message.author.picture} className="picture" draggable={false}></img>}
 				</div>
 			)}
 			<div

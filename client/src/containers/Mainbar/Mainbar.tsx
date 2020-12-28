@@ -14,9 +14,9 @@ interface Props {}
 
 const Mainbar: React.FC<Props> = () => {
 	const dispatch = useDispatch();
+	const { type: roomType, users: usersInRoom, _id: roomName } = useSelector((state: RootState) => state.room);
 	const sidebarVisible = useSelector((state: RootState) => state.ui.sidebarVisible);
 	const currentUser = useSelector((state: RootState) => state.user.username);
-	const { type: roomType, users: usersInRoom, _id: roomName } = useSelector((state: RootState) => state.room);
 	const onlineUsers = useSelector((state: RootState) => state.misc.userList);
 
 	const partnersName = usersInRoom.filter(user => user !== currentUser)[0];
