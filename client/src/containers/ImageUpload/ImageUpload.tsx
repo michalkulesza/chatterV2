@@ -54,6 +54,7 @@ const ImageUpload: React.FC<Props> = () => {
 					slightly_frowning_face: 0,
 				},
 				image: uploadedImage,
+				giphyID: null,
 			};
 
 			dispatch(sendMessage(message));

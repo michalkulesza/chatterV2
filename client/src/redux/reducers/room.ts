@@ -25,6 +25,7 @@ const initState: roomState = {
 				slightly_frowning_face: 0,
 			},
 			image: null,
+			giphyID: null,
 		},
 	],
 	type: undefined,

@@ -19,6 +19,7 @@ const messageSchema = new Schema({
 		slightly_frowning_face: Number,
 	},
 	image: String | null,
+	giphyID: String | null,
 });
 
 messageSchema.methods.addMessage = async function (roomName) {
@@ -35,6 +36,7 @@ messageSchema.methods.addMessage = async function (roomName) {
 						deleted: this.deleted,
 						reactions: this.reactions,
 						image: this.image,
+						giphyID: this.giphyID,
 					},
 				},
 			}
@@ -58,6 +60,7 @@ messageSchema.methods.addTempMessage = async function (roomName) {
 						deleted: this.deleted,
 						reactions: this.reactions,
 						image: this.image,
+						giphyID: this.giphyID,
 					},
 				},
 			}

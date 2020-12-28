@@ -6,10 +6,10 @@ export interface MessageI {
 	};
 	content: string;
 	created: string;
-	seenBy?: UserI[];
 	deleted?: boolean;
 	reactions: ReactionsI;
 	image: string | null;
+	giphyID: React.ReactText | null;
 }
 
 export interface UsersMessageReactionsI {
