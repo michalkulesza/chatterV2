@@ -18,6 +18,10 @@
 			background-color: transparent;
 			display: flex;
 			justify-content: flex-end;
+
+			svg {
+				margin-bottom: 0;
+			}
 		}
 
 		.preview {

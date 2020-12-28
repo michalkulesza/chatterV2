@@ -30,7 +30,7 @@ const ImageUpload: React.FC<Props> = () => {
 		if (e.target.files && e.target.files.length > 0) {
 			const image = e.target.files[0];
 
-			readAndCompressImage(image, { quality: 0.8, maxWidth: 900, maxHeight: 900 })
+			readAndCompressImage(image, { quality: 0.9, maxWidth: 1400, maxHeight: 1400 })
 				.then((resizedImage: File) => dispatch(uploadImage(resizedImage)))
 				.catch((err: Error) => dispatch(addError(err?.message)));
 		}
@@ -73,7 +73,7 @@ const ImageUpload: React.FC<Props> = () => {
 					<div className="imagePlaceholder">
 						{uploading ? (
 							<>
-								<div className="rotating">
+								<div className="spinning">
 									<IoImageOutline />
 								</div>
 								Uploading...
@@ -87,7 +87,13 @@ const ImageUpload: React.FC<Props> = () => {
 					</div>
 					{uploadedImage && !uploading && <img src={uploadedImage} alt="" />}
 				</div>
-				<input type="file" className="inputFile" multiple={false} onChange={e => handleImageInputChange(e)} />
+				<input
+					type="file"
+					className="inputFile"
+					multiple={false}
+					accept="image/png, image/jpeg"
+					onChange={e => handleImageInputChange(e)}
+				/>
 				<input
 					type="text"
 					className="inputText"
