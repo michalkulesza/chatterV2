@@ -9,3 +9,4 @@ export { default as Input } from "./Input/Input";
 export { default as Message } from "./Message/Message";
 export { default as Reactions } from "./Reactions/Reactions";
 export { default as ImageUpload } from "./ImageUpload/ImageUpload";
+export { default as ImagePreview } from "./ImagePreview/ImagePreview";

@@ -1,0 +1,18 @@
+@use '../../styles/global';
+
+.imagePreview {
+	height: 100%;
+	width: 100%;
+	padding: 4rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	.img {
+		max-height: 100%;
+		max-width: 100%;
+		background-color: pink;
+		box-shadow: global.$shadow;
+		object-fit: cover;
+	}
+}

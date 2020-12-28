@@ -5,6 +5,7 @@ export const CLEAR_ERROR = "CLEAR_ERROR";
 export const TOGGLE_EMOJI_PICKER = "TOGGLE_EMOJI_PICKER";
 export const TOGGLE_IMAGE_UPLOAD = "TOGGLE_IMAGE_UPLOAD";
 export const CLEAR_UI = "CLEAR_UI";
+export const SET_IMAGE_PREVIEW = "SET_IMAGE_PREVIEW";
 
 export interface uiState {
 	sidebarVisible: boolean;
@@ -12,6 +13,7 @@ export interface uiState {
 	error: null | string;
 	emojiPicker: boolean;
 	imageUpload: boolean;
+	imagePreview: string | null;
 }
 
 export interface toggleSidebarAction {
@@ -44,6 +46,11 @@ export interface toggleImageUpload {
 	type: typeof TOGGLE_IMAGE_UPLOAD;
 }
 
+export interface setImagePreview {
+	type: typeof SET_IMAGE_PREVIEW;
+	payload: string | null;
+}
+
 export type uiTypes =
 	| toggleSidebarAction
 	| setLoadingAction
@@ -51,4 +58,5 @@ export type uiTypes =
 	| clearErrorAction
 	| clearUiActon
 	| toggleEmojiPicker
-	| toggleImageUpload;
+	| toggleImageUpload
+	| setImagePreview;

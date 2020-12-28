@@ -6,6 +6,7 @@ import {
 	CLEAR_UI,
 	TOGGLE_EMOJI_PICKER,
 	TOGGLE_IMAGE_UPLOAD,
+	SET_IMAGE_PREVIEW,
 } from "../types/ui";
 import { uiState, uiTypes } from "../types/ui";
 
@@ -15,6 +16,7 @@ const initState: uiState = {
 	error: null,
 	emojiPicker: false,
 	imageUpload: false,
+	imagePreview: null,
 };
 
 const error = (state = initState, action: uiTypes) => {
@@ -33,6 +35,8 @@ const error = (state = initState, action: uiTypes) => {
 			return { ...state, emojiPicker: !state.emojiPicker };
 		case TOGGLE_IMAGE_UPLOAD:
 			return { ...state, imageUpload: !state.imageUpload };
+		case SET_IMAGE_PREVIEW:
+			return { ...state, imagePreview: action.payload };
 		default:
 			return state;
 	}

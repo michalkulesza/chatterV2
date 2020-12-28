@@ -7,6 +7,7 @@ import Moment from "react-moment";
 
 import { Reactions } from "../../containers";
 import "./Message.scss";
+import { setImagePreview } from "../../redux/actions/ui";
 
 interface Props {
 	message: MessageI;
@@ -44,6 +45,7 @@ const Message: React.FC<Props> = ({ message, prevMessage, deleteDisabled = false
 	const handleDeleteConfirm = () => currentRoom && dispatch(deleteMessage(currentRoom, message._id));
 	const handleMessageHoverIn = () => setMessageHoverTrigger(true);
 	const handleMessageHoverOut = () => setMessageHoverTrigger(false);
+	const handleImageClick = () => message.image && dispatch(setImagePreview(message.image));
 
 	useEffect(() => {
 		if (!collapsed && !mouseOverExtras) timer = setTimeout(() => setCollapsed(true), 2500);
@@ -78,7 +80,7 @@ const Message: React.FC<Props> = ({ message, prevMessage, deleteDisabled = false
 				{fromPartner && !fromTheSameUser && <span>{message.author.name}</span>}
 				<div className={`message ${messageDeleted && "deleted"}`} onMouseDown={handleMessageClick}>
 					{message.image && (
-						<div className="imageContainer">
+						<div className="imageContainer" onMouseDown={handleImageClick}>
 							<img src={message.image} alt="" />
 						</div>
 					)}
