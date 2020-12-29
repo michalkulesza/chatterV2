@@ -19,10 +19,10 @@ const getRoomData = async (roomName, page = 0, results = 10) => {
 		{ $group: { _id: "$_id", messages: { $push: "$messages" } } },
 	]);
 
-	const messagesArr = await RoomModel.findOne({ _id: roomName }).select({ messages: 1, _id: 0 });
-	const pagesLeft = Math.floor((messagesArr.messages.length - page * results + 1) / 10);
+	const roomData = await RoomModel.findOne({ _id: roomName });
+	const pagesLeft = Math.floor((roomData.messages.length - page * results + 1) / 10);
 
-	return { messages, pagesLeft };
+	return { messages: messages[0].messages, pagesLeft };
 };
 
 const getRoomUsers = async roomName => {
