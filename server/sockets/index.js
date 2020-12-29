@@ -51,7 +51,7 @@ const handleSocket = io => {
 				socket.emit("initialData", {
 					_id: currentRoom,
 					type: "room",
-					messages: roomMessages.messages,
+					messages: roomMessages[0].messages,
 				});
 
 				socket.to(currentRoom).emit("message", {
@@ -83,6 +83,19 @@ const handleSocket = io => {
 			} catch (error) {
 				console.error(error);
 			}
+		});
+
+		socket.on("getMoreMessages", async (page, results) => {
+			try {
+				const { messages, pagesLeft } = await getRoomData(currentRoom, page, results);
+
+				socket.emit("moreMessages", {
+					room: currentRoom,
+					messages,
+					page,
+					pagesLeft,
+				});
+			} catch (error) {}
 		});
 
 		socket.on("message", async ({ author, created, content, image, giphyID }) => {

@@ -3,10 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import OutsideClickHandler from "react-outside-click-handler";
 
 import { Grid, SearchBar, SearchContext, SuggestionBar } from "@giphy/react-components";
-import "./Giphy.scss";
 import { RootState } from "../../redux/reducers/rootReducer";
 import { toggleGiphyPicker } from "../../redux/actions/ui";
 import { sendMessage } from "../../redux/actions/room";
+import "./Giphy.scss";
 
 interface Props {}
 
