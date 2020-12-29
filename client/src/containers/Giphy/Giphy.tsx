@@ -1,12 +1,12 @@
 import React, { useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import OutsideClickHandler from "react-outside-click-handler";
 
 import { Grid, SearchBar, SearchContext, SuggestionBar } from "@giphy/react-components";
 import "./Giphy.scss";
-import { addMessage, sendMessage } from "../../redux/actions/room";
 import { RootState } from "../../redux/reducers/rootReducer";
-import { profile } from "console";
 import { toggleGiphyPicker } from "../../redux/actions/ui";
+import { sendMessage } from "../../redux/actions/room";
 
 interface Props {}
 
@@ -14,6 +14,8 @@ const Giphy: React.FC<Props> = () => {
 	const dispatch = useDispatch();
 	const { fetchGifs, searchKey } = useContext(SearchContext);
 	const { username, profileImage } = useSelector((state: RootState) => state.user);
+
+	const handleClickOutside = () => dispatch(toggleGiphyPicker());
 
 	const handleGifClick = (gifID: React.ReactText) => {
 		if (username) {
@@ -42,25 +44,27 @@ const Giphy: React.FC<Props> = () => {
 	};
 
 	return (
-		<div className="giphy">
-			<div className="search">
-				<SearchBar />
+		<OutsideClickHandler onOutsideClick={handleClickOutside}>
+			<div className="giphy">
+				<div className="search">
+					<SearchBar />
+				</div>
+				<div className="suggestions">
+					<SuggestionBar />
+				</div>
+				<div className="grid">
+					<Grid
+						key={searchKey}
+						columns={2}
+						width={400}
+						fetchGifs={fetchGifs}
+						noLink
+						onGifClick={gif => handleGifClick(gif.id)}
+						hideAttribution
+					/>
+				</div>
 			</div>
-			<div className="suggestions">
-				<SuggestionBar />
-			</div>
-			<div className="grid">
-				<Grid
-					key={searchKey}
-					columns={2}
-					width={400}
-					fetchGifs={fetchGifs}
-					noLink
-					onGifClick={gif => handleGifClick(gif.id)}
-					hideAttribution
-				/>
-			</div>
-		</div>
+		</OutsideClickHandler>
 	);
 };
 

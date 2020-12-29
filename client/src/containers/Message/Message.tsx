@@ -27,9 +27,9 @@ const Message: React.FC<Props> = ({ message, prevMessage, deleteDisabled = false
 	const { username: currentUser } = useSelector((state: RootState) => state.user);
 	const currentRoom = useSelector((state: RootState) => state.room._id);
 
+	const [messageHoverTrigger, setMessageHoverTrigger] = useState(false);
 	const [deleteConfirmation, setDeleteConfirmation] = useState(false);
 	const [mouseOverExtras, setMouseOverExtras] = useState(false);
-	const [messageHoverTrigger, setMessageHoverTrigger] = useState(false);
 	const [messageHovered, setMessageHovered] = useState(false);
 	const [collapsed, setCollapsed] = useState(true);
 	const [gif, setGif] = useState<any>(null);
@@ -74,6 +74,8 @@ const Message: React.FC<Props> = ({ message, prevMessage, deleteDisabled = false
 			const gf = new GiphyFetch(key);
 			const getGif = async (gifID: any) => {
 				const { data } = await gf.gif(gifID);
+
+				console.log(data);
 				setGif(data);
 			};
 
@@ -95,8 +97,8 @@ const Message: React.FC<Props> = ({ message, prevMessage, deleteDisabled = false
 			>
 				{fromPartner && !fromTheSameUser && <span>{message.author.name}</span>}
 				<div className={`message ${messageDeleted && "deleted"}`} onMouseDown={handleMessageClick}>
-					{gif && <Gif gif={gif} width={300}></Gif>}
-					{message.image && (
+					{gif && !messageDeleted && <Gif gif={gif} width={300} noLink></Gif>}
+					{message.image && !messageDeleted && (
 						<div className="imageContainer" onMouseDown={handleImageClick}>
 							<img src={message.image} alt="" />
 						</div>
