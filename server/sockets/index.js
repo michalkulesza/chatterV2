@@ -84,17 +84,18 @@ const handleSocket = io => {
 			}
 		});
 
-		socket.on("getMoreMessages", async (page, results) => {
-			try {
-				const { messages, pagesLeft } = await getRoomData(currentRoom, page, results);
+		// Pagination
+		// socket.on("getMoreMessages", async (page, results) => {
+		// 	try {
+		// 		const { messages, pagesLeft } = await getRoomData(currentRoom, page, results);
 
-				socket.emit("moreMessages", {
-					messages,
-					page,
-					pagesLeft,
-				});
-			} catch (error) {}
-		});
+		// 		socket.emit("moreMessages", {
+		// 			messages,
+		// 			page,
+		// 			pagesLeft,
+		// 		});
+		// 	} catch (error) {}
+		// });
 
 		socket.on("message", async ({ author, created, content, image, giphyID }) => {
 			try {
