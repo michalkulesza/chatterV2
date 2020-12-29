@@ -14,6 +14,8 @@ const setMessageAsDeleted = async (roomName, messageID) => {
 	const messagesArr = room.messages;
 	const index = messagesArr.findIndex(message => message._id.toString() === messageID);
 	messagesArr[index].deleted = true;
+	messagesArr[index].giphyID = null;
+	messagesArr[index].image = null;
 
 	if (permanentRoom) {
 		return await RoomModel.findOneAndUpdate(

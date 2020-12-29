@@ -42,16 +42,15 @@ const handleSocket = io => {
 				currentRoom = INIT_ROOM;
 				user = username;
 
-				removeGlobalUser(user);
 				addGlobalUser({ id: socket.id, name: user, registered });
 
 				const userRoomsData = await getUserRooms(user);
-				roomMessages = await getRoomData(currentRoom);
+				const { messages } = await getRoomData(currentRoom);
 
 				socket.emit("initialData", {
 					_id: currentRoom,
 					type: "room",
-					messages: roomMessages.messages,
+					messages,
 				});
 
 				socket.to(currentRoom).emit("message", {
@@ -83,6 +82,18 @@ const handleSocket = io => {
 			} catch (error) {
 				console.error(error);
 			}
+		});
+
+		socket.on("getMoreMessages", async (page, results) => {
+			try {
+				const { messages, pagesLeft } = await getRoomData(currentRoom, page, results);
+
+				socket.emit("moreMessages", {
+					messages,
+					page,
+					pagesLeft,
+				});
+			} catch (error) {}
 		});
 
 		socket.on("message", async ({ author, created, content, image, giphyID }) => {
