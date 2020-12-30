@@ -63,7 +63,7 @@ const Input: React.FC<Props> = () => {
 				giphyID: null,
 			};
 
-			dispatch(sendMessage(message));
+			dispatch(sendMessage(room, message));
 		}
 		setInput("");
 	};

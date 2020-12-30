@@ -46,9 +46,9 @@ export const addMessage = (message: MessageI) => {
 	};
 };
 
-export const sendMessage = (message: MessageI) => {
+export const sendMessage = (room: string, message: MessageI) => {
 	return async () => {
-		socket.emit("message", message);
+		socket.emit("message", { room, message });
 	};
 };
 

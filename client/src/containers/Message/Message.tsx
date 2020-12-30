@@ -74,8 +74,6 @@ const Message: React.FC<Props> = ({ message, prevMessage, deleteDisabled = false
 			const gf = new GiphyFetch(key);
 			const getGif = async (gifID: any) => {
 				const { data } = await gf.gif(gifID);
-
-				console.log(data);
 				setGif(data);
 			};
 

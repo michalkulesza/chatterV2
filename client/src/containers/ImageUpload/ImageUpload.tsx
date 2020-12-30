@@ -37,7 +37,7 @@ const ImageUpload: React.FC<Props> = () => {
 	};
 
 	const handleSendButton = () => {
-		if (username && (textInput.length > 0 || uploadedImage)) {
+		if (username && room && (textInput.length > 0 || uploadedImage)) {
 			const message = {
 				_id: new Date().toISOString(),
 				author: {
@@ -57,7 +57,7 @@ const ImageUpload: React.FC<Props> = () => {
 				giphyID: null,
 			};
 
-			dispatch(sendMessage(message));
+			dispatch(sendMessage(room, message));
 			handleCloseButton();
 		}
 	};

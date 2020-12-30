@@ -37,15 +37,19 @@ const handleSocket = io => {
 
 		socket.on("initialize", async (username, registered) => {
 			try {
-				socket.join(INIT_ROOM);
-
 				currentRoom = INIT_ROOM;
 				user = username;
 
 				addGlobalUser({ id: socket.id, name: user, registered });
 
-				const userRoomsData = await getUserRooms(user);
+				const userRooms = await getUserRooms(user);
 				const { messages } = await getRoomData(currentRoom);
+
+				if (registered) {
+					userRooms.rooms.forEach(room => socket.join(room._id));
+				} else {
+					socket.join(currentRoom);
+				}
 
 				socket.emit("initialData", {
 					_id: currentRoom,
@@ -54,27 +58,33 @@ const handleSocket = io => {
 				});
 
 				socket.to(currentRoom).emit("message", {
-					_id: mongoose.Types.ObjectId(),
-					author: {
-						name: "admin",
-						picture: "",
+					room: currentRoom,
+					message: {
+						_id: mongoose.Types.ObjectId(),
+						author: {
+							name: "admin",
+							picture: "",
+						},
+						created: new Date().toISOString(),
+						content: `${user} joined`,
+						image: null,
 					},
-					created: new Date().toISOString(),
-					content: `${user} joined`,
-					image: null,
 				});
 
 				socket.emit("message", {
-					_id: mongoose.Types.ObjectId(),
-					author: {
-						name: "admin",
-						picture: "",
+					room: currentRoom,
+					message: {
+						_id: mongoose.Types.ObjectId(),
+						author: {
+							name: "admin",
+							picture: "",
+						},
+						created: new Date().toISOString(),
+						content: `You have joined`,
 					},
-					created: new Date().toISOString(),
-					content: `You have joined`,
 				});
 
-				if (registered && userRoomsData) socket.emit("userRooms", userRoomsData.rooms);
+				if (registered && userRooms) socket.emit("userRooms", userRooms.rooms);
 				io.in(currentRoom).emit("userList", getGlobalUsers());
 
 				const userReactions = await getUserReactions(user);
@@ -97,13 +107,13 @@ const handleSocket = io => {
 		// 	} catch (error) {}
 		// });
 
-		socket.on("message", async ({ author, created, content, image, giphyID }) => {
+		socket.on("message", async ({ room, message }) => {
 			try {
-				const message = new MessageModel({
+				const newMessage = new MessageModel({
 					_id: mongoose.Types.ObjectId(),
-					author,
-					created,
-					content,
+					author: message.author,
+					created: message.created,
+					content: message.content,
 					deleted: false,
 					reactions: {
 						"+1": 0,
@@ -111,16 +121,16 @@ const handleSocket = io => {
 						rolling_on_the_floor_laughing: 0,
 						slightly_frowning_face: 0,
 					},
-					image,
-					giphyID,
+					image: message.image,
+					giphyID: message.giphyID,
 				});
 
-				io.in(currentRoom).emit("message", message.toObject());
+				io.in(currentRoom).emit("message", { room, message: newMessage.toObject() });
 
 				if (await isTempRoom(currentRoom)) {
-					await message.addTempMessage(currentRoom);
+					await newMessage.addTempMessage(currentRoom);
 				} else {
-					await message.addMessage(currentRoom);
+					await newMessage.addMessage(currentRoom);
 				}
 			} catch (error) {
 				console.error(error.message);
@@ -194,7 +204,6 @@ const handleSocket = io => {
 
 		socket.on("switchRooms", async room => {
 			try {
-				socket.leave(currentRoom);
 				currentRoom = room;
 				let roomUsers;
 				let locked = false;

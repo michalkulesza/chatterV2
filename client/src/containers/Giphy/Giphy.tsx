@@ -14,31 +14,31 @@ const Giphy: React.FC<Props> = () => {
 	const dispatch = useDispatch();
 	const { fetchGifs, searchKey } = useContext(SearchContext);
 	const { username, profileImage } = useSelector((state: RootState) => state.user);
+	const { _id: room } = useSelector((state: RootState) => state.room);
 
 	const handleClickOutside = () => dispatch(toggleGiphyPicker());
 
 	const handleGifClick = (gifID: React.ReactText) => {
-		if (username) {
-			dispatch(
-				sendMessage({
-					_id: "",
-					author: {
-						name: username,
-						picture: profileImage,
-					},
-					content: "",
-					created: new Date().toISOString(),
-					giphyID: gifID,
-					image: null,
-					reactions: {
-						"+1": 0,
-						heart: 0,
-						rolling_on_the_floor_laughing: 0,
-						slightly_frowning_face: 0,
-					},
-				})
-			);
+		if (username && room) {
+			const message = {
+				_id: "",
+				author: {
+					name: username,
+					picture: profileImage,
+				},
+				content: "",
+				created: new Date().toISOString(),
+				giphyID: gifID,
+				image: null,
+				reactions: {
+					"+1": 0,
+					heart: 0,
+					rolling_on_the_floor_laughing: 0,
+					slightly_frowning_face: 0,
+				},
+			};
 
+			dispatch(sendMessage(room, message));
 			dispatch(toggleGiphyPicker());
 		}
 	};
