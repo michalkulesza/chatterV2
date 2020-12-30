@@ -40,7 +40,8 @@ const handleSocket = io => {
 				currentRoom = INIT_ROOM;
 				user = username;
 
-				addGlobalUser({ id: socket.id, name: user, registered });
+				const userAlreadyConnected = findGlobalUser(user);
+				if (!userAlreadyConnected) addGlobalUser({ id: socket.id, name: user, registered });
 
 				const userRooms = await getUserRooms(user);
 				const { messages } = await getRoomData(currentRoom);
@@ -85,7 +86,7 @@ const handleSocket = io => {
 				});
 
 				if (registered && userRooms) socket.emit("userRooms", userRooms.rooms);
-				io.in(currentRoom).emit("userList", getGlobalUsers());
+				if (!userAlreadyConnected) io.in(currentRoom).emit("userList", getGlobalUsers());
 
 				const userReactions = await getUserReactions(user);
 				socket.emit("userReactions", userReactions.reactions);
