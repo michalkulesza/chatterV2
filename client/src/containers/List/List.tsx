@@ -2,13 +2,14 @@ import React, { useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { joinPrivate, switchRooms } from "../../redux/actions/room";
 import { RootState } from "../../redux/reducers/rootReducer";
-import { undreadMessagesI, userRoomI } from "../../redux/types/user";
+import { userRoomI } from "../../redux/types/user";
 import { UserI } from "../../types";
 
 import { User, Room } from "../../components";
 import Header from "./Header/Header";
 
 import "./List.scss";
+import { clearUnreadMessages } from "../../redux/actions/user";
 
 interface Props {
 	type: "users" | "rooms";
@@ -24,7 +25,10 @@ const List: React.FC<Props> = ({ type, usersData, roomsData }) => {
 	const [collapsed, setCollapsed] = useState(false);
 
 	const handleUserClick = (usersName: string, partnersName: string) => dispatch(joinPrivate([usersName, partnersName]));
-	const handleRoomClick = (room: string) => dispatch(switchRooms(room));
+	const handleRoomClick = (room: string) => {
+		dispatch(switchRooms(room));
+		dispatch(clearUnreadMessages(room));
+	};
 	const handleCollapse = () => setCollapsed(!collapsed);
 
 	const style = {

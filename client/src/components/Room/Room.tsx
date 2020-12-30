@@ -8,7 +8,7 @@ interface Props {
 	data: userRoomI;
 	unreadCount?: number;
 	currentUser?: string;
-	handler: (room: string) => (dispatch: any) => Promise<void>;
+	handler: (room: string) => void;
 }
 
 const Room: React.FC<Props> = ({ data, unreadCount, currentUser, handler }) => {

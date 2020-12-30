@@ -3,6 +3,7 @@ import { PATH } from "../../constants/path";
 import {
 	ADD_UNREAD_MESSAGE,
 	ADD_USER_ROOM,
+	CLEAR_UNREAD_MESSAGES,
 	CLEAR_USER,
 	LOCK_ROOM,
 	REMOVE_USER_ROOM,
@@ -299,5 +300,11 @@ export const addUnreadMessage = (room: string) => {
 	return {
 		type: ADD_UNREAD_MESSAGE,
 		payload: { room, count: 1 },
+	};
+};
+export const clearUnreadMessages = (room: string) => {
+	return {
+		type: CLEAR_UNREAD_MESSAGES,
+		payload: room,
 	};
 };
