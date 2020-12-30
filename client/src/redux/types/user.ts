@@ -1,4 +1,4 @@
-import { ReactionsI, UsersMessageReactionsI } from "../../types";
+import { UsersMessageReactionsI } from "../../types";
 
 export const SET_USER = "SET_USER";
 export const SET_USER_ROOMS = "SET_USER_ROOMS";
@@ -15,6 +15,8 @@ export const SET_UPLOADED_IMAGE = "SET_UPLOADED_IMAGE";
 export const UPLOAD_PROFILE_IMAGE = "UPLOAD_PROFILE_IMAGE";
 export const SET_LOADING = "SET_LOADING";
 export const SET_UPLOADING = "SET_UPLOADING";
+export const ADD_UNREAD_MESSAGE = "ADD_UNREAD_MESSAGE";
+export const CLEAR_UNREAD_MESSAGES = "CLEAR_UNREAD_MESSAGES";
 
 export interface userState {
 	username: string | undefined;
@@ -25,6 +27,7 @@ export interface userState {
 	uploadedImage: string | null;
 	uploading: boolean;
 	reactions: UsersMessageReactionsI[] | [];
+	unreadMessages: undreadMessagesI[] | [];
 }
 
 export interface userRoomI {
@@ -32,6 +35,11 @@ export interface userRoomI {
 	type: "room" | "private";
 	users?: string[];
 	locked?: boolean;
+}
+
+export interface undreadMessagesI {
+	room: string;
+	count: number;
 }
 
 export interface setUserAction {
@@ -107,6 +115,16 @@ export interface updateProfileImageAction {
 	payload: string;
 }
 
+export interface addUnreadMessageAction {
+	type: typeof ADD_UNREAD_MESSAGE;
+	payload: undreadMessagesI;
+}
+
+export interface clearUnreadMessagesAction {
+	type: typeof CLEAR_UNREAD_MESSAGES;
+	payload: string;
+}
+
 export type userTypes =
 	| setUserAction
 	| setUserRoomsAction
@@ -122,4 +140,6 @@ export type userTypes =
 	| setUploadedImageAction
 	| setUploadingAction
 	| updateProfileImageAction
-	| userRoomI;
+	| userRoomI
+	| addUnreadMessageAction
+	| clearUnreadMessagesAction;

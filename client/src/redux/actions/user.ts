@@ -1,6 +1,7 @@
 import axios from "axios";
 import { PATH } from "../../constants/path";
 import {
+	ADD_UNREAD_MESSAGE,
 	ADD_USER_ROOM,
 	CLEAR_USER,
 	LOCK_ROOM,
@@ -18,7 +19,7 @@ import {
 import { SET_LOADING } from "../types/ui";
 import { addError } from "./ui";
 import storage from "../../config/firebase";
-import { ReactionsI, UsersMessageReactionsI } from "../../types";
+import { UsersMessageReactionsI } from "../../types";
 
 export const loginWithoutPassword = (username: string) => {
 	return async (dispatch: any) => {
@@ -291,5 +292,12 @@ export const updateProfileImage = (image: string, username: string, password: st
 				dispatch(addError("Something went wrong..."));
 				console.error(err.message);
 			});
+	};
+};
+
+export const addUnreadMessage = (room: string) => {
+	return {
+		type: ADD_UNREAD_MESSAGE,
+		payload: { room, count: 1 },
 	};
 };

@@ -11,6 +11,8 @@ import {
 	SET_UPLOADING,
 	UPDATE_PROFILE_IMAGE,
 	SET_USER_REACTIONS,
+	ADD_UNREAD_MESSAGE,
+	CLEAR_UNREAD_MESSAGES,
 } from "../types/user";
 import { userState, userTypes } from "../types/user";
 import { Default1 } from "../../constants/defaultProfilePictures";
@@ -30,9 +32,12 @@ const initState: userState = {
 	uploadedImage: null,
 	uploading: false,
 	reactions: [],
+	unreadMessages: [],
 };
 
 const user = (state = initState, action: userTypes) => {
+	let roomIndex;
+
 	switch (action.type) {
 		case SET_USER:
 			return { ...state, ...action.payload };
@@ -72,6 +77,28 @@ const user = (state = initState, action: userTypes) => {
 			return { ...state, uploading: action.payload };
 		case CLEAR_USER:
 			return initState;
+		case ADD_UNREAD_MESSAGE:
+			roomIndex = state.unreadMessages.findIndex(unreadMsg => unreadMsg.room === action.payload.room);
+			let unreadMessagesCopy = [...state.unreadMessages];
+
+			if (roomIndex > -1) {
+				unreadMessagesCopy[roomIndex].count += action.payload.count;
+
+				return { ...state, unreadMessages: unreadMessagesCopy };
+			} else {
+				return { ...state, unreadMessages: [...state.unreadMessages, action.payload] };
+			}
+		case CLEAR_UNREAD_MESSAGES:
+			roomIndex = state.unreadMessages.findIndex(unreadMsg => unreadMsg.room === action.payload);
+
+			if (roomIndex > -1) {
+				let unreadMessagesCopy = [...state.unreadMessages];
+				unreadMessagesCopy.splice(roomIndex, 1);
+				return { ...state, unreadMessages: unreadMessagesCopy };
+			} else {
+				return state;
+			}
+
 		default:
 			return state;
 	}

@@ -285,15 +285,18 @@ const handleSocket = io => {
 				io.emit("userList", getGlobalUsers());
 
 				socket.to(currentRoom).emit("message", {
-					_id: mongoose.Types.ObjectId(),
-					author: {
-						name: "admin",
-						picture: "",
+					room: currentRoom,
+					message: {
+						_id: mongoose.Types.ObjectId(),
+						author: {
+							name: "admin",
+							picture: "",
+						},
+						created: new Date().toISOString(),
+						content: `${user} left`,
+						image: null,
+						giphyID: null,
 					},
-					created: new Date().toISOString(),
-					content: `${user} left`,
-					image: null,
-					giphyID: null,
 				});
 
 				const usersTempRooms = await getTempRoomsWithUser(user);

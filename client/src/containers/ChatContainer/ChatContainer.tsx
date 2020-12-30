@@ -12,7 +12,14 @@ import {
 	addReaction,
 	removeReaction,
 } from "../../redux/actions/room";
-import { addUserRoom, clearUser, setUserReactions, setUserRooms, updateLockRoomOnList } from "../../redux/actions/user";
+import {
+	addUnreadMessage,
+	addUserRoom,
+	clearUser,
+	setUserReactions,
+	setUserRooms,
+	updateLockRoomOnList,
+} from "../../redux/actions/user";
 import { clearMisc, setUserList } from "../../redux/actions/misc";
 import { clearUI } from "../../redux/actions/ui";
 import { MessageI, UserI, UsersMessageReactionsI } from "../../types";
@@ -77,7 +84,13 @@ const ChatContainer: React.FC<Props> = () => {
 	useEffect(() => {
 		if (currentRoom) {
 			socket.on("message", ({ room, message }: { room: string; message: MessageI }) => {
-				room === currentRoom && dispatch(addMessage(message));
+				if (room && message) {
+					if (room === currentRoom) {
+						dispatch(addMessage(message));
+					} else {
+						dispatch(addUnreadMessage(room));
+					}
+				}
 			});
 		}
 
