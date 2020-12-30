@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { joinPrivate, switchRooms } from "../../redux/actions/room";
 import { RootState } from "../../redux/reducers/rootReducer";
-import { userRoomI } from "../../redux/types/user";
+import { undreadMessagesI, userRoomI } from "../../redux/types/user";
 import { UserI } from "../../types";
 
 import { User, Room } from "../../components";
@@ -20,7 +20,7 @@ const List: React.FC<Props> = ({ type, usersData, roomsData }) => {
 	const dispatch = useDispatch();
 	const listRef = useRef<HTMLDivElement>(null);
 
-	const currentUser = useSelector((state: RootState) => state.user.username);
+	const { username: currentUser, unreadMessages } = useSelector((state: RootState) => state.user);
 	const [collapsed, setCollapsed] = useState(false);
 
 	const handleUserClick = (usersName: string, partnersName: string) => dispatch(joinPrivate([usersName, partnersName]));
@@ -56,9 +56,20 @@ const List: React.FC<Props> = ({ type, usersData, roomsData }) => {
 					))}
 				{type === "rooms" &&
 					roomsData &&
-					roomsData?.map((room: userRoomI) => (
-						<Room key={room._id} data={room} currentUser={currentUser} handler={handleRoomClick} />
-					))}
+					roomsData?.map((room: userRoomI) => {
+						const index = unreadMessages.findIndex(msg => msg.room === room._id);
+						const count = (index > -1 && unreadMessages[index].count) || undefined;
+
+						return (
+							<Room
+								key={room._id}
+								data={room}
+								currentUser={currentUser}
+								unreadCount={count}
+								handler={handleRoomClick}
+							/>
+						);
+					})}
 			</div>
 		</div>
 	) : null;
