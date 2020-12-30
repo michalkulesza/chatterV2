@@ -6,20 +6,19 @@ import "./Room.scss";
 
 interface Props {
 	data: userRoomI;
+	unreadCount?: number;
 	currentUser?: string;
 	handler: (room: string) => (dispatch: any) => Promise<void>;
 }
 
-const Room: React.FC<Props> = ({ data, currentUser, handler }) => {
-	return data.type === "private" && data.users ? (
+const Room: React.FC<Props> = ({ data, unreadCount, currentUser, handler }) => {
+	return (
 		<div className="room" onMouseDown={() => handler(data._id)}>
-			{data.users.filter(user => user !== currentUser)}
-			{data.locked && <FaLock />}
-		</div>
-	) : (
-		<div className="room" onMouseDown={() => handler(data._id)}>
-			{data._id}
-			{data.locked && <FaLock />}
+			<div className="left">
+				{data.type === "private" && data.users ? data.users.filter(user => user !== currentUser) : data._id}
+				{data.locked && <FaLock />}
+			</div>
+			{unreadCount && <div className="right">{unreadCount}</div>}
 		</div>
 	);
 };

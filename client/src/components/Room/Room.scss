@@ -14,4 +14,15 @@
 	&:hover {
 		background-color: global.$gray3;
 	}
+
+	.right {
+		background-color: global.$purple;
+		padding: 0 0.4rem;
+		font-size: 0.8rem;
+		color: white;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		border-radius: 4px;
+	}
 }
