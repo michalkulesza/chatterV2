@@ -28,6 +28,7 @@ interface Props {}
 const ChatContainer: React.FC<Props> = () => {
 	const dispatch = useDispatch();
 	const { username, registered } = useSelector((state: RootState) => state.user);
+	const { _id: currentRoom } = useSelector((state: RootState) => state.room);
 
 	useEffect(() => {
 		username && dispatch(initialize(username, registered));
@@ -52,8 +53,6 @@ const ChatContainer: React.FC<Props> = () => {
 			dispatch(removeReaction(messageID, reaction))
 		);
 
-		socket.on("message", (message: MessageI) => dispatch(addMessage(message)));
-
 		socket.on("setMessageDeleted", (id: string) => dispatch(setMessageDeleted(id)));
 
 		socket.on("requestToJoinRoom", (roomName: string) => socket.emit("joinRoom", roomName));
@@ -74,6 +73,18 @@ const ChatContainer: React.FC<Props> = () => {
 			socket.removeAllListeners();
 		};
 	}, []);
+
+	useEffect(() => {
+		if (currentRoom) {
+			socket.on("message", ({ room, message }: { room: string; message: MessageI }) => {
+				room === currentRoom && dispatch(addMessage(message));
+			});
+		}
+
+		return () => {
+			socket.removeListener("message");
+		};
+	}, [currentRoom]);
 
 	return (
 		<div className="chatContainer">
