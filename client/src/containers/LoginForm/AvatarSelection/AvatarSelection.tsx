@@ -37,10 +37,12 @@ const AvatarSelection: React.FC<Props> = ({ hidden, password }) => {
 		}
 	};
 
-	const handleSkipClick = () => dispatch(setAvatarSelected(true));
 	const handleConfirmClick = () => {
 		if (uploadedImage && username) {
 			dispatch(updateProfileImage(uploadedImage, username, password));
+		}
+
+		if (username) {
 			dispatch(setAvatarSelected(true));
 		}
 	};
@@ -77,9 +79,6 @@ const AvatarSelection: React.FC<Props> = ({ hidden, password }) => {
 				<div className="error">{error}</div>
 			</div>
 			<div className="buttons">
-				<Button color="gray" onMouseDown={handleSkipClick}>
-					Skip
-				</Button>
 				<Button onMouseDown={handleConfirmClick}>Confirm</Button>
 			</div>
 		</div>
