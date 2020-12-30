@@ -88,7 +88,7 @@ const ChatContainer: React.FC<Props> = () => {
 					if (room === currentRoom) {
 						dispatch(addMessage(message));
 					} else {
-						dispatch(addUnreadMessage(room));
+						if (message.author.name !== "admin") dispatch(addUnreadMessage(room));
 					}
 				}
 			});
