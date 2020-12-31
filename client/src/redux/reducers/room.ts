@@ -6,6 +6,9 @@ import {
 	SET_MESSAGE_DELETED,
 	ADD_REACTION,
 	REMOVE_REACTION,
+	SET_CURRENT_PAGE,
+	SET_PAGES_LEFT,
+	ADD_MESSAGES_AT_BEGINNING,
 } from "../types/room";
 import { roomTypes, roomState } from "../types/room";
 
@@ -30,6 +33,8 @@ const initState: roomState = {
 	],
 	type: undefined,
 	locked: false,
+	currentPage: 0,
+	pagesLeft: 0,
 };
 
 const room = (state = initState, action: roomTypes) => {
@@ -41,6 +46,8 @@ const room = (state = initState, action: roomTypes) => {
 			return { ...state, ...action.payload };
 		case ADD_MESSGAE:
 			return { ...state, messages: [...state.messages, action.payload] };
+		case ADD_MESSAGES_AT_BEGINNING:
+			return { ...state, messages: [...action.payload, ...state.messages] };
 		case LOCK_ROOM:
 			return {
 				...state,
@@ -79,6 +86,10 @@ const room = (state = initState, action: roomTypes) => {
 			} else {
 				return state;
 			}
+		case SET_CURRENT_PAGE:
+			return { ...state, currentPage: action.payload };
+		case SET_PAGES_LEFT:
+			return { ...state, pagesLeft: action.payload };
 		default:
 			return state;
 	}

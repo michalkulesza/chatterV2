@@ -9,6 +9,9 @@ export const SWITCH_ROOM = "SWITCH_ROOM";
 export const LOCK_ROOM = "LOCK_ROOM";
 export const ADD_REACTION = "ADD_REACTION";
 export const REMOVE_REACTION = "REMOVE_REACTION";
+export const SET_CURRENT_PAGE = "SET_CURRENT_PAGE";
+export const SET_PAGES_LEFT = "SET_PAGES_LEFT";
+export const ADD_MESSAGES_AT_BEGINNING = "ADD_MESSAGES_AT_BEGINNING";
 
 import { MessageI } from "../../types/index";
 
@@ -18,6 +21,8 @@ export interface roomState {
 	messages: MessageI[];
 	users: string[] | [];
 	locked: boolean;
+	currentPage: number;
+	pagesLeft: number;
 }
 
 export interface initializeAction {
@@ -45,7 +50,6 @@ export interface joinPrivateRoomAction {
 
 export interface switchRoomAction {
 	type: typeof CLEAR_ROOM;
-	// payload: string[];
 }
 
 export interface lockRoomAction {
@@ -74,6 +78,21 @@ export interface removeReactionAction {
 	};
 }
 
+export interface setCurrentPageAction {
+	type: typeof SET_CURRENT_PAGE;
+	payload: number;
+}
+
+export interface setPagesLeftAction {
+	type: typeof SET_PAGES_LEFT;
+	payload: number;
+}
+
+export interface addMessagesAtBeggining {
+	type: typeof ADD_MESSAGES_AT_BEGINNING;
+	payload: MessageI[];
+}
+
 export type roomTypes =
 	| initializeAction
 	| setRoomData
@@ -84,4 +103,7 @@ export type roomTypes =
 	| setMessageDeletedAction
 	| lockRoomAction
 	| addReactionAction
-	| removeReactionAction;
+	| removeReactionAction
+	| setCurrentPageAction
+	| setPagesLeftAction
+	| addMessagesAtBeggining;

@@ -6,6 +6,9 @@ import {
 	SET_MESSAGE_DELETED,
 	ADD_REACTION,
 	REMOVE_REACTION,
+	SET_CURRENT_PAGE,
+	SET_PAGES_LEFT,
+	ADD_MESSAGES_AT_BEGINNING,
 } from "../types/room";
 import { SET_LOADING } from "../types/user";
 import { roomState } from "../types/room";
@@ -23,11 +26,21 @@ export const initialize = (username: string, registered: boolean) => {
 	};
 };
 
-export const setRoomData = ({ _id, type, messages, users, locked }: roomState) => {
+export const setRoomData = ({ _id, type, messages, users, locked, currentPage, pagesLeft }: roomState) => {
 	return async (dispatch: any) => {
 		dispatch({
 			type: SET_ROOM_DATA,
 			payload: { _id, type, messages, users, locked },
+		});
+
+		dispatch({
+			type: SET_CURRENT_PAGE,
+			payload: currentPage,
+		});
+
+		dispatch({
+			type: SET_PAGES_LEFT,
+			payload: pagesLeft,
 		});
 
 		dispatch({
@@ -125,6 +138,25 @@ export const removeReaction = (messageID: string, reaction: string) => {
 				reaction,
 				messageID,
 			},
+		});
+	};
+};
+
+export const addMoreMessages = (messages: MessageI[], page: number, pagesLeft: number) => {
+	return async (dispatch: any) => {
+		dispatch({
+			type: SET_CURRENT_PAGE,
+			payload: page,
+		});
+
+		dispatch({
+			type: SET_PAGES_LEFT,
+			payload: pagesLeft,
+		});
+
+		dispatch({
+			type: ADD_MESSAGES_AT_BEGINNING,
+			payload: messages,
 		});
 	};
 };
