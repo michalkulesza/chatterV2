@@ -96,7 +96,7 @@ const handleSocket = io => {
 			}
 		});
 
-		socket.on("getMoreMessages", async (page, results) => {
+		socket.on("getMoreMessages", async ({ page, results }) => {
 			try {
 				const { messages, pagesLeft } = await getRoomData(currentRoom, page, results);
 

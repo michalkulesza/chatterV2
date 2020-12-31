@@ -19,6 +19,28 @@
 		flex-direction: column;
 		justify-content: flex-end;
 
+		.loadMore {
+			width: 100%;
+			display: flex;
+			justify-content: center;
+
+			button {
+				visibility: visible;
+				font-size: 0.9rem;
+
+				&:hover {
+					background-color: global.$gray3;
+					box-shadow: global.$shadow;
+					color: global.$gray9;
+				}
+
+				svg {
+					margin-right: 0.5rem;
+					transform: scale(1.1);
+				}
+			}
+		}
+
 		.notice {
 			width: 100%;
 			display: flex;

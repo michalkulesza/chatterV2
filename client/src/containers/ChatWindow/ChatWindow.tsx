@@ -1,4 +1,5 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import ScrollToBottom from "react-scroll-to-bottom";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/reducers/rootReducer";
@@ -7,17 +8,34 @@ import { Message } from "../../containers";
 
 import { RiChat1Line } from "react-icons/ri";
 import { IoLockClosed } from "react-icons/io5";
+import { BsArrowBarUp } from "react-icons/bs";
 import "./ChatWindow.scss";
+import { Button } from "../../components";
+import { addMoreMessages, setLoadingPage } from "../../redux/actions/room";
+import socket from "../../config/socketio";
 
 interface Props {}
 
 const ChatWindow: React.FC<Props> = () => {
-	const { messages, locked } = useSelector((state: RootState) => state.room);
+	const dispatch = useDispatch();
+	const { messages, locked, currentPage, pagesLeft, loadingPage } = useSelector((state: RootState) => state.room);
 	const currentUser = useSelector((state: RootState) => state.user.username);
+
+	const handleLoadMoreClick = () => {
+		dispatch(setLoadingPage(true));
+		socket.emit("getMoreMessages", { page: currentPage + 1 });
+	};
 
 	return (
 		<ScrollToBottom className="chatWindowContainer">
 			<div className="chatWindow">
+				{pagesLeft > 0 && (
+					<div className="loadMore">
+						<Button loading={loadingPage} color="transparent" onMouseDown={handleLoadMoreClick}>
+							<BsArrowBarUp /> Load more messages
+						</Button>
+					</div>
+				)}
 				{currentUser && messages?.length > 0 ? (
 					messages.map((message, i) => {
 						const prevMessage = i > 0 ? messages[i - 1] : undefined;
