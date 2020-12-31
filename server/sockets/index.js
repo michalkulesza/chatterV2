@@ -44,7 +44,7 @@ const handleSocket = io => {
 				if (!userAlreadyConnected) addGlobalUser({ id: socket.id, name: user, registered });
 
 				const userRooms = await getUserRooms(user);
-				const { messages } = await getRoomData(currentRoom);
+				const { messages, pagesLeft } = await getRoomData(currentRoom);
 
 				if (registered) {
 					userRooms.rooms.forEach(room => socket.join(room._id));
@@ -56,6 +56,7 @@ const handleSocket = io => {
 					_id: currentRoom,
 					type: "room",
 					messages,
+					pagesLeft,
 				});
 
 				socket.to(currentRoom).emit("message", {
@@ -95,18 +96,17 @@ const handleSocket = io => {
 			}
 		});
 
-		// Pagination
-		// socket.on("getMoreMessages", async (page, results) => {
-		// 	try {
-		// 		const { messages, pagesLeft } = await getRoomData(currentRoom, page, results);
+		socket.on("getMoreMessages", async (page, results) => {
+			try {
+				const { messages, pagesLeft } = await getRoomData(currentRoom, page, results);
 
-		// 		socket.emit("moreMessages", {
-		// 			messages,
-		// 			page,
-		// 			pagesLeft,
-		// 		});
-		// 	} catch (error) {}
-		// });
+				socket.emit("moreMessages", {
+					messages,
+					page,
+					pagesLeft,
+				});
+			} catch (error) {}
+		});
 
 		socket.on("message", async ({ room, message }) => {
 			try {
