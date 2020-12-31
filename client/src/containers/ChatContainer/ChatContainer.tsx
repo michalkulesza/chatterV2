@@ -11,6 +11,7 @@ import {
 	setMessageDeleted,
 	addReaction,
 	removeReaction,
+	addMoreMessages,
 } from "../../redux/actions/room";
 import {
 	addUnreadMessage,
@@ -40,9 +41,15 @@ const ChatContainer: React.FC<Props> = () => {
 	useEffect(() => {
 		username && dispatch(initialize(username, registered));
 
-		socket.on("initialData", ({ _id, type, messages, users = [], locked }: roomState) => {
-			dispatch(setRoomData({ _id, type, messages, users, locked }));
+		socket.on("initialData", ({ _id, type, messages, users = [], locked, currentPage = 0, pagesLeft }: roomState) => {
+			dispatch(setRoomData({ _id, type, messages, users, locked, currentPage, pagesLeft }));
 		});
+
+		socket.on(
+			"moreMessages",
+			({ messages, page, pagesLeft }: { messages: MessageI[]; page: number; pagesLeft: number }) =>
+				dispatch(addMoreMessages(messages, page, pagesLeft))
+		);
 
 		socket.on("userRooms", (rooms: userRoomI[]) => dispatch(setUserRooms(rooms)));
 
