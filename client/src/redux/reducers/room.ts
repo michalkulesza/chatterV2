@@ -9,6 +9,7 @@ import {
 	SET_CURRENT_PAGE,
 	SET_PAGES_LEFT,
 	ADD_MESSAGES_AT_BEGINNING,
+	SET_LOADING_PAGE,
 } from "../types/room";
 import { roomTypes, roomState } from "../types/room";
 
@@ -35,6 +36,7 @@ const initState: roomState = {
 	locked: false,
 	currentPage: 0,
 	pagesLeft: 0,
+	loadingPage: false,
 };
 
 const room = (state = initState, action: roomTypes) => {
@@ -90,6 +92,8 @@ const room = (state = initState, action: roomTypes) => {
 			return { ...state, currentPage: action.payload };
 		case SET_PAGES_LEFT:
 			return { ...state, pagesLeft: action.payload };
+		case SET_LOADING_PAGE:
+			return { ...state, loadingPage: action.payload };
 		default:
 			return state;
 	}

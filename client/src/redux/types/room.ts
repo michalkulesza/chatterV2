@@ -12,6 +12,7 @@ export const REMOVE_REACTION = "REMOVE_REACTION";
 export const SET_CURRENT_PAGE = "SET_CURRENT_PAGE";
 export const SET_PAGES_LEFT = "SET_PAGES_LEFT";
 export const ADD_MESSAGES_AT_BEGINNING = "ADD_MESSAGES_AT_BEGINNING";
+export const SET_LOADING_PAGE = "SET_LOADING_PAGE";
 
 import { MessageI } from "../../types/index";
 
@@ -23,6 +24,7 @@ export interface roomState {
 	locked: boolean;
 	currentPage: number;
 	pagesLeft: number;
+	loadingPage?: boolean;
 }
 
 export interface initializeAction {
@@ -88,9 +90,14 @@ export interface setPagesLeftAction {
 	payload: number;
 }
 
-export interface addMessagesAtBeggining {
+export interface addMessagesAtBegginingAction {
 	type: typeof ADD_MESSAGES_AT_BEGINNING;
 	payload: MessageI[];
+}
+
+export interface setLoadingPageAction {
+	type: typeof SET_LOADING_PAGE;
+	payload: boolean;
 }
 
 export type roomTypes =
@@ -106,4 +113,5 @@ export type roomTypes =
 	| removeReactionAction
 	| setCurrentPageAction
 	| setPagesLeftAction
-	| addMessagesAtBeggining;
+	| addMessagesAtBegginingAction
+	| setLoadingPageAction;

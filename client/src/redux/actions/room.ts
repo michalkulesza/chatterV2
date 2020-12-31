@@ -9,6 +9,7 @@ import {
 	SET_CURRENT_PAGE,
 	SET_PAGES_LEFT,
 	ADD_MESSAGES_AT_BEGINNING,
+	SET_LOADING_PAGE,
 } from "../types/room";
 import { SET_LOADING } from "../types/user";
 import { roomState } from "../types/room";
@@ -158,5 +159,17 @@ export const addMoreMessages = (messages: MessageI[], page: number, pagesLeft: n
 			type: ADD_MESSAGES_AT_BEGINNING,
 			payload: messages,
 		});
+
+		dispatch({
+			type: SET_LOADING_PAGE,
+			payload: false,
+		});
+	};
+};
+
+export const setLoadingPage = (val: boolean) => {
+	return {
+		type: SET_LOADING_PAGE,
+		payload: val,
 	};
 };
