@@ -22,6 +22,7 @@ const List: React.FC<Props> = ({ type, usersData, roomsData }) => {
 	const listRef = useRef<HTMLDivElement>(null);
 
 	const { username: currentUser, unreadMessages } = useSelector((state: RootState) => state.user);
+	const { userList } = useSelector((state: RootState) => state.misc);
 	const [collapsed, setCollapsed] = useState(false);
 
 	const handleUserClick = (usersName: string, partnersName: string) => dispatch(joinPrivate([usersName, partnersName]));
@@ -69,6 +70,7 @@ const List: React.FC<Props> = ({ type, usersData, roomsData }) => {
 								key={room._id}
 								data={room}
 								currentUser={currentUser}
+								currentlyOnlineUsers={userList}
 								unreadCount={count}
 								handler={handleRoomClick}
 							/>
