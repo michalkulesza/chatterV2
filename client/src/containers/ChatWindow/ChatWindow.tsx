@@ -1,18 +1,15 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import ScrollToBottom from "react-scroll-to-bottom";
-import { useSelector } from "react-redux";
 import { RootState } from "../../redux/reducers/rootReducer";
+import { setLoadingPage } from "../../redux/actions/room";
+import socket from "../../config/socketio";
 
-import { Message } from "../../containers";
-
+import { Button, Messages } from "../../components";
 import { RiChat1Line } from "react-icons/ri";
 import { IoLockClosed } from "react-icons/io5";
 import { BsArrowBarUp } from "react-icons/bs";
 import "./ChatWindow.scss";
-import { Button } from "../../components";
-import { addMoreMessages, setLoadingPage } from "../../redux/actions/room";
-import socket from "../../config/socketio";
 
 interface Props {}
 
@@ -37,19 +34,7 @@ const ChatWindow: React.FC<Props> = () => {
 					</div>
 				)}
 				{currentUser && messages?.length > 0 ? (
-					messages.map((message, i) => {
-						const prevMessage = i > 0 ? messages[i - 1] : undefined;
-						const nextMessage = i < messages.length ? messages[i + 1] : undefined;
-						return (
-							<Message
-								key={message._id}
-								message={message}
-								prevMessage={prevMessage}
-								deleteDisabled={locked}
-								marginBottom={nextMessage && nextMessage.author.name !== message.author.name}
-							/>
-						);
-					})
+					<Messages messages={messages} isDisabled={locked} />
 				) : (
 					<div className="notice">
 						<div className="icon">
