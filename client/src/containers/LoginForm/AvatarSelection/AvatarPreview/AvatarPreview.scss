@@ -1,3 +1,5 @@
+@use '../../../../styles/breakpoints';
+
 .avatarPreview {
 	height: 80px;
 	width: 80px;
@@ -10,5 +12,11 @@
 		height: 100%;
 		width: 100%;
 		object-fit: cover;
+	}
+
+	@media screen and (max-width: breakpoints.$xs) {
+		height: 60px;
+		width: 60px;
+		margin-right: 0.2rem;
 	}
 }

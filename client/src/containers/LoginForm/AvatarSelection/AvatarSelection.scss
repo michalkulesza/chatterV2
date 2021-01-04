@@ -1,4 +1,5 @@
 @use '../../../styles/global';
+@use '../../../styles/breakpoints';
 
 .avatarSelection {
 	position: absolute;
@@ -69,6 +70,12 @@
 					height: 80px;
 					width: 80px;
 					margin-right: 0.5rem;
+
+					@media screen and (max-width: breakpoints.$xs) {
+						height: 60px;
+						width: 60px;
+						margin-right: 0.2rem;
+					}
 
 					.uploadStatus {
 						.outline {
