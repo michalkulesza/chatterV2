@@ -1,9 +1,15 @@
 @use '../../styles/global';
+@use '../../styles/breakpoints';
 
 .messageContainer {
 	width: 100%;
 	display: flex;
 	margin-bottom: 0.5rem;
+
+	@media screen and (max-width: breakpoints.$sm) {
+		font-size: 0.85rem;
+		margin-bottom: 0.3rem;
+	}
 
 	&.marginBottom {
 		margin-bottom: 1rem;
@@ -31,6 +37,15 @@
 			width: 45px;
 			border-radius: 50%;
 			object-fit: cover;
+		}
+
+		@media screen and (max-width: breakpoints.$sm) {
+			min-width: 38px;
+
+			.picture {
+				height: 38px;
+				width: 38px;
+			}
 		}
 	}
 

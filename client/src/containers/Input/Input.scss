@@ -1,4 +1,5 @@
 @use '../../styles/global';
+@use '../../styles/breakpoints';
 
 .input {
 	position: absolute;
@@ -8,6 +9,10 @@
 	z-index: 5;
 	background-color: rgba(white, $alpha: 0.6);
 	backdrop-filter: blur(7px);
+
+	@media screen and (max-width: breakpoints.$sm) {
+		padding: 0.5rem;
+	}
 
 	.inputWrapper {
 		position: relative;
@@ -56,8 +61,18 @@
 				margin: 0.3rem 0;
 				border-radius: 3px;
 
+				@media screen and (max-width: breakpoints.$sm) {
+					width: 1.7rem;
+				}
+
 				svg {
 					transform: scale(1.4);
+				}
+
+				@media screen and (max-width: breakpoints.$sm) {
+					svg {
+						transform: scale(1.2);
+					}
 				}
 
 				&:hover {
@@ -82,6 +97,10 @@
 			border: none;
 			margin-right: 0.5rem;
 			border-radius: 3px;
+
+			@media screen and (max-width: breakpoints.$sm) {
+				padding: 0.5rem 1rem 0.5rem 5.8rem;
+			}
 
 			&::placeholder {
 				color: global.$gray6;
