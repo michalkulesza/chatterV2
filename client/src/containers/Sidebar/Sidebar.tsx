@@ -8,15 +8,15 @@ import { RootState } from "../../redux/reducers/rootReducer";
 interface Props {}
 
 const Sidebar: React.FC<Props> = () => {
-	const visible = useSelector((state: RootState) => state.ui.sidebarVisible);
-	const userList = useSelector((state: RootState) => state.misc.userList);
-	const roomsList = useSelector((state: RootState) => state.user.userRooms);
+	const { sidebarVisible } = useSelector((state: RootState) => state.ui);
+	const { userRooms } = useSelector((state: RootState) => state.user);
+	const { userList } = useSelector((state: RootState) => state.misc);
 
 	return (
-		<div className={`sidebar ${!visible && "collapsed"}`}>
+		<div className={`sidebar ${!sidebarVisible && "collapsed"}`}>
 			<SearchBar />
 			<List type="users" usersData={userList} />
-			<List type="rooms" roomsData={roomsList} />
+			<List type="rooms" roomsData={userRooms} />
 		</div>
 	);
 };

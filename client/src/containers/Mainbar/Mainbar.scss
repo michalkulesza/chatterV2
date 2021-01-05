@@ -11,6 +11,17 @@
 	backdrop-filter: blur(7px);
 	display: flex;
 	z-index: 5;
+	transition: all 0.3s cubic-bezier(0.46, 0.03, 0.52, 0.96);
+
+	&.movedToRight {
+		@media screen and (max-width: breakpoints.$sm) {
+			left: 300px;
+		}
+
+		@media screen and (max-width: breakpoints.$xs) {
+			left: 270px;
+		}
+	}
 
 	@media screen and (max-width: breakpoints.$sm) {
 		padding: 0.5rem;

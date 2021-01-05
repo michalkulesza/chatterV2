@@ -15,17 +15,17 @@ interface Props {}
 const Mainbar: React.FC<Props> = () => {
 	const dispatch = useDispatch();
 	const { type: roomType, users: usersInRoom, _id: roomName } = useSelector((state: RootState) => state.room);
-	const sidebarVisible = useSelector((state: RootState) => state.ui.sidebarVisible);
-	const currentUser = useSelector((state: RootState) => state.user.username);
-	const onlineUsers = useSelector((state: RootState) => state.misc.userList);
+	const { username: currentUser } = useSelector((state: RootState) => state.user);
+	const { sidebarVisible } = useSelector((state: RootState) => state.ui);
+	const { userList } = useSelector((state: RootState) => state.misc);
 
 	const partnersName = usersInRoom.filter(user => user !== currentUser)[0];
-	const isPartnerOnline = onlineUsers.some(user => user.name === partnersName);
+	const isPartnerOnline = userList.some(user => user.name === partnersName);
 
 	const handleButtonClick = () => dispatch(toggleSidebar());
 
 	return (
-		<header className="mainbar">
+		<header className={`mainbar ${sidebarVisible && "movedToRight"}`}>
 			<Button color="transparent" type="square" svgSize="large" onMouseDown={handleButtonClick}>
 				{sidebarVisible ? <IoCloseOutline /> : <BiMenuAltLeft />}
 			</Button>
