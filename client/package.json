@@ -3,6 +3,7 @@
 	"version": "0.1.0",
 	"private": true,
 	"dependencies": {
+		"-": "^0.0.1",
 		"@giphy/js-fetch-api": "^2.0.1",
 		"@giphy/react-components": "^2.0.1",
 		"axios": "^0.21.0",

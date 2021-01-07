@@ -1,5 +1,5 @@
-import React, { useRef, useEffect } from "react";
-import { useOnClickOutside } from "../../hooks";
+import React, { useState } from "react";
+import OutsideClickHandler from "react-outside-click-handler";
 
 import { FiSearch } from "react-icons/fi";
 import "./SearchBar.scss";
@@ -7,21 +7,21 @@ import "./SearchBar.scss";
 interface Props {}
 
 const SearchBar: React.FC<Props> = () => {
-	const { ref, isComponentVisible } = useOnClickOutside(false);
-	const inputRef = useRef<HTMLInputElement>(null);
+	const [visible, setVisible] = useState(false);
 
-	useEffect(() => {
-		if (isComponentVisible && inputRef.current) inputRef.current.focus();
-	}, [isComponentVisible]);
+	const handleInputClick = () => setVisible(true);
+	const handleClickOutside = () => setVisible(false);
 
 	return (
-		<div className="searchBar" ref={ref}>
-			<div className="head">
-				<FiSearch />
-				<input type="text" placeholder="Search for anything" ref={inputRef} />
+		<OutsideClickHandler onOutsideClick={handleClickOutside}>
+			<div className="searchBar">
+				<div className="head">
+					<FiSearch />
+					<input type="text" placeholder="Search for anything" onMouseDown={handleInputClick} />
+				</div>
+				<div className={`body ${!visible ? "collapsed" : ""}`}></div>
 			</div>
-			<div className={`body ${!isComponentVisible ? "collapsed" : ""}`} ref={ref}></div>
-		</div>
+		</OutsideClickHandler>
 	);
 };
 
