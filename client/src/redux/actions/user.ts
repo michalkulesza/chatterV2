@@ -1,5 +1,5 @@
 import axios from "axios";
-import { PATH } from "../../constants/path";
+import PATH from "../../config/path";
 import {
 	ADD_UNREAD_MESSAGE,
 	ADD_USER_ROOM,
