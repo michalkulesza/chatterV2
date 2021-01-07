@@ -7,7 +7,6 @@
 	margin-left: 0%;
 	background-color: global.$gray2;
 	transition: all 0.3s cubic-bezier(0.46, 0.03, 0.52, 0.96);
-	pointer-events: none;
 
 	@media screen and (max-width: breakpoints.$sm) {
 		width: 300px;
