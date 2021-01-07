@@ -3,7 +3,7 @@ import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
 import configureMockStore from "redux-mock-store";
 import thunk from "redux-thunk";
-import { PATH } from "../../constants/path";
+import PATH from "../../config/path";
 
 const axiosMock = new MockAdapter(axios);
 
