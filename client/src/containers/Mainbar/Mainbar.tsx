@@ -37,12 +37,12 @@ const Mainbar: React.FC<Props> = () => {
 						? `${roomName} chat`
 						: roomType === "private"
 						? `Chatting with ${partnersName}`
-						: ""}
+						: "Connecting..."}
 				</h2>
 				<Badge>
-					{roomName === "Main" ? "Public" : roomType === "room" ? "Private" : roomType === "private" ? "Direct" : ""}
+					{roomName === "Main" ? "Public" : roomType === "room" ? "Private" : roomType === "private" ? "Direct" : "..."}
 				</Badge>
-				{roomName !== "Main" && (
+				{roomName !== "Main" && roomName && (
 					<Badge color={isPartnerOnline ? "green" : "gray"}>{isPartnerOnline ? "online" : "offline"}</Badge>
 				)}
 			</div>
