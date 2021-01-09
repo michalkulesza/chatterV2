@@ -16,6 +16,17 @@
 		background-color: global.$gray3;
 	}
 
+	.left {
+		display: flex;
+		align-items: center;
+
+		.icon {
+			display: flex;
+			align-items: center;
+			margin-right: 0.2rem;
+		}
+	}
+
 	.right {
 		.unreadMessages {
 			background-color: global.$purple;
