@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { RootState } from "../../redux/reducers/rootReducer";
 import { deleteMessage } from "../../redux/actions/room";
+import { setImagePreview } from "../../redux/actions/ui";
 import { useDispatch, useSelector } from "react-redux";
+import { GiphyFetch } from "@giphy/js-fetch-api";
+import { Gif } from "@giphy/react-components";
 import { MessageI } from "../../types";
 import { key } from "../../config/key";
 import Moment from "react-moment";
 
 import { Reactions } from "../../containers";
 import "./Message.scss";
-import { setImagePreview } from "../../redux/actions/ui";
-import { GiphyFetch } from "@giphy/js-fetch-api";
-import { Gif } from "@giphy/react-components";
 
 interface Props {
 	message: MessageI;
@@ -94,7 +94,7 @@ const Message: React.FC<Props> = ({ message, prevMessage, deleteDisabled = false
 				onMouseLeave={handleMessageHoverOut}
 			>
 				{fromPartner && !fromTheSameUser && <span>{message.author.name}</span>}
-				<div className={`message ${messageDeleted && "deleted"}`} onMouseDown={handleMessageClick}>
+				<div className={`message ${messageDeleted && "deleted"} ${gif && "noMargin"}`} onMouseDown={handleMessageClick}>
 					{gif && !messageDeleted && <Gif gif={gif} width={300} noLink></Gif>}
 					{message.image && !messageDeleted && (
 						<div className="imageContainer" onMouseDown={handleImageClick}>
@@ -106,7 +106,7 @@ const Message: React.FC<Props> = ({ message, prevMessage, deleteDisabled = false
 				</div>
 				{!fromAdmin && !messageDeleted && (
 					<>
-						<Reactions fromPartner={fromPartner} message={message} messageHovered={messageHovered} />
+						<Reactions fromPartner={fromPartner} message={message} messageHovered={messageHovered || !collapsed} />
 						<div
 							className={`extrasContainer ${collapsed && "collapsed"}`}
 							onMouseEnter={handleMouseEnter}
