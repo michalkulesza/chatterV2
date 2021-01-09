@@ -6,6 +6,7 @@
 	cursor: pointer;
 	display: flex;
 	justify-content: space-between;
+	border-radius: 3px;
 
 	&:first-of-type {
 		margin-top: 0.5rem;
@@ -13,6 +14,17 @@
 
 	&:hover {
 		background-color: global.$gray3;
+	}
+
+	.left {
+		display: flex;
+		align-items: center;
+
+		.icon {
+			display: flex;
+			align-items: center;
+			margin-right: 0.2rem;
+		}
 	}
 
 	.right {

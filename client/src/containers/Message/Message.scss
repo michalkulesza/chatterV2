@@ -193,12 +193,17 @@
 			box-shadow: global.$shadow;
 			z-index: 1;
 			cursor: pointer;
+			overflow: hidden;
 
 			&.deleted {
 				font-style: italic;
 				font-size: 0.8rem;
 				opacity: 0.5;
 				cursor: default;
+			}
+
+			&.noMargin {
+				padding: 0;
 			}
 
 			.imageContainer {

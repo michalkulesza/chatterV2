@@ -6,6 +6,7 @@
 	padding: 1rem 1.5rem;
 	display: flex;
 	flex-direction: column;
+
 	z-index: 2;
 
 	input {
@@ -36,7 +37,7 @@
 		top: 0.5rem;
 		left: 0.5rem;
 		background-color: global.$gray3;
-		height: 500px;
+		height: fit-content;
 		width: calc(100% - 1rem);
 		border-radius: 3px;
 		box-shadow: global.$shadow;
@@ -44,11 +45,22 @@
 		opacity: 1;
 		transition: all 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
 		pointer-events: all;
+		background-color: rgba(global.$white, $alpha: 0.6);
+		backdrop-filter: blur(7px);
+		padding: 3rem 1rem 1rem 1rem;
+		font-size: 0.8rem;
 
 		&.collapsed {
 			transform: translateY(-10%);
 			opacity: 0;
 			pointer-events: none;
+		}
+
+		.notice {
+			text-align: center;
+			width: 100%;
+			color: global.$gray6;
+			padding: 0.5rem;
 		}
 	}
 }

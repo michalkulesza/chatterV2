@@ -6,8 +6,21 @@
 	cursor: pointer;
 	display: flex;
 	justify-content: space-between;
+	align-items: center;
+	border-radius: 3px;
 
-	span {
+	.left {
+		display: flex;
+		align-items: center;
+
+		.icon {
+			display: flex;
+			align-items: center;
+			margin-right: 0.3rem;
+		}
+	}
+
+	.right {
 		display: flex;
 		align-items: center;
 
